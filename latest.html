@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit renders — smoke test</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; max-width: 36em; margin: 3em auto; padding: 0 1em; color: #222; line-height: 1.5; }
+  h1 { font-size: 1.4em; margin-bottom: 0.2em; }
+  .meta { color: #888; margin: 0 0 1em; font-size: 0.9em; }
+  ul { padding-left: 1.2em; line-height: 1.7; }
+  code { background: #f4f4f4; padding: 0.1em 0.3em; border-radius: 3px; }
+  .ok { color: #2c8a3a; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>vit renders — smoke test</h1>
+<p class="meta">2026-05-08</p>
+<p>If you're seeing this page, the full chain works:</p>
+<ul>
+  <li>Skill wrote <code>renders/2026-05-08_smoke-test.html</code> on a feature branch</li>
+  <li>Commit + push triggered <code>deploy-renders.yml</code></li>
+  <li>Action authenticated to <code>vit-alpha/renders</code> via the deploy key</li>
+  <li>Files mirrored; <code>latest.html</code> and <code>index.html</code> regenerated; pushed</li>
+  <li>GitHub Pages served this page from <code>vit-alpha.github.io/renders/</code></li>
+</ul>
+<p class="ok">All systems go.</p>
+</body>
+</html>
