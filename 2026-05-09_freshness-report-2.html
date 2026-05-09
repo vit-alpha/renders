@@ -54,6 +54,13 @@
     font-size: 13px;
     margin-bottom: 2px;
   }
+  .invocation {
+    margin: 22px 0 2px 0;
+  }
+  .invocation:first-child { margin-top: 0; }
+  .prompt { color: var(--accent); user-select: none; }
+  .cmd { color: var(--fg); }
+  .flag { color: var(--blue); }
   .meta {
     color: var(--dim);
     margin: 2px 0 14px 0;
@@ -139,8 +146,8 @@
 <body>
   <div class="terminal">
     <div class="body">
-      <div class="header">freshness · 2026-05-09</div>
-      <div class="meta">last 30 days · half-life 3d</div>
+      <div class="invocation"><span class="prompt">$</span> <span class="cmd">vit freshness</span></div>
+      <div class="meta">by pattern · last 30 days · half-life 3d · as-of 2026-05-09</div>
 
       <h2>// by movement pattern</h2>
       <table>
@@ -172,7 +179,10 @@
         </tbody>
       </table>
 
-      <h2 style="margin-top:28px">// by muscle</h2>
+      <div class="invocation"><span class="prompt">$</span> <span class="cmd">vit freshness</span> <span class="flag">--by muscle</span></div>
+      <div class="meta">by muscle · last 30 days · half-life 3d · as-of 2026-05-09</div>
+
+      <h2>// by muscle</h2>
       <table>
         <thead>
           <tr>
