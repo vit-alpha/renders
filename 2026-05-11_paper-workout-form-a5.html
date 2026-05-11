@@ -9,7 +9,7 @@
     --line: #222;
     --faint: #888;
     --ghost: #ccc;
-    --table-line: #c8c8c8;
+    --table-line: #a8a8a8;
   }
 
   * { box-sizing: border-box; }
@@ -28,7 +28,7 @@
     width: 148mm;
     height: 210mm;
     margin: 12px auto;
-    padding: 7mm 7mm 6mm;
+    padding: 7mm 7mm 4mm;
     background: white;
     box-shadow: 0 1px 6px rgba(0,0,0,0.15);
     display: flex;
@@ -59,7 +59,7 @@
   }
 
   /* ---------- Pre / Post block ---------- */
-  /* Equal thirds: Pre at 33.33%, Post at 66.67% of block height */
+  /* Pre and Post clustered in the middle of the block: 8mm and 12mm of 20mm */
 
   .po-block {
     position: relative;
@@ -75,8 +75,8 @@
     align-items: center;
     padding: 0 1.5mm;
   }
-  .po-row.r-pre  { top: 33.333%; }
-  .po-row.r-post { top: 66.667%; }
+  .po-row.r-pre  { top: 40%; }  /* 8mm */
+  .po-row.r-post { top: 60%; }  /* 12mm */
   .po-row label {
     font-size: 6.5pt;
     letter-spacing: 0.1em;
@@ -94,6 +94,7 @@
   }
 
   /* ---------- Plan / Extras blocks ---------- */
+  /* No solid bottom border — final rule comes from the gradient pattern */
 
   .block {
     margin-top: 2mm;
@@ -110,15 +111,14 @@
     background-image: repeating-linear-gradient(
       to bottom,
       transparent 0,
-      transparent 5mm,
-      var(--ghost) 5mm,
-      var(--ghost) calc(5mm + 0.3pt)
+      transparent 4.85mm,
+      var(--ghost) 4.85mm,
+      var(--ghost) 5mm
     );
     border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
   }
-  .ruled.h-plan   { height: 15mm; }  /* 3 rows */
-  .ruled.h-extras { height: 25mm; }  /* 5 rows */
+  .ruled.h-plan   { height: 10mm; }  /* 2 rows */
+  .ruled.h-extras { height: 20mm; }  /* 4 rows */
 
   /* ---------- Sets table ---------- */
 
@@ -132,7 +132,7 @@
   table.sets td {
     border: 0.5pt solid var(--table-line);
     padding: 0;
-    height: 5.5mm;
+    height: 5mm;
     vertical-align: top;
     text-align: left;
   }
@@ -169,7 +169,7 @@
       height: 210mm;
       margin: 0;
       box-shadow: none;
-      padding: 7mm 7mm 5mm;
+      padding: 7mm 7mm 4mm;
     }
     .no-print { display: none !important; }
   }
@@ -233,6 +233,10 @@
       </tr>
     </thead>
     <tbody>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
