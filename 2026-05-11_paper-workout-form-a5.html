@@ -9,7 +9,7 @@
     --line: #222;
     --faint: #888;
     --ghost: #ccc;
-    --table-line: #a8a8a8;
+    --table-line: #888;
   }
 
   * { box-sizing: border-box; }
@@ -35,20 +35,21 @@
     flex-direction: column;
   }
 
-  /* ---------- Top row (Date / Day / Start / End / Focus) ---------- */
+  /* ---------- Header rows ---------- */
 
-  .top-row {
+  .hd {
     display: grid;
-    grid-template-columns: 18mm 22mm 14mm 14mm 1fr;
-    height: 11mm;
+    height: 10mm;
     border-bottom: 1px solid var(--line);
   }
+  .hd-1 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .hd-2 { grid-template-columns: 1.5fr 1fr 1fr; }
+
   .cell {
     border-right: 1px solid var(--line);
-    padding: 1mm 1.5mm 1mm;
+    padding: 1mm 1.5mm;
     display: flex;
     flex-direction: column;
-    gap: 0.5mm;
   }
   .cell:last-child { border-right: none; }
   .cell label {
@@ -58,43 +59,7 @@
     color: var(--faint);
   }
 
-  /* ---------- Pre / Post block ---------- */
-  /* Pre and Post clustered in the middle of the block: 8mm and 12mm of 20mm */
-
-  .po-block {
-    position: relative;
-    height: 20mm;
-    border-bottom: 1px solid var(--line);
-  }
-  .po-row {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 0;
-    display: flex;
-    align-items: center;
-    padding: 0 1.5mm;
-  }
-  .po-row.r-pre  { top: 40%; }  /* 8mm */
-  .po-row.r-post { top: 60%; }  /* 12mm */
-  .po-row label {
-    font-size: 6.5pt;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--faint);
-    width: 10mm;
-  }
-  .po-row::after {
-    content: '';
-    position: absolute;
-    left: 13mm;
-    right: 1.5mm;
-    top: 0;
-    border-bottom: 0.5pt solid var(--line);
-  }
-
   /* ---------- Plan / Extras blocks ---------- */
-  /* No solid bottom border — final rule comes from the gradient pattern */
 
   .block {
     margin-top: 2mm;
@@ -130,7 +95,7 @@
   }
   table.sets th,
   table.sets td {
-    border: 0.5pt solid var(--table-line);
+    border: 0.75pt solid var(--table-line);
     padding: 0;
     height: 5mm;
     vertical-align: top;
@@ -195,17 +160,17 @@
 
 <div class="sheet">
 
-  <div class="top-row">
+  <div class="hd hd-1">
     <div class="cell"><label>Date</label></div>
     <div class="cell"><label>Day</label></div>
     <div class="cell"><label>Start</label></div>
     <div class="cell"><label>End</label></div>
-    <div class="cell"><label>Focus</label></div>
   </div>
 
-  <div class="po-block">
-    <div class="po-row r-pre"><label>Pre</label></div>
-    <div class="po-row r-post"><label>Post</label></div>
+  <div class="hd hd-2">
+    <div class="cell"><label>Focus</label></div>
+    <div class="cell"><label>Pre</label></div>
+    <div class="cell"><label>Post</label></div>
   </div>
 
   <div class="block">
@@ -233,6 +198,9 @@
       </tr>
     </thead>
     <tbody>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
