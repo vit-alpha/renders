@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Paper Workout Form</title>
+<title>Paper Workout Form &middot; A5</title>
 <style>
   :root {
     --line: #222;
@@ -19,15 +19,15 @@
     background: #f4f4f0;
     color: var(--line);
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 11pt;
-    line-height: 1.25;
+    font-size: 9pt;
+    line-height: 1.2;
   }
 
   .sheet {
-    width: 210mm;
-    min-height: 297mm;
+    width: 148mm;
+    min-height: 210mm;
     margin: 12px auto;
-    padding: 12mm 12mm 8mm;
+    padding: 8mm 8mm 6mm;
     background: white;
     box-shadow: 0 1px 6px rgba(0,0,0,0.15);
   }
@@ -37,45 +37,43 @@
   .hd {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 6mm;
+    gap: 3mm;
     align-items: end;
     border-bottom: 1px solid var(--line);
-    padding-bottom: 3mm;
-    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+    margin-bottom: 2mm;
   }
   .hd .field {
     display: flex;
     flex-direction: column;
-    gap: 1mm;
+    gap: 0.5mm;
   }
   .hd label {
-    font-size: 8pt;
+    font-size: 6.5pt;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--faint);
   }
   .hd .line {
     border-bottom: 1px solid var(--line);
-    height: 7mm;
+    height: 5mm;
   }
 
-  /* ---------- Stacked blocks (Focus / Pre / Plan / Post) ---------- */
+  /* ---------- Stacked blocks ---------- */
 
-  .block {
-    margin-bottom: 3mm;
-  }
+  .block { margin-bottom: 2mm; }
   .block .head {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 8pt;
+    font-size: 6.5pt;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--faint);
-    margin-bottom: 1mm;
+    margin-bottom: 0.5mm;
   }
   .block .head .hint {
-    font-size: 7.5pt;
+    font-size: 6pt;
     color: var(--ghost);
     text-transform: none;
     letter-spacing: 0;
@@ -85,17 +83,17 @@
     background-image: repeating-linear-gradient(
       to bottom,
       transparent 0,
-      transparent 6.5mm,
-      var(--ghost) 6.5mm,
-      var(--ghost) calc(6.5mm + 0.3pt)
+      transparent 5mm,
+      var(--ghost) 5mm,
+      var(--ghost) calc(5mm + 0.3pt)
     );
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
   }
-  .ruled.h-focus  { height: 7mm;  background: none; }
-  .ruled.h-pre    { height: 13mm; }
-  .ruled.h-plan   { height: 45mm; }
-  .ruled.h-post   { height: 26mm; }
+  .ruled.h-focus { height: 5mm; background: none; }
+  .ruled.h-pre   { height: 10mm; }
+  .ruled.h-plan  { height: 28mm; }
+  .ruled.h-post  { height: 15mm; }
 
   /* ---------- Sets table ---------- */
 
@@ -103,46 +101,42 @@
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    margin-top: 2mm;
+    margin-top: 1.5mm;
   }
   table.sets th,
   table.sets td {
     border: 1px solid var(--line);
     padding: 0;
-    height: 7.5mm;
+    height: 6mm;
     vertical-align: top;
     text-align: left;
   }
   table.sets th {
-    font-size: 7.5pt;
-    letter-spacing: 0.08em;
+    font-size: 6pt;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--faint);
     font-weight: normal;
-    height: 5mm;
-    padding: 0 1.5mm;
+    height: 4mm;
+    padding: 0 1mm;
     background: #fafaf6;
   }
-  table.sets td {
-    padding: 1mm 1.5mm;
-  }
+  table.sets td { padding: 0.5mm 1mm; }
 
-  /* Column widths */
-  col.c-time { width: 14mm; }
-  col.c-ex   { width: 44mm; }
-  col.c-rw   { width: 38mm; }
-  col.c-mark { width: 18mm; }
+  col.c-time { width: 10mm; }
+  col.c-ex   { width: 32mm; }
+  col.c-rw   { width: 28mm; }
+  col.c-mark { width: 13mm; }
   col.c-note { width: auto; }
 
-  /* Faint placeholder hint in header row */
   table.sets th .ex-hint,
   table.sets th .rw-hint {
     display: block;
-    font-size: 6.5pt;
+    font-size: 5.5pt;
     color: var(--ghost);
     letter-spacing: 0;
     text-transform: none;
-    margin-top: 0.5mm;
+    margin-top: 0.3mm;
     font-style: italic;
   }
 
@@ -151,23 +145,23 @@
   .legend {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2mm 8mm;
-    margin-top: 3mm;
-    padding-top: 2mm;
+    gap: 1mm 4mm;
+    margin-top: 2mm;
+    padding-top: 1.5mm;
     border-top: 1px solid var(--ghost);
-    font-size: 8pt;
+    font-size: 6.5pt;
     color: #555;
   }
   .legend .group .title {
-    font-size: 7.5pt;
+    font-size: 6pt;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--faint);
-    margin-bottom: 1mm;
+    margin-bottom: 0.5mm;
   }
   .legend code {
     font-family: "SF Mono", Menlo, Consolas, monospace;
-    font-size: 8pt;
+    font-size: 6.5pt;
     background: #f0f0ea;
     padding: 0 2px;
     border-radius: 2px;
@@ -175,31 +169,31 @@
   }
   .legend .row {
     display: inline-block;
-    margin-right: 3mm;
+    margin-right: 2mm;
     white-space: nowrap;
   }
 
   /* ---------- Print ---------- */
 
   @page {
-    size: A4 portrait;
+    size: A5 portrait;
     margin: 0;
   }
   @media print {
     body { background: white; }
     .sheet {
-      width: 210mm;
-      min-height: 297mm;
+      width: 148mm;
+      min-height: 210mm;
       margin: 0;
       box-shadow: none;
-      padding: 10mm 10mm 6mm;
+      padding: 7mm 7mm 5mm;
     }
     .no-print { display: none !important; }
   }
 
   /* ---------- Mobile preview ---------- */
 
-  @media (max-width: 240mm) {
+  @media (max-width: 200mm) {
     body { background: #eee; }
     .sheet {
       width: 100%;
@@ -208,7 +202,6 @@
       margin: 0;
       box-shadow: none;
     }
-    .ruled.h-plan { height: 38mm; }
   }
 
   .print-btn {
@@ -220,7 +213,7 @@
     color: white;
     border: none;
     border-radius: 999px;
-    font: inherit;
+    font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   }
@@ -228,37 +221,22 @@
 </head>
 <body>
 
-<button class="print-btn no-print" onclick="window.print()">Print</button>
+<button class="print-btn no-print" onclick="window.print()">Print A5</button>
 
 <div class="sheet">
 
-  <!-- Header strip -->
   <div class="hd">
-    <div class="field">
-      <label>Date</label>
-      <div class="line"></div>
-    </div>
-    <div class="field">
-      <label>Day</label>
-      <div class="line"></div>
-    </div>
-    <div class="field">
-      <label>Start</label>
-      <div class="line"></div>
-    </div>
-    <div class="field">
-      <label>End</label>
-      <div class="line"></div>
-    </div>
+    <div class="field"><label>Date</label><div class="line"></div></div>
+    <div class="field"><label>Day</label><div class="line"></div></div>
+    <div class="field"><label>Start</label><div class="line"></div></div>
+    <div class="field"><label>End</label><div class="line"></div></div>
   </div>
 
-  <!-- Focus -->
   <div class="block">
     <div class="head"><span>Focus</span></div>
     <div class="ruled h-focus"></div>
   </div>
 
-  <!-- Pre observations -->
   <div class="block">
     <div class="head">
       <span>Pre</span>
@@ -267,7 +245,6 @@
     <div class="ruled h-pre"></div>
   </div>
 
-  <!-- Plan -->
   <div class="block">
     <div class="head">
       <span>Plan</span>
@@ -276,7 +253,6 @@
     <div class="ruled h-plan"></div>
   </div>
 
-  <!-- Sets table -->
   <table class="sets">
     <colgroup>
       <col class="c-time">
@@ -288,20 +264,13 @@
     <thead>
       <tr>
         <th>Time</th>
-        <th>Exercise <span class="ex-hint">blank = same as above</span></th>
-        <th>Reps @ Wt &middot; Lat <span class="rw-hint">10@60 &middot; 8@BW+12 &middot; 30s LR</span></th>
+        <th>Exercise <span class="ex-hint">blank = same</span></th>
+        <th>Reps @ Wt &middot; Lat <span class="rw-hint">10@60 &middot; 8@BW+12</span></th>
         <th>Marks</th>
         <th>Notes</th>
       </tr>
     </thead>
     <tbody>
-      <!-- 20 set rows -->
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
@@ -319,16 +288,14 @@
     </tbody>
   </table>
 
-  <!-- Post observations -->
-  <div class="block" style="margin-top:3mm;">
+  <div class="block" style="margin-top:2mm;">
     <div class="head">
       <span>Post</span>
-      <span class="hint">what worked, what to carry forward, physio</span>
+      <span class="hint">what worked, carry forward, physio</span>
     </div>
     <div class="ruled h-post"></div>
   </div>
 
-  <!-- Legend -->
   <div class="legend">
     <div class="group">
       <div class="title">Marks</div>
@@ -349,11 +316,11 @@
       <div class="title">Laterality</div>
       <span class="row"><code>BI</code> bilateral</span>
       <span class="row"><code>EQ</code> equal each side</span>
-      <span class="row"><code>LR</code> L set then R</span>
+      <span class="row"><code>LR</code> L then R</span>
       <span class="row"><code>ALT</code> alternating</span>
-      <span class="row"><code>L</code> / <code>R</code> single side</span>
-      <div class="title" style="margin-top:1.5mm;">Reps</div>
-      <span class="row"><code>10,8@60</code> rested sets</span>
+      <span class="row"><code>L</code>/<code>R</code> single side</span>
+      <div class="title" style="margin-top:1mm;">Reps</div>
+      <span class="row"><code>10,8@60</code> rested</span>
       <span class="row"><code>3x10@60</code> identical</span>
       <span class="row"><code>8+2@60</code> myoreps</span>
       <span class="row"><code>//</code> repeat prev</span>
