@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=580, initial-scale=1">
 <title>Paper Workout Form &middot; A5</title>
 <style>
   :root {
@@ -34,34 +34,63 @@
     flex-direction: column;
   }
 
-  /* ---------- Header ---------- */
+  /* ---------- Top row (Date / Day / Start / End / Focus) ---------- */
 
-  .hd {
+  .top-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 3mm;
-    align-items: end;
-    margin-bottom: 3mm;
+    grid-template-columns: 18mm 22mm 14mm 14mm 1fr;
+    height: 11mm;
+    border-bottom: 1px solid var(--line);
   }
-  .hd .field {
+  .cell {
+    border-right: 1px solid var(--line);
+    padding: 1mm 1.5mm 1mm;
     display: flex;
     flex-direction: column;
     gap: 0.5mm;
   }
-  .hd label {
+  .cell:last-child { border-right: none; }
+  .cell label {
     font-size: 6.5pt;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--faint);
   }
-  .hd .line {
+
+  /* ---------- Pre / Post block ---------- */
+
+  .po-block {
     border-bottom: 1px solid var(--line);
-    height: 5mm;
+  }
+  .po-row {
+    height: 10mm;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5mm;
+    position: relative;
+  }
+  .po-row label {
+    font-size: 6.5pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    width: 10mm;
+  }
+  .po-row::after {
+    content: '';
+    position: absolute;
+    left: 13mm;
+    right: 1.5mm;
+    top: 50%;
+    border-bottom: 0.5pt solid var(--line);
   }
 
-  /* ---------- Stacked blocks ---------- */
+  /* ---------- Plan / Extras blocks ---------- */
 
-  .block { margin-bottom: 2mm; }
+  .block {
+    margin-top: 2mm;
+    margin-bottom: 2mm;
+  }
   .block .head {
     font-size: 6.5pt;
     letter-spacing: 0.1em;
@@ -80,28 +109,8 @@
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
   }
-  .ruled.h-focus  { height: 5mm; background: none; }
-  .ruled.h-plan   { height: 18mm; }
-  .ruled.h-extras { height: 22mm; }
-
-  /* ---------- Inline single-line fields (Pre / Post) ---------- */
-
-  .inline-field {
-    display: flex;
-    align-items: end;
-    gap: 3mm;
-    border-bottom: 1px solid var(--line);
-    height: 6mm;
-    margin-bottom: 2mm;
-  }
-  .inline-field label {
-    font-size: 6.5pt;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--faint);
-    padding-bottom: 1mm;
-    min-width: 10mm;
-  }
+  .ruled.h-plan   { height: 15mm; }  /* 3 rows */
+  .ruled.h-extras { height: 25mm; }  /* 5 rows */
 
   /* ---------- Sets table ---------- */
 
@@ -155,19 +164,6 @@
     .no-print { display: none !important; }
   }
 
-  /* ---------- Mobile preview ---------- */
-
-  @media (max-width: 200mm) {
-    body { background: #eee; }
-    .sheet {
-      width: 100%;
-      height: auto;
-      padding: 4mm;
-      margin: 0;
-      box-shadow: none;
-    }
-  }
-
   .print-btn {
     position: fixed;
     bottom: 16px;
@@ -189,20 +185,18 @@
 
 <div class="sheet">
 
-  <div class="hd">
-    <div class="field"><label>Date</label><div class="line"></div></div>
-    <div class="field"><label>Day</label><div class="line"></div></div>
-    <div class="field"><label>Start</label><div class="line"></div></div>
-    <div class="field"><label>End</label><div class="line"></div></div>
+  <div class="top-row">
+    <div class="cell"><label>Date</label></div>
+    <div class="cell"><label>Day</label></div>
+    <div class="cell"><label>Start</label></div>
+    <div class="cell"><label>End</label></div>
+    <div class="cell"><label>Focus</label></div>
   </div>
 
-  <div class="block">
-    <div class="head">Focus</div>
-    <div class="ruled h-focus"></div>
+  <div class="po-block">
+    <div class="po-row"><label>Pre</label></div>
+    <div class="po-row"><label>Post</label></div>
   </div>
-
-  <div class="inline-field"><label>Pre</label></div>
-  <div class="inline-field"><label>Post</label></div>
 
   <div class="block">
     <div class="head">Plan</div>
@@ -245,7 +239,7 @@
     </tbody>
   </table>
 
-  <div class="block" style="margin-top:3mm;">
+  <div class="block">
     <div class="head">Extras</div>
     <div class="ruled h-extras"></div>
   </div>
