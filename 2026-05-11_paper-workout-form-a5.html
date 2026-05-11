@@ -9,6 +9,7 @@
     --line: #222;
     --faint: #888;
     --ghost: #ccc;
+    --table-line: #c8c8c8;
   }
 
   * { box-sizing: border-box; }
@@ -58,17 +59,24 @@
   }
 
   /* ---------- Pre / Post block ---------- */
+  /* Equal thirds: Pre at 33.33%, Post at 66.67% of block height */
 
   .po-block {
+    position: relative;
+    height: 20mm;
     border-bottom: 1px solid var(--line);
   }
   .po-row {
-    height: 10mm;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
     display: flex;
     align-items: center;
     padding: 0 1.5mm;
-    position: relative;
   }
+  .po-row.r-pre  { top: 33.333%; }
+  .po-row.r-post { top: 66.667%; }
   .po-row label {
     font-size: 6.5pt;
     letter-spacing: 0.1em;
@@ -81,7 +89,7 @@
     position: absolute;
     left: 13mm;
     right: 1.5mm;
-    top: 50%;
+    top: 0;
     border-bottom: 0.5pt solid var(--line);
   }
 
@@ -122,29 +130,31 @@
   }
   table.sets th,
   table.sets td {
-    border: 1px solid var(--line);
+    border: 0.5pt solid var(--table-line);
     padding: 0;
-    height: 6mm;
+    height: 5.5mm;
     vertical-align: top;
     text-align: left;
   }
   table.sets th {
     font-size: 6pt;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--faint);
     font-weight: normal;
     height: 4mm;
     padding: 0 1mm;
     background: #fafaf6;
+    white-space: nowrap;
   }
   table.sets td { padding: 0.5mm 1mm; }
 
-  col.c-time { width: 10mm; }
-  col.c-ex   { width: 26mm; }
-  col.c-rw   { width: 22mm; }
-  col.c-form { width: 10mm; }
-  col.c-note { width: auto; }
+  col.c-start { width: 7mm; }
+  col.c-end   { width: 7mm; }
+  col.c-ex    { width: 26mm; }
+  col.c-rw    { width: 22mm; }
+  col.c-form  { width: 10mm; }
+  col.c-note  { width: auto; }
 
   /* ---------- Print ---------- */
 
@@ -194,8 +204,8 @@
   </div>
 
   <div class="po-block">
-    <div class="po-row"><label>Pre</label></div>
-    <div class="po-row"><label>Post</label></div>
+    <div class="po-row r-pre"><label>Pre</label></div>
+    <div class="po-row r-post"><label>Post</label></div>
   </div>
 
   <div class="block">
@@ -205,7 +215,8 @@
 
   <table class="sets">
     <colgroup>
-      <col class="c-time">
+      <col class="c-start">
+      <col class="c-end">
       <col class="c-ex">
       <col class="c-rw">
       <col class="c-form">
@@ -213,7 +224,8 @@
     </colgroup>
     <thead>
       <tr>
-        <th>Time</th>
+        <th>Start</th>
+        <th>End</th>
         <th>Exercise</th>
         <th>Reps @ Load &middot; Lat</th>
         <th>Form</th>
@@ -221,21 +233,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     </tbody>
   </table>
 
