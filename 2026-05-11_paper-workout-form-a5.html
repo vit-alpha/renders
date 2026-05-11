@@ -41,9 +41,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 3mm;
     align-items: end;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 2mm;
-    margin-bottom: 2mm;
+    margin-bottom: 3mm;
   }
   .hd .field {
     display: flex;
@@ -82,8 +80,9 @@
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
   }
-  .ruled.h-focus { height: 5mm; background: none; }
-  .ruled.h-plan  { height: 30mm; }
+  .ruled.h-focus  { height: 5mm; background: none; }
+  .ruled.h-plan   { height: 18mm; }
+  .ruled.h-extras { height: 22mm; }
 
   /* ---------- Inline single-line fields (Pre / Post) ---------- */
 
@@ -133,9 +132,9 @@
   table.sets td { padding: 0.5mm 1mm; }
 
   col.c-time { width: 10mm; }
-  col.c-ex   { width: 34mm; }
-  col.c-rw   { width: 30mm; }
-  col.c-form { width: 12mm; }
+  col.c-ex   { width: 26mm; }
+  col.c-rw   { width: 22mm; }
+  col.c-form { width: 10mm; }
   col.c-note { width: auto; }
 
   /* ---------- Print ---------- */
@@ -222,7 +221,7 @@
       <tr>
         <th>Time</th>
         <th>Exercise</th>
-        <th>Reps @ Wt &middot; Lat</th>
+        <th>Reps @ Load &middot; Lat</th>
         <th>Form</th>
         <th>Notes</th>
       </tr>
@@ -243,9 +242,13 @@
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td></tr>
     </tbody>
   </table>
+
+  <div class="block" style="margin-top:3mm;">
+    <div class="head">Extras</div>
+    <div class="ruled h-extras"></div>
+  </div>
 
 </div>
 </body>
