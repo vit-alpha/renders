@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=580, initial-scale=1">
+<title>Paper Workout Form &middot; A5</title>
+<style>
+  :root {
+    --line: #222;
+    --faint: #888;
+    --ghost: #ccc;
+    --table-line: #888;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f4f4f0;
+    color: var(--line);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.2;
+  }
+
+  .sheet {
+    width: 148mm;
+    height: 210mm;
+    margin: 12px auto;
+    padding: 5mm 7mm 3mm;
+    background: white;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* ---------- Header rows ---------- */
+
+  .hd {
+    display: grid;
+    height: 10mm;
+    border-bottom: 1px solid var(--line);
+  }
+  .hd-1 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .hd-2 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .cell {
+    border-right: 1px solid var(--line);
+    padding: 1mm 1.5mm 0.5mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .cell:last-child { border-right: none; }
+  .cell label {
+    margin-top: auto;
+    font-size: 6.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ---------- Plan / Extras blocks ---------- */
+
+  .block {
+    margin-top: 2mm;
+    margin-bottom: 2mm;
+  }
+  .block .head {
+    font-size: 6.5pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 0.5mm;
+  }
+  .ruled {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 4.85mm,
+      var(--ghost) 4.85mm,
+      var(--ghost) 5mm
+    );
+    border-top: 0.5pt solid var(--ghost);
+  }
+  .ruled.h-plan   { height: 5mm; }   /* 1 row */
+  .ruled.h-extras { height: 20mm; }  /* 4 rows */
+
+  /* ---------- Sets table ---------- */
+
+  table.sets {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-top: 1.5mm;
+  }
+  table.sets th,
+  table.sets td {
+    border: 0.75pt solid var(--table-line);
+    padding: 0;
+    height: 5mm;
+    vertical-align: top;
+    text-align: left;
+  }
+  table.sets th {
+    font-size: 6pt;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--faint);
+    font-weight: normal;
+    height: 4.5mm;
+    padding: 0 1mm;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+  }
+  table.sets thead tr:first-child th {
+    border-top-color: var(--ghost);
+    border-bottom-width: 1pt;
+  }
+  table.sets td { padding: 0.5mm 1mm; }
+
+  col.c-start { width: 9mm; }
+  col.c-end   { width: 9mm; }
+  col.c-ex    { width: 24mm; }
+  col.c-rw    { width: 22mm; }
+  col.c-form  { width: 10mm; }
+  col.c-note  { width: auto; }
+
+  /* ---------- Print ---------- */
+
+  @page {
+    size: A5 portrait;
+    margin: 0;
+  }
+  @media print {
+    body { background: white; }
+    .sheet {
+      width: 148mm;
+      height: 210mm;
+      margin: 0;
+      box-shadow: none;
+      padding: 5mm 7mm 3mm;
+    }
+    .no-print { display: none !important; }
+  }
+
+  .build-ts {
+    position: absolute;
+    bottom: 1mm;
+    right: 2mm;
+    font-size: 6pt;
+    color: var(--ghost);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .print-btn {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 16px;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">Print A5</button>
+
+<div class="sheet">
+
+  <div class="hd hd-1">
+    <div class="cell"><label>Date</label></div>
+    <div class="cell"><label>Day</label></div>
+    <div class="cell"><label>Start</label></div>
+    <div class="cell"><label>End</label></div>
+  </div>
+
+  <div class="hd hd-2">
+    <div class="cell"><label>Focus</label></div>
+    <div class="cell"><label>Pre</label></div>
+    <div class="cell"><label>Post</label></div>
+  </div>
+
+  <div class="block">
+    <div class="head">Plan</div>
+    <div class="ruled h-plan"></div>
+  </div>
+
+  <table class="sets">
+    <colgroup>
+      <col class="c-start">
+      <col class="c-end">
+      <col class="c-ex">
+      <col class="c-rw">
+      <col class="c-form">
+      <col class="c-note">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Start</th>
+        <th>End</th>
+        <th>Exercise &middot; Lat</th>
+        <th>Reps @ Load</th>
+        <th>Form</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="block">
+    <div class="head">Extras</div>
+    <div class="ruled h-extras"></div>
+  </div>
+
+  <!-- <div class="build-ts no-print">build 2026-05-11 18:09</div> -->
+
+</div>
+</body>
+</html>
