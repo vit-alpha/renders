@@ -47,9 +47,10 @@
 
   .cell {
     border-right: 1px solid var(--line);
-    padding: 1mm 1.5mm;
+    padding: 1mm 1.5mm 0.5mm;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
   }
   .cell:last-child { border-right: none; }
   .cell label {
@@ -112,11 +113,14 @@
     background: #fafaf6;
     white-space: nowrap;
   }
+  table.sets thead tr:first-child th {
+    border-top-color: var(--ghost);
+  }
   table.sets td { padding: 0.5mm 1mm; }
 
-  col.c-start { width: 7mm; }
-  col.c-end   { width: 7mm; }
-  col.c-ex    { width: 26mm; }
+  col.c-start { width: 9mm; }
+  col.c-end   { width: 9mm; }
+  col.c-ex    { width: 24mm; }
   col.c-rw    { width: 22mm; }
   col.c-form  { width: 10mm; }
   col.c-note  { width: auto; }
