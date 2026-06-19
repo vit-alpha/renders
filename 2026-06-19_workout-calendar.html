@@ -47,9 +47,6 @@
 
   .hint { font-size: 11px; color: var(--muted); margin: -8px 0 16px; }
 
-  .month { margin-bottom: 24px; }
-  .month h2 { font-size: 15px; margin: 0 0 10px; font-weight: 600; }
-
   .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; align-items: stretch; }
   .wd {
     text-align: center; font-size: 10px; color: var(--muted);
@@ -67,21 +64,17 @@
     min-height: 58px; padding: 5px 4px 6px;
     display: flex; flex-direction: column; gap: 3px;
   }
-  .cell.empty { background: transparent; border: none; min-height: 0; }
   .cell.has { cursor: pointer; transition: border-color .12s, transform .06s; }
   .cell.has:active { transform: scale(.97); }
   .cell.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
   .num { font-size: 11px; color: var(--muted); font-weight: 600; line-height: 1; }
-  .num .mtag { color: var(--strength); text-transform: uppercase; letter-spacing: .3px; font-size: 9px; margin-right: 2px; }
   .cell.today { border-color: var(--today); box-shadow: 0 0 0 1px var(--today) inset; }
   .cell.today .num { color: var(--today); }
-  .cell.today .num .mtag { color: var(--today); }
 
   .chip {
     font-size: 10px; line-height: 1.2; padding: 2px 4px; border-radius: 5px;
     color: #0b0d11; font-weight: 600; white-space: normal; overflow-wrap: anywhere; hyphens: auto;
   }
-  .c-strength { background: var(--strength); color: #f5f7fa; }
   .c-sport { background: var(--football); color: #f5f7fa; }
   .c-yoga { background: var(--yoga); box-shadow: inset 0 0 0 1px #c3c8d2; }
   .c-cond { background: var(--conditioning); color: #f5f7fa; }
@@ -107,7 +100,6 @@
   .d-areas .chip { font-size: 10px; padding: 2px 7px; }
   .d-items { margin: 7px 0 0; padding-left: 18px; }
   .d-items li { font-size: 12.5px; line-height: 1.5; color: var(--ink); }
-  .d-empty { color: var(--muted); font-size: 13px; margin-top: 10px; }
 
   .stats {
     display: flex; gap: 18px; flex-wrap: wrap;
@@ -185,10 +177,10 @@
 <script>
 const CAT = { strength:"Strength", sport:"Sport", yoga:"Yoga", cond:"Conditioning", activity:"Activity" };
 
-// date -> [ {cat, label, meta, items:[]} ]
+// date -> [ {cat, label, meta, items:[], areas?:[]} ]   areas only on strength sessions
 const S = {
   "2026-06-18": [{cat:"sport", label:"Football", meta:"6:15PM · ~40 min", items:["Outdoor football — evening session"]}],
-  "2026-06-16": [{cat:"strength", label:"Upper Pull", meta:"6:08PM · ~1h25", items:[
+  "2026-06-16": [{cat:"strength", areas:["upperpull","traps","calves"], label:"Upper Pull", meta:"6:08PM · ~1h25", items:[
     "Skipping 1:00 / 45 LR",
     "DB full-extension jump 3×5 @20kg",
     "Pull-up 2×(10+1c) @BW",
@@ -197,7 +189,7 @@ const S = {
     "Shrugs (EQ) → 22kg full ROM",
     "Preacher curl 10 @30 / Hammer curl 10 @10"]}],
   "2026-06-15": [{cat:"sport", label:"Football", meta:"8:00PM · ~70 min", items:["Outdoor football — longer evening session"]}],
-  "2026-06-14": [{cat:"strength", label:"Upper Push", meta:"12:50PM · ~1h55", items:[
+  "2026-06-14": [{cat:"strength", areas:["upperpush","upperpull","shoulders"], label:"Upper Push", meta:"12:50PM · ~1h55", items:[
     "Prone Y-raise 2×15 @BW",
     "Bench machine — top 6 @72.5kg",
     "Left lat pulldown 10+5c @28.75kg",
@@ -205,54 +197,54 @@ const S = {
     "Overhead tricep ext 2×12 @13.75",
     "Tricep pulldown 11 @26.25",
     "Cable lateral raise 30 @6.25"]}],
-  "2026-06-12": [{cat:"strength", label:"Upper Pull", meta:"7:45PM · ~45 min", items:[
+  "2026-06-12": [{cat:"strength", areas:["upperpull","hinge","calves"], label:"Upper Pull", meta:"7:45PM · ~45 min", items:[
     "Reverse plank 30s",
     "Assisted 1-arm pull-up @BW-40",
     "Pull-up 9 @BW",
     "Seated calf raise 20 @10kg",
     "Seated leg curl → 15 @30 (R focus)",
     "Shrugs 3×20 @20kg"]}],
-  "2026-06-10": [{cat:"strength", label:"Athletic + Legs", meta:"7:40PM · ~1h20", items:[
+  "2026-06-10": [{cat:"strength", areas:["lowerpress","upperpull","shoulders"], label:"Athletic + Legs", meta:"7:40PM · ~1h20", items:[
     "EGT prime 2×15 @BW",
     "Treadmill sprint ~45s @12.2",
     "Deadlift jump → @16kg",
     "Machine row 12 @45",
     "Leg extension 8 @80 / 12+3c @32.5",
     "Cable lateral raise 30 @6.25"]}],
-  "2026-06-09": [{cat:"strength", label:"Upper Push", meta:"7:14PM · ~1h35", items:[
+  "2026-06-09": [{cat:"strength", areas:["upperpush","calves"], label:"Upper Push", meta:"7:14PM · ~1h35", items:[
     "EGT 15/10 @BW + Y-raise",
     "Bench machine 15 @50 (on-lat cue)",
     "Overhead tricep ext → 18 @18.75",
     "Calf raise 6×40 @BW",
     "Tricep pulldown 22 @26.25"]}],
   "2026-06-08": [
-    {cat:"strength", label:"Mini Upper Pull", meta:"3:33PM · ~17 min", items:[
+    {cat:"strength", areas:["upperpull"], label:"Mini Upper Pull", meta:"3:33PM · ~17 min", items:[
       "Pull-up 11 @BW",
       "Hammer curl 15 @10",
       "Cable hammer curl 30 @16.25 (new)",
       "Preacher curl 15 @25"]},
     {cat:"yoga", label:"Hot Yoga", meta:"4PM · ~1 hr", items:["Hotpod Flow class — avg HR 119"]}],
-  "2026-06-04": [{cat:"strength", label:"Lower Hinge", meta:"12:30PM · ~1h15", items:[
+  "2026-06-04": [{cat:"strength", areas:["hinge","calves"], label:"Lower Hinge", meta:"12:30PM · ~1h15", items:[
     "Skipping 60s + EGT prime",
     "Single-leg RDL 30 @8kg",
     "Hyperextension 30 @15kg",
     "Seated calf raise @5kg sets",
     "Lying leg curl 10 @37.5"]}],
-  "2026-06-02": [{cat:"strength", label:"Heavy Lower", meta:"5:50PM · ~1h15", items:[
+  "2026-06-02": [{cat:"strength", areas:["lowerpress","upperpull"], label:"Heavy Lower", meta:"5:50PM · ~1h15", items:[
     "EGT prime 3×15 @BW",
     "Pendulum squat → 4 @75",
     "Machine row 10 @45",
     "Single-arm L lat pulldown 10 @80"]}],
   "2026-06-01": [{cat:"cond", label:"Hyrox", meta:"12:45PM · ~45 min", items:["Whole-body hybrid conditioning — runs + functional stations (loads/HR not recorded)"]}],
 
-  "2026-05-31": [{cat:"strength", label:"Bench / Y-raise", meta:"4:19PM · ~1h45", items:[
+  "2026-05-31": [{cat:"strength", areas:["upperpush","shoulders"], label:"Bench / Y-raise", meta:"4:19PM · ~1h45", items:[
     "Prone Y-raise @BW + 2kg",
     "Bench press machine 14 @65",
     "Lateral hyperextension 10 @BW (new)",
     "Tib-post banded pulls",
     "Cable lateral raise 20 @6.25",
     "Tricep pulldown @26.25"]}],
-  "2026-05-30": [{cat:"strength", label:"Mobility / Form", meta:"1:37PM · ~2 hr", items:[
+  "2026-05-30": [{cat:"strength", areas:["lowerpress","hinge","calves"], label:"Mobility / Form", meta:"1:37PM · ~2 hr", items:[
     "Mobilise + sprint 1 min @18–16 km/h",
     "Zercher squat 8 @30",
     "Hyperextension 20 @BW",
@@ -260,7 +252,7 @@ const S = {
     "Hammer curl drop-sets",
     "Cable bicep curl 12 @15 (new)"]}],
   "2026-05-28": [{cat:"sport", label:"Football", meta:"7:00PM · ~40 min", items:["Outdoor football — evening session"]}],
-  "2026-05-27": [{cat:"strength", label:"Upper Pull", meta:"12:35PM · ~1 hr", items:[
+  "2026-05-27": [{cat:"strength", areas:["upperpull","core"], label:"Upper Pull", meta:"12:35PM · ~1 hr", items:[
     "Prone Y-raise drop set",
     "Pull-up 7 @BW",
     "Machine row 10+2c @65",
@@ -268,7 +260,7 @@ const S = {
     "Copenhagen plank + bumps (new)",
     "Single-arm L lat pulldown 8+3c @33",
     "BB curl"]}],
-  "2026-05-26": [{cat:"strength", label:"Push / Lower", meta:"5:36PM · ~1 hr", items:[
+  "2026-05-26": [{cat:"strength", areas:["upperpush","hinge"], label:"Push / Lower", meta:"5:36PM · ~1 hr", items:[
     "Bench machine 8 @70",
     "EGT 25 @BW",
     "Leg curl 14 @70",
@@ -276,19 +268,19 @@ const S = {
   "2026-05-25": [{cat:"yoga", label:"Hot Yoga", meta:"12:31PM · ~50 min", items:["Hotpod flow — 115 bpm avg, 358 kcal"]}],
   "2026-05-24": [{cat:"activity", label:"Festival", meta:"all day", items:["On feet all day — walking + dancing/jumping"]}],
   "2026-05-21": [{cat:"sport", label:"Football", meta:"7:49PM · ~40 min", items:["Football 2.32 km, 160 bpm avg — high-intensity, ~24 min in Z4+"]}],
-  "2026-05-20": [{cat:"strength", label:"Upper Pull", meta:"7:48PM · ~1h25", items:[
+  "2026-05-20": [{cat:"strength", areas:["upperpull"], label:"Upper Pull", meta:"7:48PM · ~1h25", items:[
     "Skipping 100, Hops L 50",
     "Pull-up wide grip 9 @BW+8kg",
     "Side planks 1:00 L / 45s R",
     "Hammer + BB curls",
     "Single-arm L lat pulldown"]}],
-  "2026-05-18": [{cat:"strength", label:"Lower Hinge", meta:"6:32PM · ~1h40", items:[
+  "2026-05-18": [{cat:"strength", areas:["hinge","calves"], label:"Lower Hinge", meta:"6:32PM · ~1h40", items:[
     "SL RDL + EGT superset, SL RDL 25 @8kg",
     "Single-arm L lat pulldown 17 @28",
     "Leg curl 10 @72.5 (PB)",
     "Standing calf raise @BW+8kg",
     "EGT finisher 20 @10kg"]}],
-  "2026-05-12": [{cat:"strength", label:"Lower", meta:"7:47PM · ~1h15", items:[
+  "2026-05-12": [{cat:"strength", areas:["lowerpress","traps"], label:"Lower", meta:"7:47PM · ~1h15", items:[
     "EGT prime",
     "Trap bar jump 3×5 @30 (explosive)",
     "Zercher squat 10 @50",
@@ -296,7 +288,7 @@ const S = {
     "Leg extension lockout",
     "Shrugs 20 @24"]}],
   "2026-05-10": [
-    {cat:"strength", label:"Hinge", meta:"2:22PM · ~1h15", items:[
+    {cat:"strength", areas:["hinge","upperpull","calves"], label:"Hinge", meta:"2:22PM · ~1h15", items:[
       "EGT prime",
       "Single-leg RDL @8kg (cut short — L ankle)",
       "Hyperextensions 3×20 @10kg",
@@ -320,23 +312,6 @@ const AREA = {
   core:       { label:"Core",      c:"#9ae6c8", t:"d" }   // mint
 };
 const txt = t => t === "l" ? "#f5f7fa" : "#0b0d11";
-const WORKOUT_AREAS = {
-  "2026-06-16": ["upperpull","traps","calves"],
-  "2026-06-14": ["upperpush","upperpull","shoulders"],
-  "2026-06-12": ["upperpull","hinge","calves"],
-  "2026-06-10": ["lowerpress","upperpull","shoulders"],
-  "2026-06-09": ["upperpush","calves"],
-  "2026-06-08": ["upperpull"],
-  "2026-06-04": ["hinge","calves"],
-  "2026-06-02": ["lowerpress","upperpull"],
-  "2026-05-31": ["upperpush","shoulders"],
-  "2026-05-30": ["lowerpress","hinge","calves"],
-  "2026-05-27": ["upperpull","core"],
-  "2026-05-26": ["upperpush","hinge"],
-  "2026-05-20": ["upperpull"],
-  "2026-05-18": ["hinge","calves"]
-};
-function isWorkout(s){ return s.cat === "strength"; }
 function areaChipHTML(a){
   return `<span class="chip" style="background:${AREA[a].c};color:${txt(AREA[a].t)}">${AREA[a].label}</span>`;
 }
@@ -401,9 +376,9 @@ function render(){
         cell.classList.add("has");
         cell.dataset.key = key;
         sess.forEach(s=>{
-          if(isWorkout(s)){
+          if(s.areas){
             // one chip per area the workout hit, each coloured by that area
-            (WORKOUT_AREAS[key] || []).forEach(a=> html += areaChipHTML(a));
+            s.areas.forEach(a=> html += areaChipHTML(a));
           } else {
             html += `<span class="chip c-${s.cat}">${s.label}</span>`;
           }
@@ -424,12 +399,11 @@ function render(){
   equalizeHeights();
 }
 
-// make every day cell the same height (tallest content wins)
+// make every day cell the same height (tallest content wins) — read all, then write all
 function equalizeHeights(){
   const cells = document.querySelectorAll("#months .cell");
-  let max = 0;
   cells.forEach(c=>{ c.style.minHeight = ""; });
-  cells.forEach(c=>{ max = Math.max(max, c.offsetHeight); });
+  const max = Math.max(...Array.from(cells, c=> c.offsetHeight));
   cells.forEach(c=>{ c.style.minHeight = max + "px"; });
 }
 window.addEventListener("resize", equalizeHeights);
@@ -445,14 +419,13 @@ function fmtDate(key){
   const [y,m,d] = key.split("-").map(Number);
   const dt = new Date(Date.UTC(y,m-1,d));
   const wd = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dt.getUTCDay()];
-  const mo = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m-1];
+  const mo = MON[m-1];
   return `${wd} ${d} ${mo}`;
 }
 
-function areaChips(key){
-  const a = WORKOUT_AREAS[key];
-  if(!a) return "";
-  return `<div class="d-areas">${a.map(areaChipHTML).join("")}</div>`;
+function areaChips(s){
+  if(!s.areas) return "";
+  return `<div class="d-areas">${s.areas.map(areaChipHTML).join("")}</div>`;
 }
 
 function open(key, cell){
@@ -463,7 +436,7 @@ function open(key, cell){
     <div class="d-sess">
       <div class="d-title"><i class="dot d-${s.cat}"></i>${s.label} <span style="color:var(--muted);font-weight:500">· ${CAT[s.cat]}</span></div>
       <div class="d-meta">${s.meta}</div>
-      ${isWorkout(s) ? areaChips(key) : ""}
+      ${areaChips(s)}
       <ul class="d-items">${s.items.map(i=>`<li>${i}</li>`).join("")}</ul>
     </div>`).join("");
   detail.classList.remove("hidden");
@@ -482,11 +455,13 @@ document.getElementById("months").addEventListener("click", e=>{
 document.getElementById("d-close").addEventListener("click", closeDetail);
 
 // colour key — explicit rows: uppers / press+hinge+sport / calves+walking / conditioning+yoga
+// area swatches sourced from AREA (label+colour single-sourced); non-workout types from TYPE_COL
 const TYPE_COL = { sport:"#9e3b4e", conditioning:"#9c6b43", activity:"#e3a9d4", yoga:"#ffffff" };
+const A = k => [AREA[k].label, AREA[k].c];
 const KEY_ROWS = [
-  [["Pull",AREA.upperpull.c],["Traps",AREA.traps.c],["Push",AREA.upperpush.c],["Shoulders",AREA.shoulders.c],["Core",AREA.core.c]],
-  [["Press",AREA.lowerpress.c],["Hinge",AREA.hinge.c],["Sport",TYPE_COL.sport]],
-  [["Calves",AREA.calves.c],["Festival / walking",TYPE_COL.activity]],
+  [A("upperpull"),A("traps"),A("upperpush"),A("shoulders"),A("core")],
+  [A("lowerpress"),A("hinge"),["Sport",TYPE_COL.sport]],
+  [A("calves"),["Festival / walking",TYPE_COL.activity]],
   [["Conditioning",TYPE_COL.conditioning],["Yoga",TYPE_COL.yoga]]
 ];
 document.getElementById("legend").innerHTML = KEY_ROWS.map(row=>
@@ -520,7 +495,7 @@ function sinceClass(d){ return d>=22 ? "since-due" : d>=7 ? "since-fresh" : d>=4
 function fmtLast(s){
   if(!/^\d{4}-/.test(s)) return s;
   const [y,m,d]=s.split("-").map(Number);
-  return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m-1]}`;
+  return `${d} ${MON[m-1]}`;
 }
 const ftbody = document.querySelector("#fresh-table tbody");
 FRESH.forEach(f=>{
@@ -534,7 +509,7 @@ FRESH.forEach(f=>{
   ftbody.appendChild(tr);
 });
 
-document.getElementById("build-ts").textContent = "build 2026-06-19 · v9";
+document.getElementById("build-ts").textContent = "build 2026-06-19 · v10";
 </script>
 </body>
 </html>
