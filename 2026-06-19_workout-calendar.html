@@ -14,9 +14,9 @@
     --strength: #4f8cff;
     --sport: #34c77b;          /* freshness "fresh" cue (kept) */
     --cond: #ff9f43;           /* freshness "mid" cue (kept) */
-    --yoga: #e2cf6a;           /* calm yellow */
-    --activity: #f3b0c6;       /* mild pink */
-    --football: #9e3b4e;       /* maroon */
+    --yoga: #ee82b8;           /* pink */
+    --activity: #e3a9d4;       /* festival/walking — pink-lilac (related to calves) */
+    --football: #9e3b4e;       /* sport — maroon */
     --conditioning: #9c6b43;   /* brown */
     --today: #ffd33d;
   }
@@ -311,24 +311,25 @@ const AREA = {
   shoulders:  { label:"Shoulders", c:"#b07bff", t:"d" },  // purple
   lowerpress: { label:"Press",     c:"#ef5350", t:"d" },  // red
   hinge:      { label:"Hinge",     c:"#ff9f43", t:"d" },  // orange (incl. hamstring work)
-  core:       { label:"Core",      c:"#8d98a8", t:"d" }   // slate
+  calves:     { label:"Calves",    c:"#c9a9e6", t:"d" },  // lilac
+  core:       { label:"Core",      c:"#9ae6c8", t:"d" }   // mint
 };
 const txt = t => t === "l" ? "#f5f7fa" : "#0b0d11";
 const WORKOUT_AREAS = {
-  "2026-06-16": ["upperpull","traps"],
+  "2026-06-16": ["upperpull","traps","calves"],
   "2026-06-14": ["upperpush","upperpull"],
-  "2026-06-12": ["upperpull","hinge"],
+  "2026-06-12": ["upperpull","hinge","calves"],
   "2026-06-10": ["lowerpress","upperpull"],
-  "2026-06-09": ["upperpush"],
+  "2026-06-09": ["upperpush","calves"],
   "2026-06-08": ["upperpull"],
-  "2026-06-04": ["hinge"],
+  "2026-06-04": ["hinge","calves"],
   "2026-06-02": ["lowerpress","upperpull"],
   "2026-05-31": ["upperpush","shoulders"],
-  "2026-05-30": ["lowerpress","hinge"],
+  "2026-05-30": ["lowerpress","hinge","calves"],
   "2026-05-27": ["upperpull","core"],
   "2026-05-26": ["upperpush","hinge"],
   "2026-05-20": ["upperpull"],
-  "2026-05-18": ["hinge"]
+  "2026-05-18": ["hinge","calves"]
 };
 function isWorkout(s){ return s.cat === "strength"; }
 function areaChipHTML(a){
@@ -478,7 +479,7 @@ document.getElementById("d-close").addEventListener("click", closeDetail);
 // legend: workout areas (in palette order) then the non-workout types, matching the key grouping
 const LEGEND = [
   ...Object.values(AREA).map(a=>({ label:a.label, c:a.c })),
-  { label:"Football",     cls:"d-sport" },
+  { label:"Sport",        cls:"d-sport" },
   { label:"Conditioning", cls:"d-cond" },
   { label:"Festival / walking", cls:"d-activity" },
   { label:"Yoga",         cls:"d-yoga" }
@@ -490,7 +491,7 @@ document.getElementById("legend").innerHTML = LEGEND.map(i=>
 // --- Freshness by area (vit freshness, half-life 3d, as-of 2026-06-19) ---
 // sorted freshest (longest since worked) -> most recently worked
 const FRESH = [
-  { area:"Anti-rotation",   days:19, last:"2026-05-31", load:0.000 },
+  { area:"Core (anti-rotation)", days:19, last:"2026-05-31", load:0.000 },
   { area:"Squat",           days:17, last:"2026-06-02", load:0.002 },
   { area:"Hinge",           days:9,  last:"2026-06-10", load:0.017 },
   { area:"Quad (iso)",      days:9,  last:"2026-06-10", load:0.018 },
