@@ -47,7 +47,7 @@
   .month { margin-bottom: 24px; }
   .month h2 { font-size: 15px; margin: 0 0 10px; font-weight: 600; }
 
-  .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
   .wd {
     text-align: center; font-size: 10px; color: var(--muted);
     text-transform: uppercase; letter-spacing: .5px; padding-bottom: 2px;
@@ -102,6 +102,25 @@
   .stat .n { font-size: 22px; font-weight: 700; }
   .stat .l { font-size: 11px; color: var(--muted); }
 
+  .fresh { margin-top: 26px; }
+  .fresh h2 { font-size: 15px; margin: 0 0 4px; font-weight: 600; }
+  .fresh table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .fresh th {
+    text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .5px;
+    color: var(--muted); font-weight: 600; padding: 0 8px 7px; border-bottom: 1px solid var(--line);
+  }
+  .fresh th.r, .fresh td.r { text-align: right; }
+  .fresh td { padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  .fresh tr:last-child td { border-bottom: none; }
+  .fresh .area { font-weight: 600; }
+  .since { font-weight: 700; }
+  .since-fresh { color: var(--sport); }
+  .since-mid { color: var(--cond); }
+  .since-worked { color: #ff6b6b; }
+  .fresh .last { color: var(--muted); }
+  .bar { display: inline-block; height: 6px; border-radius: 3px; vertical-align: middle; background: var(--strength); opacity: .85; }
+  .fresh .load { color: var(--muted); font-variant-numeric: tabular-nums; }
+
   @media (max-width: 520px) {
     .cell { min-height: 52px; border-radius: 7px; padding: 4px 3px 5px; }
     .chip { font-size: 9px; padding: 1px 4px; }
@@ -137,6 +156,17 @@
     <div class="stat"><div class="n">8</div><div class="l">Sport (football/spikeball)</div></div>
     <div class="stat"><div class="n">3</div><div class="l">Yoga</div></div>
     <div class="stat"><div class="n">1</div><div class="l">Hyrox conditioning</div></div>
+  </div>
+
+  <div class="fresh">
+    <h2>Freshness by area</h2>
+    <p class="hint">Freshest (most recovered) at top → most-recently worked at bottom. Half-life 3d, as of 19 Jun.</p>
+    <table id="fresh-table">
+      <thead>
+        <tr><th>Area</th><th class="r">Time since</th><th class="r">Last worked</th><th class="r">Recent load</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 </div>
 
@@ -272,9 +302,15 @@ function buildMonth(M){
   for(let i=0;i<M.firstDow;i++) cells.push(null);
   for(let d=1; d<=M.days; d++) cells.push(d);
   while(cells.length % 7 !== 0) cells.push(null);
-  // split into weeks, then reverse week order (newest week on top)
-  const weeks = [];
+  // split into weeks
+  let weeks = [];
   for(let i=0;i<cells.length;i+=7) weeks.push(cells.slice(i,i+7));
+  // drop weeks entirely in the future (every real day after today)
+  weeks = weeks.filter(week=>{
+    const real = week.filter(d=>d!==null);
+    return real.some(d=> `${M.y}-${pad(M.m)}-${pad(d)}` <= TODAY);
+  });
+  // reverse week order (newest week on top)
   weeks.reverse();
 
   const wrap = document.createElement("div");
@@ -344,6 +380,41 @@ document.querySelectorAll(".cell.has").forEach(c=>{
 document.getElementById("d-close").addEventListener("click", ()=>{
   detail.classList.add("hidden");
   if(selCell){ selCell.classList.remove("sel"); selCell=null; }
+});
+
+// --- Freshness by area (vit freshness, half-life 3d, as-of 2026-06-19) ---
+// sorted freshest (longest since worked) -> most recently worked
+const FRESH = [
+  { area:"Anti-rotation",   days:19, last:"2026-05-31", load:0.000 },
+  { area:"Squat",           days:17, last:"2026-06-02", load:0.002 },
+  { area:"Hinge",           days:9,  last:"2026-06-10", load:0.017 },
+  { area:"Quad (iso)",      days:9,  last:"2026-06-10", load:0.018 },
+  { area:"Hamstring (iso)", days:7,  last:"2026-06-12", load:0.039 },
+  { area:"Triceps (iso)",   days:5,  last:"2026-06-14", load:0.056 },
+  { area:"Horizontal push", days:5,  last:"2026-06-14", load:0.154 },
+  { area:"Plyometric",      days:3,  last:"2026-06-16", load:0.026 },
+  { area:"Biceps (iso)",    days:3,  last:"2026-06-16", load:0.071 },
+  { area:"Horizontal pull", days:3,  last:"2026-06-16", load:0.138 },
+  { area:"Vertical pull",   days:3,  last:"2026-06-16", load:0.196 },
+  { area:"Shoulder (iso)",  days:3,  last:"2026-06-16", load:0.206 },
+  { area:"Calf (iso)",      days:3,  last:"2026-06-16", load:0.263 }
+];
+const maxLoad = Math.max(...FRESH.map(f=>f.load));
+function sinceClass(d){ return d>=7 ? "since-fresh" : d>=4 ? "since-mid" : "since-worked"; }
+function fmtLast(s){
+  const [y,m,d]=s.split("-").map(Number);
+  return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m-1]}`;
+}
+const ftbody = document.querySelector("#fresh-table tbody");
+FRESH.forEach(f=>{
+  const tr=document.createElement("tr");
+  const w = Math.max(3, Math.round(f.load/maxLoad*60));
+  tr.innerHTML =
+    `<td class="area">${f.area}</td>`+
+    `<td class="r since ${sinceClass(f.days)}">${f.days}d</td>`+
+    `<td class="r last">${fmtLast(f.last)}</td>`+
+    `<td class="r load"><span class="bar" style="width:${w}px"></span> ${f.load.toFixed(3)}</td>`;
+  ftbody.appendChild(tr);
 });
 </script>
 </body>
