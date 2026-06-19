@@ -54,7 +54,7 @@
   }
   .cell {
     background: var(--card); border: 1px solid var(--line); border-radius: 9px;
-    min-height: 60px; padding: 5px 5px 6px;
+    min-height: 58px; padding: 5px 4px 6px;
     display: flex; flex-direction: column; gap: 3px;
   }
   .cell.empty { background: transparent; border: none; min-height: 0; }
@@ -62,12 +62,14 @@
   .cell.has:active { transform: scale(.97); }
   .cell.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
   .num { font-size: 11px; color: var(--muted); font-weight: 600; line-height: 1; }
+  .num .mtag { color: var(--strength); text-transform: uppercase; letter-spacing: .3px; font-size: 9px; margin-right: 2px; }
   .cell.today { border-color: var(--today); box-shadow: 0 0 0 1px var(--today) inset; }
   .cell.today .num { color: var(--today); }
+  .cell.today .num .mtag { color: var(--today); }
 
   .chip {
-    font-size: 10px; line-height: 1.15; padding: 2px 5px; border-radius: 5px;
-    color: #0b0d11; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-size: 10px; line-height: 1.2; padding: 2px 4px; border-radius: 5px;
+    color: #0b0d11; font-weight: 600; white-space: normal; overflow-wrap: anywhere; hyphens: auto;
   }
   .c-strength { background: var(--strength); }
   .c-sport { background: var(--sport); }
@@ -130,7 +132,7 @@
 <body>
 <div class="wrap">
   <h1>Workout Calendar</h1>
-  <p class="sub">Recent training — newest first</p>
+  <p class="sub" id="cal-sub">Recent training — newest first</p>
 
   <div class="legend">
     <span><i class="dot d-strength"></i> Strength</span>
@@ -152,9 +154,9 @@
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="n">19</div><div class="l">Strength sessions</div></div>
-    <div class="stat"><div class="n">8</div><div class="l">Sport (football/spikeball)</div></div>
-    <div class="stat"><div class="n">3</div><div class="l">Yoga</div></div>
+    <div class="stat"><div class="n">14</div><div class="l">Strength sessions</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Football</div></div>
+    <div class="stat"><div class="n">2</div><div class="l">Yoga</div></div>
     <div class="stat"><div class="n">1</div><div class="l">Hyrox conditioning</div></div>
   </div>
 
@@ -176,6 +178,14 @@ const CAT = { strength:"Strength", sport:"Sport", yoga:"Yoga", cond:"Conditionin
 // date -> [ {cat, label, meta, items:[]} ]
 const S = {
   "2026-06-18": [{cat:"sport", label:"Football", meta:"6:15PM · ~40 min", items:["Outdoor football — evening session"]}],
+  "2026-06-16": [{cat:"strength", label:"Upper Pull", meta:"6:08PM · ~1h25", items:[
+    "Skipping 1:00 / 45 LR",
+    "DB full-extension jump 3×5 @20kg",
+    "Pull-up 2×(10+1c) @BW",
+    "Machine row 14+1c @45 EQ",
+    "Calf raise (bilat) → 50 @BW / 25 @25",
+    "Shrugs (EQ) → 22kg full ROM",
+    "Preacher curl 10 @30 / Hammer curl 10 @10"]}],
   "2026-06-15": [{cat:"sport", label:"Football", meta:"8:00PM · ~70 min", items:["Outdoor football — longer evening session"]}],
   "2026-06-14": [{cat:"strength", label:"Upper Push", meta:"12:50PM · ~1h55", items:[
     "Prone Y-raise 2×15 @BW",
@@ -287,65 +297,69 @@ const S = {
     {cat:"sport", label:"Football", meta:"6:00PM · 1 hr", items:["Casual park session (back-to-back with spikeball)"]}]
 };
 
-// month, year, day-of-week (Mon=0) that the 1st falls on, number of days
-const MONTHS = [
-  { name:"June 2026",  y:2026, m:6, firstDow:0, days:30 },  // Jun 1 = Monday
-  { name:"May 2026",   y:2026, m:5, firstDow:4, days:31 }   // May 1 = Friday
-];
 const TODAY = "2026-06-19";
+const NUM_WEEKS = 5;   // current week + last 4
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 function pad(n){ return String(n).padStart(2,"0"); }
+function keyOf(dt){ return `${dt.getUTCFullYear()}-${pad(dt.getUTCMonth()+1)}-${pad(dt.getUTCDate())}`; }
 
-function buildMonth(M){
-  // build flat list of cells (null for leading/trailing blanks)
-  const cells = [];
-  for(let i=0;i<M.firstDow;i++) cells.push(null);
-  for(let d=1; d<=M.days; d++) cells.push(d);
-  while(cells.length % 7 !== 0) cells.push(null);
-  // split into weeks
-  let weeks = [];
-  for(let i=0;i<cells.length;i+=7) weeks.push(cells.slice(i,i+7));
-  // drop weeks entirely in the future (every real day after today)
-  weeks = weeks.filter(week=>{
-    const real = week.filter(d=>d!==null);
-    return real.some(d=> `${M.y}-${pad(M.m)}-${pad(d)}` <= TODAY);
-  });
-  // reverse week order (newest week on top)
-  weeks.reverse();
+// Build NUM_WEEKS Mon–Sun weeks, newest week first, ending with the week containing TODAY.
+function buildWeeks(){
+  const [ty,tm,td] = TODAY.split("-").map(Number);
+  const t = new Date(Date.UTC(ty, tm-1, td));
+  const dow = (t.getUTCDay()+6)%7;               // Mon=0
+  const monday = new Date(t); monday.setUTCDate(t.getUTCDate()-dow);
+  const weeks = [];
+  for(let w=0; w<NUM_WEEKS; w++){                 // w=0 → current week (top)
+    const start = new Date(monday); start.setUTCDate(monday.getUTCDate()-7*w);
+    const wk = [];
+    for(let i=0;i<7;i++){
+      const dt = new Date(start); dt.setUTCDate(start.getUTCDate()+i);
+      wk.push(dt);
+    }
+    weeks.push(wk);
+  }
+  return weeks;
+}
 
-  const wrap = document.createElement("div");
-  wrap.className = "month";
-  wrap.innerHTML = `<h2>${M.name}</h2>`;
+function buildCalendar(){
+  const weeks = buildWeeks();
   const grid = document.createElement("div");
   grid.className = "grid";
   ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(w=>{
     const e=document.createElement("div"); e.className="wd"; e.textContent=w; grid.appendChild(e);
   });
+  let prevM = null;
   weeks.forEach(week=>{
-    week.forEach(d=>{
-      const cell=document.createElement("div");
-      if(d===null){ cell.className="cell empty"; grid.appendChild(cell); return; }
-      const key = `${M.y}-${pad(M.m)}-${pad(d)}`;
-      cell.className="cell";
+    week.forEach(dt=>{
+      const key = keyOf(dt);
+      const cell = document.createElement("div");
+      cell.className = "cell";
       if(key===TODAY) cell.classList.add("today");
-      let html = `<span class="num">${d}</span>`;
+      const m = dt.getUTCMonth()+1;
+      const mtag = (m!==prevM) ? `<span class="mtag">${MON[m-1]}</span>` : "";
+      prevM = m;
+      let html = `<span class="num">${mtag}${dt.getUTCDate()}</span>`;
       const sess = S[key];
       if(sess){
         cell.classList.add("has");
         cell.dataset.key = key;
-        // collapse spikeball+football same-day into one combined chip label if both sport
         sess.forEach(s=> html += `<span class="chip c-${s.cat}">${s.label}</span>`);
       }
       cell.innerHTML = html;
       grid.appendChild(cell);
     });
   });
-  wrap.appendChild(grid);
-  return wrap;
-}
+  document.getElementById("months").appendChild(grid);
 
-const monthsEl = document.getElementById("months");
-MONTHS.forEach(M=> monthsEl.appendChild(buildMonth(M)));
+  // subtitle: date range of the window
+  const oldest = weeks[weeks.length-1][0];
+  const newest = weeks[0][6];
+  document.getElementById("cal-sub").textContent =
+    `Last ${NUM_WEEKS} weeks · ${oldest.getUTCDate()} ${MON[oldest.getUTCMonth()]} – ${newest.getUTCDate()} ${MON[newest.getUTCMonth()]} · newest first`;
+}
+buildCalendar();
 
 // detail panel
 const detail = document.getElementById("detail");
