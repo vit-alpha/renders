@@ -28,15 +28,11 @@
   }
   .wrap { max-width: 760px; margin: 0 auto; }
   h1 { font-size: 20px; margin: 0 0 2px; letter-spacing: .2px; }
-  .sub { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+  .sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
 
   .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 14px;
-    margin: 0 0 20px;
-    font-size: 12px;
-    color: var(--muted);
+    display: flex; flex-wrap: wrap; gap: 8px 14px;
+    margin: 0 0 18px; font-size: 12px; color: var(--muted);
   }
   .legend span { display: inline-flex; align-items: center; gap: 6px; }
   .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
@@ -46,47 +42,32 @@
   .d-cond { background: var(--cond); }
   .d-activity { background: var(--activity); }
 
-  .month { margin-bottom: 26px; }
+  .hint { font-size: 11px; color: var(--muted); margin: -8px 0 16px; }
+
+  .month { margin-bottom: 24px; }
   .month h2 { font-size: 15px; margin: 0 0 10px; font-weight: 600; }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-  }
+  .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
   .wd {
-    text-align: center;
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    padding-bottom: 2px;
+    text-align: center; font-size: 10px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .5px; padding-bottom: 2px;
   }
   .cell {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 9px;
-    min-height: 62px;
-    padding: 5px 5px 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 9px;
+    min-height: 60px; padding: 5px 5px 6px;
+    display: flex; flex-direction: column; gap: 3px;
   }
-  .cell.empty { background: transparent; border: none; }
+  .cell.empty { background: transparent; border: none; min-height: 0; }
+  .cell.has { cursor: pointer; transition: border-color .12s, transform .06s; }
+  .cell.has:active { transform: scale(.97); }
+  .cell.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
   .num { font-size: 11px; color: var(--muted); font-weight: 600; line-height: 1; }
   .cell.today { border-color: var(--today); box-shadow: 0 0 0 1px var(--today) inset; }
   .cell.today .num { color: var(--today); }
 
   .chip {
-    font-size: 10px;
-    line-height: 1.15;
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: #0b0d11;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 10px; line-height: 1.15; padding: 2px 5px; border-radius: 5px;
+    color: #0b0d11; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .c-strength { background: var(--strength); }
   .c-sport { background: var(--sport); }
@@ -94,19 +75,35 @@
   .c-cond { background: var(--cond); }
   .c-activity { background: var(--activity); color: #e7e9ee; }
 
+  /* detail panel */
+  #detail {
+    position: sticky; bottom: 0;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px 16px; margin-top: 18px;
+    box-shadow: 0 -6px 24px rgba(0,0,0,.35);
+  }
+  #detail.hidden { display: none; }
+  .d-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .d-date { font-size: 15px; font-weight: 700; }
+  .d-close { background: none; border: none; color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; }
+  .d-sess { margin-top: 12px; }
+  .d-sess:first-of-type { margin-top: 8px; }
+  .d-title { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; }
+  .d-title .dot { width: 9px; height: 9px; }
+  .d-meta { font-size: 11px; color: var(--muted); margin-left: 16px; margin-top: 1px; }
+  .d-items { margin: 7px 0 0; padding-left: 18px; }
+  .d-items li { font-size: 12.5px; line-height: 1.5; color: var(--ink); }
+  .d-empty { color: var(--muted); font-size: 13px; margin-top: 10px; }
+
   .stats {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-    padding-top: 14px;
-    border-top: 1px solid var(--line);
+    display: flex; gap: 18px; flex-wrap: wrap;
+    margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line);
   }
   .stat .n { font-size: 22px; font-weight: 700; }
   .stat .l { font-size: 11px; color: var(--muted); }
 
   @media (max-width: 520px) {
-    .cell { min-height: 54px; border-radius: 7px; padding: 4px 3px 5px; }
+    .cell { min-height: 52px; border-radius: 7px; padding: 4px 3px 5px; }
     .chip { font-size: 9px; padding: 1px 4px; }
   }
 </style>
@@ -114,7 +111,7 @@
 <body>
 <div class="wrap">
   <h1>Workout Calendar</h1>
-  <p class="sub">Recent training — May & June 2026</p>
+  <p class="sub">Recent training — newest first</p>
 
   <div class="legend">
     <span><i class="dot d-strength"></i> Strength</span>
@@ -123,110 +120,231 @@
     <span><i class="dot d-cond"></i> Conditioning</span>
     <span><i class="dot d-activity"></i> Activity</span>
   </div>
+  <p class="hint">Tap any coloured day to see the exercises.</p>
 
-  <div class="month">
-    <h2>May 2026</h2>
-    <div class="grid">
-      <div class="wd">Mon</div><div class="wd">Tue</div><div class="wd">Wed</div><div class="wd">Thu</div><div class="wd">Fri</div><div class="wd">Sat</div><div class="wd">Sun</div>
+  <div id="months"></div>
 
-      <!-- Week 1: May 1 = Fri -->
-      <div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div>
-      <div class="cell"><span class="num">1</span><span class="chip c-strength">Posterior</span></div>
-      <div class="cell"><span class="num">2</span><span class="chip c-sport">Spikeball</span></div>
-      <div class="cell"><span class="num">3</span></div>
-
-      <!-- Week 2: May 4–10 -->
-      <div class="cell"><span class="num">4</span><span class="chip c-strength">Lower/Push</span></div>
-      <div class="cell"><span class="num">5</span><span class="chip c-strength">Quad/Traps</span></div>
-      <div class="cell"><span class="num">6</span><span class="chip c-strength">Upper Pull</span></div>
-      <div class="cell"><span class="num">7</span><span class="chip c-sport">Football</span></div>
-      <div class="cell"><span class="num">8</span><span class="chip c-yoga">Yoga</span></div>
-      <div class="cell"><span class="num">9</span><span class="chip c-sport">Spikeball</span></div>
-      <div class="cell"><span class="num">10</span><span class="chip c-strength">Hinge</span><span class="chip c-sport">Spike+Ftbl</span></div>
-
-      <!-- Week 3: May 11–17 -->
-      <div class="cell"><span class="num">11</span></div>
-      <div class="cell"><span class="num">12</span><span class="chip c-strength">Lower</span></div>
-      <div class="cell"><span class="num">13</span></div>
-      <div class="cell"><span class="num">14</span></div>
-      <div class="cell"><span class="num">15</span></div>
-      <div class="cell"><span class="num">16</span></div>
-      <div class="cell"><span class="num">17</span></div>
-
-      <!-- Week 4: May 18–24 -->
-      <div class="cell"><span class="num">18</span><span class="chip c-strength">Lower Hinge</span></div>
-      <div class="cell"><span class="num">19</span></div>
-      <div class="cell"><span class="num">20</span><span class="chip c-strength">Upper Pull</span></div>
-      <div class="cell"><span class="num">21</span><span class="chip c-sport">Football</span></div>
-      <div class="cell"><span class="num">22</span></div>
-      <div class="cell"><span class="num">23</span></div>
-      <div class="cell"><span class="num">24</span><span class="chip c-activity">Festival</span></div>
-
-      <!-- Week 5: May 25–31 -->
-      <div class="cell"><span class="num">25</span><span class="chip c-yoga">Hot Yoga</span></div>
-      <div class="cell"><span class="num">26</span><span class="chip c-strength">Push/Lower</span></div>
-      <div class="cell"><span class="num">27</span><span class="chip c-strength">Upper Pull</span></div>
-      <div class="cell"><span class="num">28</span></div>
-      <div class="cell"><span class="num">29</span></div>
-      <div class="cell"><span class="num">30</span><span class="chip c-strength">Mobility</span></div>
-      <div class="cell"><span class="num">31</span><span class="chip c-strength">Bench</span></div>
+  <div id="detail" class="hidden">
+    <div class="d-head">
+      <span class="d-date" id="d-date"></span>
+      <button class="d-close" id="d-close" aria-label="close">&times;</button>
     </div>
-  </div>
-
-  <div class="month">
-    <h2>June 2026</h2>
-    <div class="grid">
-      <div class="wd">Mon</div><div class="wd">Tue</div><div class="wd">Wed</div><div class="wd">Thu</div><div class="wd">Fri</div><div class="wd">Sat</div><div class="wd">Sun</div>
-
-      <!-- Week 1: Jun 1 = Mon -->
-      <div class="cell"><span class="num">1</span><span class="chip c-cond">Hyrox</span></div>
-      <div class="cell"><span class="num">2</span><span class="chip c-strength">Heavy Lower</span></div>
-      <div class="cell"><span class="num">3</span></div>
-      <div class="cell"><span class="num">4</span><span class="chip c-strength">Lower Hinge</span></div>
-      <div class="cell"><span class="num">5</span></div>
-      <div class="cell"><span class="num">6</span></div>
-      <div class="cell"><span class="num">7</span></div>
-
-      <!-- Week 2: Jun 8–14 -->
-      <div class="cell"><span class="num">8</span><span class="chip c-strength">Mini Pull</span><span class="chip c-yoga">Hot Yoga</span></div>
-      <div class="cell"><span class="num">9</span><span class="chip c-strength">Upper Push</span></div>
-      <div class="cell"><span class="num">10</span><span class="chip c-strength">Athletic</span></div>
-      <div class="cell"><span class="num">11</span></div>
-      <div class="cell"><span class="num">12</span><span class="chip c-strength">Upper Pull</span></div>
-      <div class="cell"><span class="num">13</span></div>
-      <div class="cell"><span class="num">14</span><span class="chip c-strength">Upper Push</span></div>
-
-      <!-- Week 3: Jun 15–21 -->
-      <div class="cell"><span class="num">15</span></div>
-      <div class="cell"><span class="num">16</span></div>
-      <div class="cell"><span class="num">17</span></div>
-      <div class="cell"><span class="num">18</span></div>
-      <div class="cell today"><span class="num">19</span></div>
-      <div class="cell"><span class="num">20</span></div>
-      <div class="cell"><span class="num">21</span></div>
-
-      <!-- Week 4: Jun 22–28 -->
-      <div class="cell"><span class="num">22</span></div>
-      <div class="cell"><span class="num">23</span></div>
-      <div class="cell"><span class="num">24</span></div>
-      <div class="cell"><span class="num">25</span></div>
-      <div class="cell"><span class="num">26</span></div>
-      <div class="cell"><span class="num">27</span></div>
-      <div class="cell"><span class="num">28</span></div>
-
-      <!-- Week 5: Jun 29–30 -->
-      <div class="cell"><span class="num">29</span></div>
-      <div class="cell"><span class="num">30</span></div>
-      <div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div>
-    </div>
+    <div id="d-body"></div>
   </div>
 
   <div class="stats">
     <div class="stat"><div class="n">19</div><div class="l">Strength sessions</div></div>
-    <div class="stat"><div class="n">5</div><div class="l">Sport (football/spikeball)</div></div>
+    <div class="stat"><div class="n">8</div><div class="l">Sport (football/spikeball)</div></div>
     <div class="stat"><div class="n">3</div><div class="l">Yoga</div></div>
     <div class="stat"><div class="n">1</div><div class="l">Hyrox conditioning</div></div>
   </div>
 </div>
+
+<script>
+const CAT = { strength:"Strength", sport:"Sport", yoga:"Yoga", cond:"Conditioning", activity:"Activity" };
+
+// date -> [ {cat, label, meta, items:[]} ]
+const S = {
+  "2026-06-18": [{cat:"sport", label:"Football", meta:"6:15PM · ~40 min", items:["Outdoor football — evening session"]}],
+  "2026-06-15": [{cat:"sport", label:"Football", meta:"8:00PM · ~70 min", items:["Outdoor football — longer evening session"]}],
+  "2026-06-14": [{cat:"strength", label:"Upper Push", meta:"12:50PM · ~1h55", items:[
+    "Prone Y-raise 2×15 @BW",
+    "Bench machine — top 6 @72.5kg",
+    "Left lat pulldown 10+5c @28.75kg",
+    "Unilateral bench 10 @47.5kg each side",
+    "Overhead tricep ext 2×12 @13.75",
+    "Tricep pulldown 11 @26.25",
+    "Cable lateral raise 30 @6.25"]}],
+  "2026-06-12": [{cat:"strength", label:"Upper Pull", meta:"7:45PM · ~45 min", items:[
+    "Reverse plank 30s",
+    "Assisted 1-arm pull-up @BW-40",
+    "Pull-up 9 @BW",
+    "Seated calf raise 20 @10kg",
+    "Seated leg curl → 15 @30 (R focus)",
+    "Shrugs 3×20 @20kg"]}],
+  "2026-06-10": [{cat:"strength", label:"Athletic + Legs", meta:"7:40PM · ~1h20", items:[
+    "EGT prime 2×15 @BW",
+    "Treadmill sprint ~45s @12.2",
+    "Deadlift jump → @16kg",
+    "Machine row 12 @45",
+    "Leg extension 8 @80 / 12+3c @32.5",
+    "Cable lateral raise 30 @6.25"]}],
+  "2026-06-09": [{cat:"strength", label:"Upper Push", meta:"7:14PM · ~1h35", items:[
+    "EGT 15/10 @BW + Y-raise",
+    "Bench machine 15 @50 (on-lat cue)",
+    "Overhead tricep ext → 18 @18.75",
+    "Calf raise 6×40 @BW",
+    "Tricep pulldown 22 @26.25"]}],
+  "2026-06-08": [
+    {cat:"strength", label:"Mini Upper Pull", meta:"3:33PM · ~17 min", items:[
+      "Pull-up 11 @BW",
+      "Hammer curl 15 @10",
+      "Cable hammer curl 30 @16.25 (new)",
+      "Preacher curl 15 @25"]},
+    {cat:"yoga", label:"Hot Yoga", meta:"4PM · ~1 hr", items:["Hotpod Flow class — avg HR 119"]}],
+  "2026-06-04": [{cat:"strength", label:"Lower Hinge", meta:"12:30PM · ~1h15", items:[
+    "Skipping 60s + EGT prime",
+    "Single-leg RDL 30 @8kg",
+    "Hyperextension 30 @15kg",
+    "Seated calf raise @5kg sets",
+    "Lying leg curl 10 @37.5"]}],
+  "2026-06-02": [{cat:"strength", label:"Heavy Lower", meta:"5:50PM · ~1h15", items:[
+    "EGT prime 3×15 @BW",
+    "Pendulum squat → 4 @75",
+    "Machine row 10 @45",
+    "Single-arm L lat pulldown 10 @80"]}],
+  "2026-06-01": [{cat:"cond", label:"Hyrox", meta:"12:45PM · ~45 min", items:["Whole-body hybrid conditioning — runs + functional stations (loads/HR not recorded)"]}],
+
+  "2026-05-31": [{cat:"strength", label:"Bench / Y-raise", meta:"4:19PM · ~1h45", items:[
+    "Prone Y-raise @BW + 2kg",
+    "Bench press machine 14 @65",
+    "Lateral hyperextension 10 @BW (new)",
+    "Tib-post banded pulls",
+    "Cable lateral raise 20 @6.25",
+    "Tricep pulldown @26.25"]}],
+  "2026-05-30": [{cat:"strength", label:"Mobility / Form", meta:"1:37PM · ~2 hr", items:[
+    "Mobilise + sprint 1 min @18–16 km/h",
+    "Zercher squat 8 @30",
+    "Hyperextension 20 @BW",
+    "Calf raise @BW+15kg",
+    "Hammer curl drop-sets",
+    "Cable bicep curl 12 @15 (new)"]}],
+  "2026-05-28": [{cat:"sport", label:"Football", meta:"7:00PM · ~40 min", items:["Outdoor football — evening session"]}],
+  "2026-05-27": [{cat:"strength", label:"Upper Pull", meta:"12:35PM · ~1 hr", items:[
+    "Prone Y-raise drop set",
+    "Pull-up 7 @BW",
+    "Machine row 10+2c @65",
+    "Hyperextension 30 @BW",
+    "Copenhagen plank + bumps (new)",
+    "Single-arm L lat pulldown 8+3c @33",
+    "BB curl"]}],
+  "2026-05-26": [{cat:"strength", label:"Push / Lower", meta:"5:36PM · ~1 hr", items:[
+    "Bench machine 8 @70",
+    "EGT 25 @BW",
+    "Leg curl 14 @70",
+    "Bench finisher 12 @52.5"]}],
+  "2026-05-25": [{cat:"yoga", label:"Hot Yoga", meta:"12:31PM · ~50 min", items:["Hotpod flow — 115 bpm avg, 358 kcal"]}],
+  "2026-05-24": [{cat:"activity", label:"Festival", meta:"all day", items:["On feet all day — walking + dancing/jumping"]}],
+  "2026-05-21": [{cat:"sport", label:"Football", meta:"7:49PM · ~40 min", items:["Football 2.32 km, 160 bpm avg — high-intensity, ~24 min in Z4+"]}],
+  "2026-05-20": [{cat:"strength", label:"Upper Pull", meta:"7:48PM · ~1h25", items:[
+    "Skipping 100, Hops L 50",
+    "Pull-up wide grip 9 @BW+8kg",
+    "Side planks 1:00 L / 45s R",
+    "Hammer + BB curls",
+    "Single-arm L lat pulldown"]}],
+  "2026-05-18": [{cat:"strength", label:"Lower Hinge", meta:"6:32PM · ~1h40", items:[
+    "SL RDL + EGT superset, SL RDL 25 @8kg",
+    "Single-arm L lat pulldown 17 @28",
+    "Leg curl 10 @72.5 (PB)",
+    "Standing calf raise @BW+8kg",
+    "EGT finisher 20 @10kg"]}],
+  "2026-05-12": [{cat:"strength", label:"Lower", meta:"7:47PM · ~1h15", items:[
+    "EGT prime",
+    "Trap bar jump 3×5 @30 (explosive)",
+    "Zercher squat 10 @50",
+    "Bulgarian split squat 10 @34",
+    "Leg extension lockout",
+    "Shrugs 20 @24"]}],
+  "2026-05-10": [
+    {cat:"strength", label:"Hinge", meta:"2:22PM · ~1h15", items:[
+      "EGT prime",
+      "Single-leg RDL @8kg (cut short — L ankle)",
+      "Hyperextensions 3×20 @10kg",
+      "Single-arm L lat pulldown",
+      "Leg curl + calf raises",
+      "EGT finisher 25 @6kg"]},
+    {cat:"sport", label:"Spikeball", meta:"5:00PM · 1 hr", items:["Casual park session"]},
+    {cat:"sport", label:"Football", meta:"6:00PM · 1 hr", items:["Casual park session (back-to-back with spikeball)"]}]
+};
+
+// month, year, day-of-week (Mon=0) that the 1st falls on, number of days
+const MONTHS = [
+  { name:"June 2026",  y:2026, m:6, firstDow:0, days:30 },  // Jun 1 = Monday
+  { name:"May 2026",   y:2026, m:5, firstDow:4, days:31 }   // May 1 = Friday
+];
+const TODAY = "2026-06-19";
+
+function pad(n){ return String(n).padStart(2,"0"); }
+
+function buildMonth(M){
+  // build flat list of cells (null for leading/trailing blanks)
+  const cells = [];
+  for(let i=0;i<M.firstDow;i++) cells.push(null);
+  for(let d=1; d<=M.days; d++) cells.push(d);
+  while(cells.length % 7 !== 0) cells.push(null);
+  // split into weeks, then reverse week order (newest week on top)
+  const weeks = [];
+  for(let i=0;i<cells.length;i+=7) weeks.push(cells.slice(i,i+7));
+  weeks.reverse();
+
+  const wrap = document.createElement("div");
+  wrap.className = "month";
+  wrap.innerHTML = `<h2>${M.name}</h2>`;
+  const grid = document.createElement("div");
+  grid.className = "grid";
+  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(w=>{
+    const e=document.createElement("div"); e.className="wd"; e.textContent=w; grid.appendChild(e);
+  });
+  weeks.forEach(week=>{
+    week.forEach(d=>{
+      const cell=document.createElement("div");
+      if(d===null){ cell.className="cell empty"; grid.appendChild(cell); return; }
+      const key = `${M.y}-${pad(M.m)}-${pad(d)}`;
+      cell.className="cell";
+      if(key===TODAY) cell.classList.add("today");
+      let html = `<span class="num">${d}</span>`;
+      const sess = S[key];
+      if(sess){
+        cell.classList.add("has");
+        cell.dataset.key = key;
+        // collapse spikeball+football same-day into one combined chip label if both sport
+        sess.forEach(s=> html += `<span class="chip c-${s.cat}">${s.label}</span>`);
+      }
+      cell.innerHTML = html;
+      grid.appendChild(cell);
+    });
+  });
+  wrap.appendChild(grid);
+  return wrap;
+}
+
+const monthsEl = document.getElementById("months");
+MONTHS.forEach(M=> monthsEl.appendChild(buildMonth(M)));
+
+// detail panel
+const detail = document.getElementById("detail");
+const dDate = document.getElementById("d-date");
+const dBody = document.getElementById("d-body");
+let selCell = null;
+
+function fmtDate(key){
+  const [y,m,d] = key.split("-").map(Number);
+  const dt = new Date(Date.UTC(y,m-1,d));
+  const wd = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dt.getUTCDay()];
+  const mo = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m-1];
+  return `${wd} ${d} ${mo}`;
+}
+
+function open(key, cell){
+  if(selCell) selCell.classList.remove("sel");
+  selCell = cell; cell.classList.add("sel");
+  dDate.textContent = fmtDate(key);
+  dBody.innerHTML = S[key].map(s=>`
+    <div class="d-sess">
+      <div class="d-title"><i class="dot d-${s.cat}"></i>${s.label} <span style="color:var(--muted);font-weight:500">· ${CAT[s.cat]}</span></div>
+      <div class="d-meta">${s.meta}</div>
+      <ul class="d-items">${s.items.map(i=>`<li>${i}</li>`).join("")}</ul>
+    </div>`).join("");
+  detail.classList.remove("hidden");
+}
+
+document.querySelectorAll(".cell.has").forEach(c=>{
+  c.addEventListener("click", ()=> open(c.dataset.key, c));
+});
+document.getElementById("d-close").addEventListener("click", ()=>{
+  detail.classList.add("hidden");
+  if(selCell){ selCell.classList.remove("sel"); selCell=null; }
+});
+</script>
 </body>
 </html>
