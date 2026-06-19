@@ -93,6 +93,8 @@
   .d-title { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; }
   .d-title .dot { width: 9px; height: 9px; }
   .d-meta { font-size: 11px; color: var(--muted); margin-left: 16px; margin-top: 1px; }
+  .d-areas { margin: 7px 0 0 16px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .d-areas .chip { font-size: 10px; padding: 2px 7px; }
   .d-items { margin: 7px 0 0; padding-left: 18px; }
   .d-items li { font-size: 12.5px; line-height: 1.5; color: var(--ink); }
   .d-empty { color: var(--muted); font-size: 13px; margin-top: 10px; }
@@ -123,6 +125,21 @@
   .bar { display: inline-block; height: 6px; border-radius: 3px; vertical-align: middle; background: var(--strength); opacity: .85; }
   .fresh .load { color: var(--muted); font-variant-numeric: tabular-nums; }
 
+  .controls { margin: 0 0 14px; }
+  .switch { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; user-select: none; }
+  .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .track {
+    width: 38px; height: 22px; border-radius: 11px; background: var(--line);
+    position: relative; transition: background .15s; flex: none;
+  }
+  .thumb {
+    position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%;
+    background: #e7e9ee; transition: transform .15s;
+  }
+  .switch input:checked + .track { background: var(--strength); }
+  .switch input:checked + .track .thumb { transform: translateX(16px); }
+  .switch-label { font-size: 12.5px; color: var(--ink); }
+
   @media (max-width: 520px) {
     .cell { min-height: 52px; border-radius: 7px; padding: 4px 3px 5px; }
     .chip { font-size: 9px; padding: 1px 4px; }
@@ -134,12 +151,21 @@
   <h1>Workout Calendar</h1>
   <p class="sub" id="cal-sub">Recent training — newest first</p>
 
-  <div class="legend">
+  <div class="legend" id="legend-type">
     <span><i class="dot d-strength"></i> Strength</span>
     <span><i class="dot d-sport"></i> Sport</span>
     <span><i class="dot d-yoga"></i> Yoga</span>
     <span><i class="dot d-cond"></i> Conditioning</span>
     <span><i class="dot d-activity"></i> Activity</span>
+  </div>
+  <div class="legend" id="legend-area" hidden></div>
+
+  <div class="controls">
+    <label class="switch">
+      <input type="checkbox" id="wo-only">
+      <span class="track"><span class="thumb"></span></span>
+      <span class="switch-label">Workouts only · colour by area</span>
+    </label>
   </div>
   <p class="hint">Tap any coloured day to see the exercises.</p>
 
@@ -297,9 +323,40 @@ const S = {
     {cat:"sport", label:"Football", meta:"6:00PM · 1 hr", items:["Casual park session (back-to-back with spikeball)"]}]
 };
 
+// area palette + the areas each workout hit (derived from the activity-log Volume field)
+const AREA = {
+  pull:      { label:"Pull",       c:"#4f8cff" },
+  push:      { label:"Push",       c:"#ff6b6b" },
+  hinge:     { label:"Hinge",      c:"#34c77b" },
+  legs:      { label:"Squat/Legs", c:"#ff9f43" },
+  hamstring: { label:"Hamstring",  c:"#ffd33d" },
+  shoulders: { label:"Shoulders",  c:"#b07bff" },
+  arms:      { label:"Arms",       c:"#f472b6" },
+  explosive: { label:"Explosive",  c:"#a3e635" },
+  core:      { label:"Core",       c:"#94a3b8" }
+};
+const WORKOUT_AREAS = {
+  "2026-06-16": ["pull"],
+  "2026-06-14": ["push","pull"],
+  "2026-06-12": ["pull","hamstring"],
+  "2026-06-10": ["explosive","legs"],
+  "2026-06-09": ["push","arms"],
+  "2026-06-08": ["pull","arms"],
+  "2026-06-04": ["hinge","hamstring"],
+  "2026-06-02": ["legs","pull"],
+  "2026-05-31": ["push","shoulders"],
+  "2026-05-30": ["legs","hinge"],
+  "2026-05-27": ["pull","core"],
+  "2026-05-26": ["push","hamstring"],
+  "2026-05-20": ["pull","arms"],
+  "2026-05-18": ["hinge","hamstring"]
+};
+function isWorkout(s){ return s.cat === "strength"; }
+
 const TODAY = "2026-06-19";
 const NUM_WEEKS = 5;   // current week + last 4
 const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let MODE = "all";      // "all" | "workout"
 
 function pad(n){ return String(n).padStart(2,"0"); }
 function keyOf(dt){ return `${dt.getUTCFullYear()}-${pad(dt.getUTCMonth()+1)}-${pad(dt.getUTCDate())}`; }
@@ -323,7 +380,16 @@ function buildWeeks(){
   return weeks;
 }
 
-function buildCalendar(){
+// sessions to show for a day, given the current mode
+function shownSessions(key){
+  const sess = S[key];
+  if(!sess) return [];
+  return MODE === "workout" ? sess.filter(isWorkout) : sess;
+}
+
+function render(){
+  const host = document.getElementById("months");
+  host.innerHTML = "";
   const weeks = buildWeeks();
   const grid = document.createElement("div");
   grid.className = "grid";
@@ -341,17 +407,24 @@ function buildCalendar(){
       const mtag = (m!==prevM) ? `<span class="mtag">${MON[m-1]}</span>` : "";
       prevM = m;
       let html = `<span class="num">${mtag}${dt.getUTCDate()}</span>`;
-      const sess = S[key];
-      if(sess){
+      const sess = shownSessions(key);
+      if(sess.length){
         cell.classList.add("has");
         cell.dataset.key = key;
-        sess.forEach(s=> html += `<span class="chip c-${s.cat}">${s.label}</span>`);
+        if(MODE === "workout"){
+          // one chip per area the workout hit, each coloured by that area
+          (WORKOUT_AREAS[key] || []).forEach(a=>{
+            html += `<span class="chip" style="background:${AREA[a].c}">${AREA[a].label}</span>`;
+          });
+        } else {
+          sess.forEach(s=> html += `<span class="chip c-${s.cat}">${s.label}</span>`);
+        }
       }
       cell.innerHTML = html;
       grid.appendChild(cell);
     });
   });
-  document.getElementById("months").appendChild(grid);
+  host.appendChild(grid);
 
   // subtitle: date range of the window
   const oldest = weeks[weeks.length-1][0];
@@ -359,7 +432,7 @@ function buildCalendar(){
   document.getElementById("cal-sub").textContent =
     `Last ${NUM_WEEKS} weeks · ${oldest.getUTCDate()} ${MON[oldest.getUTCMonth()]} – ${newest.getUTCDate()} ${MON[newest.getUTCMonth()]} · newest first`;
 }
-buildCalendar();
+render();
 
 // detail panel
 const detail = document.getElementById("detail");
@@ -375,25 +448,49 @@ function fmtDate(key){
   return `${wd} ${d} ${mo}`;
 }
 
+function areaChips(key){
+  const a = WORKOUT_AREAS[key];
+  if(!a) return "";
+  return `<div class="d-areas">${a.map(x=>`<span class="chip" style="background:${AREA[x].c}">${AREA[x].label}</span>`).join("")}</div>`;
+}
+
 function open(key, cell){
   if(selCell) selCell.classList.remove("sel");
   selCell = cell; cell.classList.add("sel");
   dDate.textContent = fmtDate(key);
-  dBody.innerHTML = S[key].map(s=>`
+  dBody.innerHTML = shownSessions(key).map(s=>`
     <div class="d-sess">
       <div class="d-title"><i class="dot d-${s.cat}"></i>${s.label} <span style="color:var(--muted);font-weight:500">· ${CAT[s.cat]}</span></div>
       <div class="d-meta">${s.meta}</div>
+      ${isWorkout(s) ? areaChips(key) : ""}
       <ul class="d-items">${s.items.map(i=>`<li>${i}</li>`).join("")}</ul>
     </div>`).join("");
   detail.classList.remove("hidden");
 }
 
-document.querySelectorAll(".cell.has").forEach(c=>{
-  c.addEventListener("click", ()=> open(c.dataset.key, c));
-});
-document.getElementById("d-close").addEventListener("click", ()=>{
+function closeDetail(){
   detail.classList.add("hidden");
   if(selCell){ selCell.classList.remove("sel"); selCell=null; }
+}
+
+// delegated click — survives re-render on mode toggle
+document.getElementById("months").addEventListener("click", e=>{
+  const cell = e.target.closest(".cell.has");
+  if(cell) open(cell.dataset.key, cell);
+});
+document.getElementById("d-close").addEventListener("click", closeDetail);
+
+// build the area legend (shown in workouts-only mode)
+document.getElementById("legend-area").innerHTML =
+  Object.values(AREA).map(a=>`<span><i class="dot" style="background:${a.c}"></i> ${a.label}</span>`).join("");
+
+// toggle
+document.getElementById("wo-only").addEventListener("change", e=>{
+  MODE = e.target.checked ? "workout" : "all";
+  document.getElementById("legend-type").hidden = (MODE === "workout");
+  document.getElementById("legend-area").hidden = (MODE !== "workout");
+  closeDetail();
+  render();
 });
 
 // --- Freshness by area (vit freshness, half-life 3d, as-of 2026-06-19) ---
