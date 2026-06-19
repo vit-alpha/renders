@@ -303,35 +303,32 @@ const S = {
 };
 
 // area palette + the areas each workout hit (derived from the activity-log Volume field)
-// t = chip text colour: "d" dark, "l" light
+// ordered to match the colour key; t = chip text colour: "d" dark, "l" light
 const AREA = {
-  upperpull:  { label:"Upper Pull",  c:"#2dd4bf", t:"d" },  // turquoise
-  traps:      { label:"Traps",       c:"#4caf6a", t:"d" },  // green
-  upperpush:  { label:"Upper Push",  c:"#4f8cff", t:"l" },  // blue
-  shoulders:  { label:"Shoulders",   c:"#b07bff", t:"d" },  // purple
-  lowerpress: { label:"Lower Press", c:"#ef5350", t:"d" },  // red
-  hinge:      { label:"Hinge",       c:"#ff9f43", t:"d" },  // orange
-  hamstring:  { label:"Hamstring",   c:"#f2b134", t:"d" },  // gold
-  arms:       { label:"Arms",        c:"#ef5fa0", t:"d" },  // rose
-  explosive:  { label:"Explosive",   c:"#b5d33d", t:"d" },  // lime
-  core:       { label:"Core",        c:"#8d98a8", t:"d" }   // slate
+  upperpull:  { label:"Pull",      c:"#2dd4bf", t:"d" },  // turquoise
+  traps:      { label:"Traps",     c:"#4caf6a", t:"d" },  // green
+  upperpush:  { label:"Push",      c:"#4f8cff", t:"l" },  // blue
+  shoulders:  { label:"Shoulders", c:"#b07bff", t:"d" },  // purple
+  lowerpress: { label:"Press",     c:"#ef5350", t:"d" },  // red
+  hinge:      { label:"Hinge",     c:"#ff9f43", t:"d" },  // orange (incl. hamstring work)
+  core:       { label:"Core",      c:"#8d98a8", t:"d" }   // slate
 };
 const txt = t => t === "l" ? "#f5f7fa" : "#0b0d11";
 const WORKOUT_AREAS = {
   "2026-06-16": ["upperpull","traps"],
   "2026-06-14": ["upperpush","upperpull"],
-  "2026-06-12": ["upperpull","hamstring"],
-  "2026-06-10": ["explosive","lowerpress"],
-  "2026-06-09": ["upperpush","arms"],
-  "2026-06-08": ["upperpull","arms"],
-  "2026-06-04": ["hinge","hamstring"],
+  "2026-06-12": ["upperpull","hinge"],
+  "2026-06-10": ["lowerpress","upperpull"],
+  "2026-06-09": ["upperpush"],
+  "2026-06-08": ["upperpull"],
+  "2026-06-04": ["hinge"],
   "2026-06-02": ["lowerpress","upperpull"],
   "2026-05-31": ["upperpush","shoulders"],
   "2026-05-30": ["lowerpress","hinge"],
   "2026-05-27": ["upperpull","core"],
-  "2026-05-26": ["upperpush","hamstring"],
-  "2026-05-20": ["upperpull","arms"],
-  "2026-05-18": ["hinge","hamstring"]
+  "2026-05-26": ["upperpush","hinge"],
+  "2026-05-20": ["upperpull"],
+  "2026-05-18": ["hinge"]
 };
 function isWorkout(s){ return s.cat === "strength"; }
 function areaChipHTML(a){
@@ -478,13 +475,13 @@ document.getElementById("months").addEventListener("click", e=>{
 });
 document.getElementById("d-close").addEventListener("click", closeDetail);
 
-// legend: workout areas first, then the non-workout session types
+// legend: workout areas (in palette order) then the non-workout types, matching the key grouping
 const LEGEND = [
   ...Object.values(AREA).map(a=>({ label:a.label, c:a.c })),
   { label:"Football",     cls:"d-sport" },
-  { label:"Yoga",         cls:"d-yoga" },
   { label:"Conditioning", cls:"d-cond" },
-  { label:"Festival / walking", cls:"d-activity" }
+  { label:"Festival / walking", cls:"d-activity" },
+  { label:"Yoga",         cls:"d-yoga" }
 ];
 document.getElementById("legend").innerHTML = LEGEND.map(i=>
   `<span><i class="dot ${i.cls||""}"${i.c?` style="background:${i.c}"`:""}></i> ${i.label}</span>`
