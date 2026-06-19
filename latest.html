@@ -12,10 +12,12 @@
     --ink: #e7e9ee;
     --muted: #8b93a3;
     --strength: #4f8cff;
-    --sport: #34c77b;
-    --yoga: #b07bff;
-    --cond: #ff9f43;
-    --activity: #6b7280;
+    --sport: #34c77b;          /* freshness "fresh" cue (kept) */
+    --cond: #ff9f43;           /* freshness "mid" cue (kept) */
+    --yoga: #e2cf6a;           /* calm yellow */
+    --activity: #f3b0c6;       /* mild pink */
+    --football: #9e3b4e;       /* maroon */
+    --conditioning: #9c6b43;   /* brown */
     --today: #ffd33d;
   }
   * { box-sizing: border-box; }
@@ -37,9 +39,9 @@
   .legend span { display: inline-flex; align-items: center; gap: 6px; }
   .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
   .d-strength { background: var(--strength); }
-  .d-sport { background: var(--sport); }
+  .d-sport { background: var(--football); }
   .d-yoga { background: var(--yoga); }
-  .d-cond { background: var(--cond); }
+  .d-cond { background: var(--conditioning); }
   .d-activity { background: var(--activity); }
 
   .hint { font-size: 11px; color: var(--muted); margin: -8px 0 16px; }
@@ -78,11 +80,11 @@
     font-size: 10px; line-height: 1.2; padding: 2px 4px; border-radius: 5px;
     color: #0b0d11; font-weight: 600; white-space: normal; overflow-wrap: anywhere; hyphens: auto;
   }
-  .c-strength { background: var(--strength); }
-  .c-sport { background: var(--sport); }
+  .c-strength { background: var(--strength); color: #f5f7fa; }
+  .c-sport { background: var(--football); color: #f5f7fa; }
   .c-yoga { background: var(--yoga); }
-  .c-cond { background: var(--cond); }
-  .c-activity { background: var(--activity); color: #e7e9ee; }
+  .c-cond { background: var(--conditioning); color: #f5f7fa; }
+  .c-activity { background: var(--activity); }
 
   /* detail panel */
   #detail {
@@ -301,34 +303,40 @@ const S = {
 };
 
 // area palette + the areas each workout hit (derived from the activity-log Volume field)
+// t = chip text colour: "d" dark, "l" light
 const AREA = {
-  pull:      { label:"Pull",       c:"#4f8cff" },
-  push:      { label:"Push",       c:"#ff6b6b" },
-  hinge:     { label:"Hinge",      c:"#34c77b" },
-  legs:      { label:"Squat/Legs", c:"#ff9f43" },
-  hamstring: { label:"Hamstring",  c:"#ffd33d" },
-  shoulders: { label:"Shoulders",  c:"#b07bff" },
-  arms:      { label:"Arms",       c:"#f472b6" },
-  explosive: { label:"Explosive",  c:"#a3e635" },
-  core:      { label:"Core",       c:"#94a3b8" }
+  upperpull:  { label:"Upper Pull",  c:"#2dd4bf", t:"d" },  // turquoise
+  traps:      { label:"Traps",       c:"#4caf6a", t:"d" },  // green
+  upperpush:  { label:"Upper Push",  c:"#4f8cff", t:"l" },  // blue
+  shoulders:  { label:"Shoulders",   c:"#b07bff", t:"d" },  // purple
+  lowerpress: { label:"Lower Press", c:"#ef5350", t:"d" },  // red
+  hinge:      { label:"Hinge",       c:"#ff9f43", t:"d" },  // orange
+  hamstring:  { label:"Hamstring",   c:"#f2b134", t:"d" },  // gold
+  arms:       { label:"Arms",        c:"#ef5fa0", t:"d" },  // rose
+  explosive:  { label:"Explosive",   c:"#b5d33d", t:"d" },  // lime
+  core:       { label:"Core",        c:"#8d98a8", t:"d" }   // slate
 };
+const txt = t => t === "l" ? "#f5f7fa" : "#0b0d11";
 const WORKOUT_AREAS = {
-  "2026-06-16": ["pull"],
-  "2026-06-14": ["push","pull"],
-  "2026-06-12": ["pull","hamstring"],
-  "2026-06-10": ["explosive","legs"],
-  "2026-06-09": ["push","arms"],
-  "2026-06-08": ["pull","arms"],
+  "2026-06-16": ["upperpull","traps"],
+  "2026-06-14": ["upperpush","upperpull"],
+  "2026-06-12": ["upperpull","hamstring"],
+  "2026-06-10": ["explosive","lowerpress"],
+  "2026-06-09": ["upperpush","arms"],
+  "2026-06-08": ["upperpull","arms"],
   "2026-06-04": ["hinge","hamstring"],
-  "2026-06-02": ["legs","pull"],
-  "2026-05-31": ["push","shoulders"],
-  "2026-05-30": ["legs","hinge"],
-  "2026-05-27": ["pull","core"],
-  "2026-05-26": ["push","hamstring"],
-  "2026-05-20": ["pull","arms"],
+  "2026-06-02": ["lowerpress","upperpull"],
+  "2026-05-31": ["upperpush","shoulders"],
+  "2026-05-30": ["lowerpress","hinge"],
+  "2026-05-27": ["upperpull","core"],
+  "2026-05-26": ["upperpush","hamstring"],
+  "2026-05-20": ["upperpull","arms"],
   "2026-05-18": ["hinge","hamstring"]
 };
 function isWorkout(s){ return s.cat === "strength"; }
+function areaChipHTML(a){
+  return `<span class="chip" style="background:${AREA[a].c};color:${txt(AREA[a].t)}">${AREA[a].label}</span>`;
+}
 
 const TODAY = "2026-06-19";
 const NUM_WEEKS = 5;   // current week + last 4
@@ -392,9 +400,7 @@ function render(){
         sess.forEach(s=>{
           if(isWorkout(s)){
             // one chip per area the workout hit, each coloured by that area
-            (WORKOUT_AREAS[key] || []).forEach(a=>{
-              html += `<span class="chip" style="background:${AREA[a].c}">${AREA[a].label}</span>`;
-            });
+            (WORKOUT_AREAS[key] || []).forEach(a=> html += areaChipHTML(a));
           } else {
             html += `<span class="chip c-${s.cat}">${s.label}</span>`;
           }
@@ -443,7 +449,7 @@ function fmtDate(key){
 function areaChips(key){
   const a = WORKOUT_AREAS[key];
   if(!a) return "";
-  return `<div class="d-areas">${a.map(x=>`<span class="chip" style="background:${AREA[x].c}">${AREA[x].label}</span>`).join("")}</div>`;
+  return `<div class="d-areas">${a.map(areaChipHTML).join("")}</div>`;
 }
 
 function open(key, cell){
@@ -475,10 +481,10 @@ document.getElementById("d-close").addEventListener("click", closeDetail);
 // legend: workout areas first, then the non-workout session types
 const LEGEND = [
   ...Object.values(AREA).map(a=>({ label:a.label, c:a.c })),
-  { label:"Sport",        cls:"d-sport" },
+  { label:"Football",     cls:"d-sport" },
   { label:"Yoga",         cls:"d-yoga" },
   { label:"Conditioning", cls:"d-cond" },
-  { label:"Activity",     cls:"d-activity" }
+  { label:"Festival / walking", cls:"d-activity" }
 ];
 document.getElementById("legend").innerHTML = LEGEND.map(i=>
   `<span><i class="dot ${i.cls||""}"${i.c?` style="background:${i.c}"`:""}></i> ${i.label}</span>`
