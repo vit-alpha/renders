@@ -70,7 +70,7 @@
   .chip-group { display: flex; flex-direction: column; gap: 3px; }
   .chip-group.multi {
     gap: 2px; padding: 3px; border-radius: 7px;
-    border: 1px solid #515c72; background: rgba(255,255,255,.03);
+    border: 1px solid #6a7794; background: rgba(255,255,255,.04);
   }
   .cell.has { cursor: pointer; transition: border-color .12s, transform .06s; }
   .cell.has:active { transform: scale(.97); }
@@ -160,7 +160,7 @@
   .ag-chips { display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; }
   .ag-chips.multi {
     padding: 3px; border-radius: 7px;
-    border: 1px solid #515c72; background: rgba(255,255,255,.03);
+    border: 1px solid #6a7794; background: rgba(255,255,255,.04);
   }
   .ag-title { font-size: 13px; font-weight: 600; }
   .ag-meta { font-size: 11px; color: var(--muted); }
@@ -324,7 +324,7 @@ function render(){
             // one chip per area the workout hit, each coloured by that area
             s.areas.forEach(a=> chips += areaChipHTML(a));
           } else {
-            chips = labelChip(s);
+            chips = `<span class="chip c-${s.cat}">${s.label}</span>`;
           }
           const n = s.areas ? s.areas.length : 1;
           html += `<div class="chip-group${n>1?' multi':''}">${chips}</div>`;
