@@ -263,10 +263,11 @@ const AREA = {
   core:       { label:"Core",      c:"#9ae6c8", t:"d" }   // mint
 };
 const txt = t => t === "l" ? "#f5f7fa" : "#0b0d11";
-// #rrggbb + alpha → rgba(), for the translucent fill of a minor chip
-function hexA(hex, a){
-  const n = parseInt(hex.slice(1), 16);
-  return `rgba(${n>>16&255},${(n>>8)&255},${n&255},${a})`;
+// blend #rrggbb toward a target colour (#fff/#000) by fraction t → opaque rgb
+function mix(hex, target, t){
+  const a = parseInt(hex.slice(1), 16), b = parseInt(target.slice(1), 16);
+  const ch = s => Math.round(((a>>s&255)*(1-t)) + ((b>>s&255)*t));
+  return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
 }
 // Is area `a` a major (headline) focus of session `s`? Sessions carry a `major`
 // list; absent it (planned / older data) everything reads as major.
@@ -278,9 +279,13 @@ const isMajor = (s, a) => !s.major || s.major.includes(a);
 // optional set-volume badge (agenda view).
 function focusChip(a, major, v){
   const c = AREA[a].c;
-  // 50/50 diagonal stripes: full hue for one band, a faded wash of the same hue
-  // for the next — "half stripes" that still read as the area colour.
-  const stripes = `repeating-linear-gradient(135deg, ${c} 0 5px, ${hexA(c,.32)} 5px 10px)`;
+  const dark = AREA[a].t !== "l";   // chip uses dark text?
+  // 50/50 diagonal stripes: full hue for one band, a shade of the same hue for
+  // the next. Both bands are OPAQUE and pushed to the same side as the text is
+  // legible on (a lighter shade under dark text, a darker one under light text),
+  // so the label contrasts against either stripe.
+  const band2 = mix(c, dark ? "#ffffff" : "#000000", .42);
+  const stripes = `repeating-linear-gradient(135deg, ${c} 0 5px, ${band2} 5px 10px)`;
   const style = major
     ? `background:${c};color:${txt(AREA[a].t)}`
     : `background:${stripes};color:${txt(AREA[a].t)}`;
