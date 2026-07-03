@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — the cluster Δ 1RM cell</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>vit — the cluster Δ 1RM cell (output construction)</h1>
+<p class="subtitle">Graph 7 of the series. Traces one number — the <code>base Δ</code> cell in the <code>vit review</code> overview table — from raw sets to the printed value.</p>
+
+<svg viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cluster delta 1RM pipeline">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Repo bounding area -->
+  <rect x="16" y="44" width="968" height="560"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-dasharray="6 4" stroke-width="1.5" rx="10"/>
+  <text x="34" y="68" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+
+  <!-- per-window band behind stages 2-4 -->
+  <rect x="168" y="80" width="576" height="140"
+        fill="#eae8df" stroke="#c9c4b2" stroke-dasharray="4 3" stroke-width="1" rx="8"/>
+  <text x="180" y="94" font-size="11" font-style="italic" fill="#8a8570">run once per window — older (weeks 2N→N ago) · newer (last N weeks)</text>
+
+  <!-- MAIN SPINE, row 1 -->
+  <!-- 1. sets (data) -->
+  <g>
+    <rect x="36" y="100" width="118" height="104"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="95" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">sets</text>
+    <text x="95" y="140" text-anchor="middle" font-size="11" fill="#8a5a14">on the cluster's</text>
+    <text x="95" y="154" text-anchor="middle" font-size="11" fill="#8a5a14">base exercise</text>
+    <text x="95" y="168" text-anchor="middle" font-size="11" fill="#8a5a14">(.wo.yaml records)</text>
+  </g>
+
+  <!-- 2. observed_points -->
+  <g>
+    <rect x="178" y="100" width="170" height="104"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="263" y="122" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">observed_points()</text>
+    <text x="263" y="140" text-anchor="middle" font-size="11" fill="#1f3d70">drop untracked / warmup sets</text>
+    <text x="263" y="154" text-anchor="middle" font-size="11" fill="#1f3d70">drop v / p-marked sets</text>
+    <text x="263" y="168" text-anchor="middle" font-size="11" fill="#1f3d70">keep failure-taken or ≥8 reps</text>
+  </g>
+
+  <!-- 3. curve() -->
+  <g>
+    <rect x="372" y="100" width="196" height="104"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="470" y="122" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">curve() — 1RM winner</text>
+    <text x="470" y="140" text-anchor="middle" font-size="11" fill="#1f3d70">machine-segmented if mixed</text>
+    <text x="470" y="154" text-anchor="middle" font-size="11" fill="#1f3d70">prior per point (curve_prior_for)</text>
+    <text x="470" y="168" text-anchor="middle" font-size="11" fill="#1f3d70">× 0.5^(age ÷ 180 d) decay</text>
+    <text x="470" y="182" text-anchor="middle" font-size="11" fill="#1f3d70">winner → rm1 + rm1_point</text>
+  </g>
+
+  <!-- 4. laterality factor (compute primitive) -->
+  <g>
+    <rect x="592" y="100" width="140" height="104"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="662" y="122" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">× laterality_factor</text>
+    <text x="662" y="140" text-anchor="middle" font-size="11" fill="#1f3d70">1.95 when anchor is</text>
+    <text x="662" y="154" text-anchor="middle" font-size="11" fill="#1f3d70">L / R / LR / ALT</text>
+    <text x="662" y="168" text-anchor="middle" font-size="11" fill="#1f3d70">→ bilateral-eq kg</text>
+  </g>
+
+  <!-- window anchor values -->
+  <g>
+    <rect x="766" y="88" width="168" height="48"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="850" y="108" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">older-window rm1</text>
+    <text x="850" y="126" text-anchor="middle" font-size="11" fill="#1f3d70">(weeks 2N → N ago)</text>
+  </g>
+  <g>
+    <rect x="766" y="156" width="168" height="48"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="850" y="176" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">newer-window rm1</text>
+    <text x="850" y="194" text-anchor="middle" font-size="11" fill="#1f3d70">(last N weeks)</text>
+  </g>
+
+  <!-- delta box -->
+  <g>
+    <rect x="766" y="264" width="200" height="84"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="866" y="288" text-anchor="middle" font-size="13" font-weight="700" fill="#1f3d70">Δ = newer − older</text>
+    <text x="866" y="308" text-anchor="middle" font-size="11" fill="#1f3d70">Δ% = Δ ÷ older × 100</text>
+    <text x="866" y="324" text-anchor="middle" font-size="11" fill="#1f3d70">(needs both windows)</text>
+  </g>
+
+  <!-- table cell (output) -->
+  <g>
+    <rect x="726" y="452" width="240" height="118"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="846" y="476" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">vit review — cluster row</text>
+    <text x="846" y="500" text-anchor="middle" font-size="11" font-family="monospace" fill="#1f5a2c">base Δ  +3.2   Δ%  +4.1%</text>
+    <text x="846" y="518" text-anchor="middle" font-size="11" font-family="monospace" fill="#1f5a2c">obs 5→7   state building</text>
+    <text x="846" y="540" text-anchor="middle" font-size="11" font-style="italic" fill="#3a7044">state turns 'noisy' when flags fire</text>
+  </g>
+
+  <!-- SIDE BRANCH: projected fallback -->
+  <g>
+    <rect x="36" y="300" width="150" height="52"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1" rx="6"/>
+    <text x="111" y="322" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">related-exercise sets</text>
+    <text x="111" y="340" text-anchor="middle" font-size="11" fill="#8a5a14">(graph neighbours)</text>
+  </g>
+  <g>
+    <rect x="250" y="286" width="310" height="112"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" stroke-dasharray="5 3" rx="6"/>
+    <text x="405" y="310" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">projected fallback — no direct data</text>
+    <text x="405" y="328" text-anchor="middle" font-size="11" fill="#1f3d70">each related obs → its prior 1RM</text>
+    <text x="405" y="342" text-anchor="middle" font-size="11" fill="#1f3d70">× edge coefficient (predicts / variant-of /</text>
+    <text x="405" y="356" text-anchor="middle" font-size="11" fill="#1f3d70">regression-of / progression-of)</text>
+    <text x="405" y="370" text-anchor="middle" font-size="11" fill="#1f3d70">median projected 1RM → window rm1</text>
+  </g>
+
+  <!-- SIDE BRANCH: flags -->
+  <g>
+    <rect x="250" y="452" width="390" height="118"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" stroke-dasharray="5 3" rx="6"/>
+    <text x="445" y="476" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">flags — separate curve_diff() shape check</text>
+    <text x="445" y="494" text-anchor="middle" font-size="11" fill="#1f3d70">anchor laterality / failure-marker / machine</text>
+    <text x="445" y="508" text-anchor="middle" font-size="11" fill="#1f3d70">mismatch, rep gap ≥ 3 → shape_mismatch list</text>
+    <text x="445" y="522" text-anchor="middle" font-size="11" fill="#1f3d70">state 'noisy' = Δ% &lt; −1 with mismatches</text>
+    <text x="445" y="536" text-anchor="middle" font-size="11" fill="#1f3d70">form-limited base → Δ skipped ('form-ltd')</text>
+  </g>
+
+  <!-- MAIN SPINE arrows -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <line x1="154" y1="152" x2="178" y2="152" marker-end="url(#arrow)"/>
+    <line x1="348" y1="152" x2="372" y2="152" marker-end="url(#arrow)"/>
+    <line x1="568" y1="152" x2="592" y2="152" marker-end="url(#arrow)"/>
+    <line x1="732" y1="130" x2="766" y2="112" marker-end="url(#arrow)"/>
+    <line x1="732" y1="175" x2="766" y2="180" marker-end="url(#arrow)"/>
+    <line x1="850" y1="204" x2="850" y2="264" marker-end="url(#arrow)"/>
+    <path d="M 934 112 L 956 112 L 956 306 L 966 306" marker-end="url(#arrow)"/>
+    <line x1="866" y1="348" x2="866" y2="452" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- SIDE BRANCH arrows (subordinate) -->
+  <g stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="4 3">
+    <line x1="186" y1="326" x2="250" y2="326" marker-end="url(#arrow-light)"/>
+    <line x1="560" y1="310" x2="766" y2="198" marker-end="url(#arrow-light)"/>
+    <line x1="640" y1="511" x2="726" y2="511" marker-end="url(#arrow-light)"/>
+  </g>
+
+  <!-- Edge labels -->
+  <text x="656" y="252" text-anchor="middle" font-size="11" fill="#555" font-style="italic">fills an empty window</text>
+  <text x="683" y="504" text-anchor="middle" font-size="11" fill="#555" font-style="italic">annotates</text>
+  <text x="874" y="404" font-size="11" fill="#555" font-style="italic">the printed cell</text>
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> One number, left to right: raw sets on the cluster's <code>base_exercise</code> are filtered by <code>observed_points()</code>, <code>curve()</code> picks a recency-decayed 1RM winner per window, the winner's own laterality factor scales it to bilateral-equivalent kg, and <code>Δ = newer − older</code> lands in the <code>base Δ</code> cell of the <code>vit review</code> overview table. The shaded band marks the stages that run twice — once per comparison window.</p>
+  <p><strong>Side branches</strong> (dashed): when a window has <em>no direct observations</em> on the base, related-exercise observations are projected through the relationships graph and the <em>median</em> projected 1RM fills the window (<code>_window_rm1</code> in <code>queries/cluster_progress.py</code>). The flags box is a <em>separate</em> <code>curve_diff()</code> call harvested only for <code>shape_mismatch</code> — the Δ printed here comes from the two per-window <code>curve()</code> results, not from <code>curve_diff.delta_rm1</code>, so <code>curve_diff</code>'s min-observations gate does not apply to this cell.</p>
+  <p>
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#7d9fd4;"></span> <strong>compute primitives / internal values</strong> ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>output</strong> ·
+    <span class="swatch" style="background:#f3f1ea;border-style:dashed;"></span> <strong>repo area</strong>
+  </p>
+  <p><strong>Place in the series.</strong> Tertiary tier: zooms into one cell of the table drawn by graph 3 (<code>vit review</code>) using the machinery of graph 5 (<code>cluster_progress</code>). Source: <code>queries/curve.py</code>, <code>queries/cluster_progress.py</code>, <code>commands/review.py</code>.</p>
+</div>
+
+</body>
+</html>

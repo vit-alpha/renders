@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — 10 · /plan-workout flow</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>10 · /plan-workout — skill flow (consumer)</h1>
+<p class="subtitle">How the planning skill consumes vit data. One of two graphs where the repo is a participant box, not the bounding world.</p>
+
+<svg viewBox="0 0 1250 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="plan-workout skill flow graph">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Repo as a participant box (not the bounding area) -->
+  <rect x="40" y="80" width="300" height="540"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-width="1.5" rx="10"/>
+  <text x="58" y="104" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+  <text x="108" y="104" font-size="11" fill="#a09a86" font-style="italic">(participant)</text>
+
+  <!-- structured data -->
+  <g>
+    <rect x="70" y="120" width="240" height="110"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="190" y="144" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">structured data</text>
+    <text x="190" y="166" text-anchor="middle" font-size="11" fill="#8a5a14">workouts_v2/*.wo.yaml</text>
+    <text x="190" y="182" text-anchor="middle" font-size="11" fill="#8a5a14">exercises_v2/*.yaml (library)</text>
+    <text x="190" y="198" text-anchor="middle" font-size="11" fill="#8a5a14">relationships graph</text>
+  </g>
+
+  <!-- program docs (markdown) -->
+  <g>
+    <rect x="70" y="270" width="240" height="190"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="190" y="294" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">program docs (markdown)</text>
+    <text x="190" y="316" text-anchor="middle" font-size="11" fill="#8a5a14">framework/status.md</text>
+    <text x="190" y="332" text-anchor="middle" font-size="11" fill="#8a5a14">tracking/activity_log.md (Upcoming)</text>
+    <text x="190" y="348" text-anchor="middle" font-size="11" fill="#8a5a14">planning/workout_queue.md</text>
+    <text x="190" y="364" text-anchor="middle" font-size="11" fill="#8a5a14">framework/principles.md</text>
+    <text x="190" y="380" text-anchor="middle" font-size="11" fill="#8a5a14">sessions/ templates</text>
+    <text x="190" y="396" text-anchor="middle" font-size="11" fill="#8a5a14">how_to_plan_a_workout.md</text>
+    <text x="190" y="412" text-anchor="middle" font-size="11" fill="#8a5a14">exercises/exercise_library.md</text>
+  </g>
+
+  <!-- usage log -->
+  <g>
+    <rect x="70" y="500" width="240" height="54"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1" rx="6"/>
+    <text x="190" y="522" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">tools/vit/usage_log.md</text>
+    <text x="190" y="540" text-anchor="middle" font-size="11" fill="#a07020">session-level usage entries</text>
+  </g>
+
+  <!-- vit CLI read-query group -->
+  <rect x="440" y="90" width="240" height="400"
+        fill="#f5f8ff" stroke="#7d9fd4" stroke-width="1" rx="8"/>
+  <text x="560" y="112" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit CLI — read queries</text>
+
+  <g>
+    <rect x="458" y="130" width="204" height="44" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="560" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit load --days 14</text>
+    <text x="560" y="164" text-anchor="middle" font-size="11" fill="#1f3d70">recent training stress</text>
+  </g>
+  <g>
+    <rect x="458" y="188" width="204" height="44" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="560" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit freshness --by muscle</text>
+    <text x="560" y="222" text-anchor="middle" font-size="11" fill="#1f3d70">recovery by area</text>
+  </g>
+  <g>
+    <rect x="458" y="246" width="204" height="44" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="560" y="264" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit show &lt;date&gt;</text>
+    <text x="560" y="280" text-anchor="middle" font-size="11" fill="#1f3d70">last 2–3 sessions in detail</text>
+  </g>
+  <g>
+    <rect x="458" y="304" width="204" height="44" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="560" y="322" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit suggest &lt;id&gt; --reps N</text>
+    <text x="560" y="338" text-anchor="middle" font-size="11" fill="#1f3d70">target weights + basis line</text>
+  </g>
+  <g>
+    <rect x="458" y="362" width="204" height="44" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="560" y="380" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit related &lt;id&gt;</text>
+    <text x="560" y="396" text-anchor="middle" font-size="11" fill="#1f3d70">variants &amp; substitutes</text>
+  </g>
+  <g>
+    <rect x="458" y="420" width="204" height="44" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="560" y="438" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit implies &lt;id&gt;</text>
+    <text x="560" y="454" text-anchor="middle" font-size="11" fill="#1f3d70">project a PR via relationships</text>
+  </g>
+
+  <!-- the skill -->
+  <g>
+    <rect x="770" y="170" width="190" height="130"
+          fill="#f4ecf9" stroke="#7a4ea6" stroke-width="2" rx="6"/>
+    <text x="865" y="198" text-anchor="middle" font-size="14" font-weight="700" fill="#4a2e6a">/plan-workout</text>
+    <text x="865" y="220" text-anchor="middle" font-size="11" fill="#4a2e6a">consumer — proposes,</text>
+    <text x="865" y="236" text-anchor="middle" font-size="11" fill="#4a2e6a">doesn't write files</text>
+    <text x="865" y="256" text-anchor="middle" font-size="11" fill="#4a2e6a">session type · mode · exercises</text>
+    <text x="865" y="272" text-anchor="middle" font-size="11" fill="#4a2e6a">loads · cues · hold-backs</text>
+  </g>
+
+  <!-- plan proposal -->
+  <g>
+    <rect x="1010" y="180" width="190" height="90"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1105" y="208" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">proposed plan</text>
+    <text x="1105" y="230" text-anchor="middle" font-size="11" fill="#1f5a2c">in conversation only —</text>
+    <text x="1105" y="246" text-anchor="middle" font-size="11" fill="#1f5a2c">vit context + per-section picks</text>
+  </g>
+
+  <!-- layout-plan handoff -->
+  <g>
+    <rect x="1010" y="350" width="190" height="90"
+          fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1105" y="380" text-anchor="middle" font-size="13" font-weight="600" fill="#4a2e6a">/layout-plan</text>
+    <text x="1105" y="402" text-anchor="middle" font-size="11" fill="#4a2e6a">writes the plan to disk</text>
+    <text x="1105" y="418" text-anchor="middle" font-size="11" fill="#4a2e6a">(compact or guided layout)</text>
+  </g>
+
+  <!-- main read edges -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <!-- structured data -> vit CLI group -->
+    <line x1="310" y1="175" x2="440" y2="240" marker-end="url(#arrow)"/>
+    <!-- queries -> skill -->
+    <line x1="662" y1="152" x2="770" y2="195" marker-end="url(#arrow)"/>
+    <line x1="662" y1="210" x2="770" y2="215" marker-end="url(#arrow)"/>
+    <line x1="662" y1="268" x2="770" y2="235" marker-end="url(#arrow)"/>
+    <line x1="662" y1="326" x2="770" y2="255" marker-end="url(#arrow)"/>
+    <line x1="662" y1="384" x2="770" y2="275" marker-end="url(#arrow)"/>
+    <line x1="662" y1="442" x2="770" y2="295" marker-end="url(#arrow)"/>
+    <!-- skill -> proposal -->
+    <line x1="960" y1="230" x2="1010" y2="225" marker-end="url(#arrow)"/>
+    <!-- proposal -> layout-plan -->
+    <line x1="1105" y1="270" x2="1105" y2="350" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- md docs read directly by the skill (bypasses the CLI) -->
+  <path d="M 310 400 C 480 590, 700 560, 800 300"
+        fill="none" stroke="#888" stroke-width="1.5" marker-end="url(#arrow-light)"/>
+
+  <!-- write-backs (dashed, right -> left) -->
+  <g stroke="#7a4ea6" stroke-width="1.5" fill="none" stroke-dasharray="5 4">
+    <!-- skill logs its vit usage -->
+    <path d="M 850 300 L 850 575 L 290 575 L 290 559" marker-end="url(#arrow)"/>
+    <!-- layout-plan writes plan file + scaffold + activity log -->
+    <path d="M 1105 440 L 1105 605 L 345 605" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- edge labels -->
+  <text x="388" y="195" text-anchor="middle" font-size="11" fill="#555" font-style="italic">rebuild Repo</text>
+  <text x="716" y="182" text-anchor="middle" font-size="11" fill="#555" font-style="italic">answers</text>
+  <text x="1120" y="314" font-size="11" fill="#555" font-style="italic">user approves —</text>
+  <text x="1120" y="328" font-size="11" fill="#555" font-style="italic">hand off</text>
+  <text x="520" y="548" text-anchor="middle" font-size="11" fill="#555" font-style="italic">read directly (md context, via /program)</text>
+  <text x="600" y="568" text-anchor="middle" font-size="11" fill="#555" font-style="italic">usage_log entry</text>
+  <text x="700" y="623" text-anchor="middle" font-size="11" fill="#555" font-style="italic">writes: plan .md · vit wo new scaffold (.wo.yaml) · activity_log Upcoming</text>
+
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> Main flow is <em>left → right</em>, consistent with the rest of the series: repo data feeds the vit read queries, the queries feed <code>/plan-workout</code>, and the skill produces a <em>proposed plan in conversation</em> — it never writes files itself. Markdown program docs skip the CLI: the skill reads them directly (curved grey arrow), pulling program context via <code>/program</code>.</p>
+  <p><strong>This graph (and graph 11) treats the repo as a participant box</strong> — a solid-edged actor on the left — rather than the dashed bounding area used everywhere else in the series, because here the interesting structure is <em>between</em> the repo and the skills.</p>
+  <p><strong>Dashed purple arrows are write-backs</strong>: <code>/plan-workout</code> only appends a usage entry to <code>tools/vit/usage_log.md</code>; the actual plan lands on disk via the <code>/layout-plan</code> handoff (plan markdown file, <code>vit wo new</code> record scaffold, activity-log Upcoming entry).</p>
+  <p>
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>insights</strong> ·
+    <span class="swatch" style="background:#f4ecf9;border-color:#7a4ea6;"></span> <strong>skills (outside the repo box)</strong> ·
+    <span class="swatch" style="background:#f3f1ea;"></span> <strong>repo participant box</strong>
+  </p>
+  <p><strong>Place in the series.</strong> Graph 10 of the vit tool graph series — the consumer-side skill flow. Its mirror is <code>11-log-workout.html</code>, the producer-side flow, which deliberately runs right → left to signal a write path.</p>
+</div>
+
+</body>
+</html>

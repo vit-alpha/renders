@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — the vit summary volume line</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>vit — the <code>vit summary</code> volume line (output construction)</h1>
+<p class="subtitle">Graph 9 of the series. Traces one number — the <code>1.5w</code> workout-units figure — from a workout file's sets to the printed <code>**Volume:**</code> line.</p>
+
+<svg viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="summary volume line pipeline">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Repo bounding area -->
+  <rect x="16" y="44" width="968" height="560"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-dasharray="6 4" stroke-width="1.5" rx="10"/>
+  <text x="34" y="68" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+
+  <!-- workout record (data, with inner structure) -->
+  <g>
+    <rect x="36" y="90" width="150" height="240"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="111" y="114" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">workout record</text>
+    <text x="111" y="132" text-anchor="middle" font-size="11" fill="#8a5a14">(YYYY-MM-DD.wo.yaml)</text>
+    <line x1="56" y1="146" x2="166" y2="146" stroke="#d9a13a" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text x="111" y="172" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">sections</text>
+    <text x="111" y="200" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">↳ entries</text>
+    <text x="111" y="228" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">↳ sets</text>
+    <text x="111" y="264" text-anchor="middle" font-size="10" fill="#a07020">unknown exercises</text>
+    <text x="111" y="278" text-anchor="middle" font-size="10" fill="#a07020">skipped; untracked</text>
+    <text x="111" y="292" text-anchor="middle" font-size="10" fill="#a07020">excluded from key work</text>
+  </g>
+
+  <!-- set_load_points dispatcher -->
+  <g>
+    <rect x="220" y="130" width="170" height="110"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="305" y="154" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">set_load_points()</text>
+    <text x="305" y="172" text-anchor="middle" font-size="11" fill="#1f3d70">canonical per-set load</text>
+    <text x="305" y="186" text-anchor="middle" font-size="11" fill="#1f3d70">in raw points</text>
+    <text x="305" y="200" text-anchor="middle" font-size="11" fill="#1f3d70">(repo.py) — dispatch by</text>
+    <text x="305" y="214" text-anchor="middle" font-size="11" fill="#1f3d70">set / exercise type</text>
+  </g>
+
+  <!-- three per-set paths -->
+  <g>
+    <rect x="420" y="78" width="270" height="66"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="555" y="100" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">rep sets</text>
+    <text x="555" y="118" text-anchor="middle" font-size="11" fill="#1f3d70">effective_reps × kg × stress_weight</text>
+    <text x="555" y="132" text-anchor="middle" font-size="11" fill="#1f3d70">kg: resolved weight, else default_weight_kg</text>
+  </g>
+  <g>
+    <rect x="420" y="168" width="270" height="80"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="555" y="190" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">time-domain sets (holds / rhythmic)</text>
+    <text x="555" y="208" text-anchor="middle" font-size="11" fill="#1f3d70">(duration ÷ sec_per_rep) × kg × stress</text>
+    <text x="555" y="222" text-anchor="middle" font-size="11" fill="#1f3d70">sec_per_rep: ex.seconds_per_rep or 5.0 s</text>
+    <text x="555" y="236" text-anchor="middle" font-size="11" fill="#1f3d70">kg: resolved / BW × fraction + offset / default</text>
+  </g>
+  <g>
+    <rect x="420" y="272" width="270" height="112"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="555" y="294" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">cardio sets — cardio_load_points()</text>
+    <text x="555" y="312" text-anchor="middle" font-size="11" fill="#1f3d70">zone-min tiers: zone_seconds →</text>
+    <text x="555" y="326" text-anchor="middle" font-size="11" fill="#1f3d70">avg_hr (+peak) → estimated_hr →</text>
+    <text x="555" y="340" text-anchor="middle" font-size="11" fill="#1f3d70">expected_zone → else 0 wu</text>
+    <text x="555" y="354" text-anchor="middle" font-size="11" fill="#1f3d70">× cardio_form_ratio ÷ zones.norm</text>
+    <text x="555" y="368" text-anchor="middle" font-size="11" fill="#1f3d70">× 5000 (pre-scaled to raw points)</text>
+  </g>
+
+  <!-- session sum -->
+  <g>
+    <rect x="720" y="140" width="170" height="104"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="805" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f3d70">session_load()</text>
+    <text x="805" y="182" text-anchor="middle" font-size="11" fill="#1f3d70">load.py — Σ points over</text>
+    <text x="805" y="196" text-anchor="middle" font-size="11" fill="#1f3d70">the session's entries</text>
+    <text x="805" y="210" text-anchor="middle" font-size="11" fill="#1f3d70">÷ LOAD_NORMALISATION</text>
+    <text x="805" y="224" text-anchor="middle" font-size="11" fill="#1f3d70">(5000) → volume_wu</text>
+  </g>
+
+  <!-- rounding -->
+  <g>
+    <rect x="720" y="300" width="170" height="56"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="805" y="322" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">_round_volume()</text>
+    <text x="805" y="340" text-anchor="middle" font-size="11" fill="#1f3d70">round(wu × 2) ÷ 2 → "1.5"</text>
+  </g>
+
+  <!-- categories side branch -->
+  <g>
+    <rect x="220" y="430" width="330" height="110"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" stroke-dasharray="5 3" rx="6"/>
+    <text x="385" y="454" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">_categories() — movement patterns</text>
+    <text x="385" y="472" text-anchor="middle" font-size="11" fill="#1f3d70">each entry's ex.movement_pattern</text>
+    <text x="385" y="486" text-anchor="middle" font-size="11" fill="#1f3d70">→ _PATTERN_NAMES (e.g. anti-rotation</text>
+    <text x="385" y="500" text-anchor="middle" font-size="11" fill="#1f3d70">→ Core, vertical-pull → Upper Pull)</text>
+    <text x="385" y="514" text-anchor="middle" font-size="11" fill="#1f3d70">dedup, first-occurrence order</text>
+  </g>
+
+  <!-- output -->
+  <g>
+    <rect x="640" y="430" width="330" height="130"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="805" y="454" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">activity_log.md — the Volume line</text>
+    <text x="805" y="484" text-anchor="middle" font-size="11" font-family="monospace" fill="#1f5a2c">**Volume:** 1.5w | Mobility, Core, Upper Pull</text>
+    <text x="805" y="510" text-anchor="middle" font-size="11" fill="#3a7044">wu from the spine · categories from below</text>
+    <text x="805" y="526" text-anchor="middle" font-size="11" fill="#3a7044">rendered by vit summary's markdown formatter</text>
+  </g>
+
+  <!-- MAIN SPINE arrows -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <line x1="186" y1="228" x2="220" y2="196" marker-end="url(#arrow)"/>
+    <line x1="390" y1="150" x2="420" y2="111" marker-end="url(#arrow)"/>
+    <line x1="390" y1="185" x2="420" y2="208" marker-end="url(#arrow)"/>
+    <line x1="690" y1="111" x2="720" y2="164" marker-end="url(#arrow)"/>
+    <line x1="690" y1="208" x2="720" y2="192" marker-end="url(#arrow)"/>
+    <line x1="805" y1="244" x2="805" y2="300" marker-end="url(#arrow)"/>
+    <line x1="805" y1="356" x2="805" y2="430" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- SIDE BRANCH arrows (subordinate) -->
+  <g stroke="#888" stroke-width="1.2" fill="none">
+    <line x1="390" y1="220" x2="420" y2="326" marker-end="url(#arrow-light)"/>
+    <line x1="690" y1="326" x2="720" y2="232" marker-end="url(#arrow-light)"/>
+  </g>
+  <g stroke="#888" stroke-width="1.2" fill="none" stroke-dasharray="4 3">
+    <path d="M 100 330 L 100 485 L 220 485" marker-end="url(#arrow-light)"/>
+    <line x1="550" y1="485" x2="640" y2="485" marker-end="url(#arrow-light)"/>
+  </g>
+
+  <!-- Edge labels -->
+  <text x="198" y="204" font-size="11" fill="#555" font-style="italic">per set</text>
+  <text x="813" y="278" font-size="11" fill="#555" font-style="italic">volume_wu</text>
+  <text x="813" y="396" font-size="11" fill="#555" font-style="italic">printed</text>
+  <text x="108" y="420" font-size="11" fill="#555" font-style="italic">entries' patterns</text>
+  <text x="595" y="477" text-anchor="middle" font-size="11" fill="#555" font-style="italic">| Mobility, …</text>
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> One number, left to right: a workout record decomposes into sections → entries → sets; every set goes through <code>set_load_points()</code>, which dispatches to one of three load formulas; <code>session_load()</code> sums the raw points across the whole session and divides once by <code>LOAD_NORMALISATION</code> (5000 raw points = 1.0 wu); <code>_round_volume()</code> snaps to the index's half-step convention; and the result is the <code>1.5w</code> in the printed <code>**Volume:**</code> line of the <code>vit summary</code> activity-log entry.</p>
+  <p><strong>Side branches</strong> (lighter / dashed): the cardio path is its own module — <code>cardio_load_points()</code> converts duration to zone-weighted minutes via a four-tier fallback (recorded zone seconds → average/peak HR → estimated HR → the exercise's expected zone, else 0), scales by the exercise's form ratio and the cardio norm, and pre-multiplies by 5000 so the session-level divide lands back in wu. The category list after the <code>|</code> comes from a separate walk of the same entries: each exercise's <code>movement_pattern</code> mapped through <code>_PATTERN_NAMES</code>, deduped in first-occurrence order.</p>
+  <p>
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#7d9fd4;"></span> <strong>compute primitives / side paths</strong> ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>output</strong> ·
+    <span class="swatch" style="background:#f3f1ea;border-style:dashed;"></span> <strong>repo area</strong>
+  </p>
+  <p><strong>Place in the series.</strong> Tertiary tier: zooms into one line of the <code>vit summary</code> output shown on graph 2 (primary map); the same <code>session_load()</code> spine also powers <code>vit load</code>. Source: <code>queries/summary.py</code>, <code>queries/load.py</code>, <code>queries/cardio_load.py</code>, <code>queries/repo.py</code> (<code>set_load_points</code>).</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — 11 · /log-workout flow</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>11 · /log-workout — skill flow (producer)</h1>
+<p class="subtitle">How a completed workout gets written into the repo. This graph flows right → left — the deliberate reversal that marks a write path.</p>
+
+<svg viewBox="0 0 1300 1030" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="log-workout skill flow graph">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+    <marker id="arrow-write" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a4ea6"/>
+    </marker>
+  </defs>
+
+  <!-- Repo as a participant box (destinations) -->
+  <rect x="40" y="80" width="390" height="880"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-width="1.5" rx="10"/>
+  <text x="58" y="104" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+  <text x="108" y="104" font-size="11" fill="#a09a86" font-style="italic">(participant — the destinations)</text>
+
+  <!-- written via vit CLI -->
+  <g>
+    <rect x="70" y="115" width="330" height="56" fill="#fff7e6" stroke="#d9a13a" stroke-width="2" rx="6"/>
+    <text x="235" y="137" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">workouts_v2/&lt;date&gt;.wo.yaml</text>
+    <text x="235" y="157" text-anchor="middle" font-size="11" fill="#8a5a14">the canonical workout record</text>
+  </g>
+  <g>
+    <rect x="70" y="185" width="330" height="48" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="235" y="205" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">exercises_v2/&lt;id&gt;.yaml</text>
+    <text x="235" y="223" text-anchor="middle" font-size="11" fill="#8a5a14">library entry — every logged exercise needs one</text>
+  </g>
+
+  <!-- direct markdown edits -->
+  <text x="90" y="517" font-size="11" font-weight="600" fill="#a09a86" font-style="italic" letter-spacing="1">direct markdown edits (steps 4 + 5)</text>
+  <g>
+    <rect x="70" y="530" width="330" height="48" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="235" y="550" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">tracking/activity_log.md</text>
+    <text x="235" y="568" text-anchor="middle" font-size="11" fill="#8a5a14">4a — summary entry (Completed, off Upcoming)</text>
+  </g>
+  <g>
+    <rect x="70" y="590" width="330" height="48" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="235" y="610" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">tracking/exercise_progression_tracking.md</text>
+    <text x="235" y="628" text-anchor="middle" font-size="11" fill="#8a5a14">4b — working-weight line per measurable exercise</text>
+  </g>
+  <g>
+    <rect x="70" y="650" width="330" height="48" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="235" y="670" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">planning/workout_queue.md</text>
+    <text x="235" y="688" text-anchor="middle" font-size="11" fill="#8a5a14">4c — completed items out · skipped back in</text>
+  </g>
+  <g>
+    <rect x="70" y="710" width="330" height="48" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="235" y="730" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">tracking/cardio.md</text>
+    <text x="235" y="748" text-anchor="middle" font-size="11" fill="#8a5a14">4d — machine · power (W) · distance · HR (if cardio)</text>
+  </g>
+  <g>
+    <rect x="70" y="770" width="330" height="48" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="235" y="790" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">framework/status.md</text>
+    <text x="235" y="808" text-anchor="middle" font-size="11" fill="#8a5a14">4e — rep-range working weights (clear wins only)</text>
+  </g>
+  <g>
+    <rect x="70" y="830" width="330" height="48" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="235" y="850" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">tools/vit/usage_log.md</text>
+    <text x="235" y="868" text-anchor="middle" font-size="11" fill="#8a5a14">5 — session-level vit usage entry</text>
+  </g>
+  <g>
+    <rect x="70" y="890" width="330" height="46" fill="#fff7e6" stroke="#d9a13a" stroke-width="1" rx="6"/>
+    <text x="235" y="909" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">framework/timeline.md</text>
+    <text x="235" y="927" text-anchor="middle" font-size="11" fill="#a07020">via the /update-timeline handoff</text>
+  </g>
+
+  <!-- vit CLI write-command group -->
+  <rect x="540" y="90" width="250" height="356"
+        fill="#f5f8ff" stroke="#7d9fd4" stroke-width="1" rx="8"/>
+  <text x="665" y="112" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit CLI — write commands</text>
+
+  <g>
+    <rect x="560" y="122" width="210" height="50" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="665" y="140" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit wo new</text>
+    <text x="665" y="155" text-anchor="middle" font-size="11" fill="#1f3d70">scaffold: focus · start-time ·</text>
+    <text x="665" y="168" text-anchor="middle" font-size="11" fill="#1f3d70">location · sections · --company</text>
+  </g>
+  <g>
+    <rect x="560" y="182" width="210" height="84" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="665" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit wo set</text>
+    <text x="665" y="216" text-anchor="middle" font-size="11" fill="#1f3d70">compact notation → structured sets</text>
+    <text x="665" y="230" text-anchor="middle" font-size="11" fill="#1f3d70">myoreps · drops · rested · 3x15</text>
+    <text x="665" y="246" text-anchor="middle" font-size="10" fill="#1f3d70">--section --untracked --time --note</text>
+    <text x="665" y="259" text-anchor="middle" font-size="10" fill="#1f3d70">--new-entry --set-note --machine</text>
+  </g>
+  <g>
+    <rect x="560" y="276" width="210" height="46" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="665" y="294" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit wo observation</text>
+    <text x="665" y="310" text-anchor="middle" font-size="11" fill="#1f3d70">append observation: --title --text</text>
+  </g>
+  <g>
+    <rect x="560" y="332" width="210" height="46" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="665" y="350" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit wo meta</text>
+    <text x="665" y="366" text-anchor="middle" font-size="11" fill="#1f3d70">patch header: focus · notes · duration</text>
+  </g>
+  <g>
+    <rect x="560" y="388" width="210" height="46" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="665" y="406" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit lib add</text>
+    <text x="665" y="422" text-anchor="middle" font-size="11" fill="#1f3d70">new exercise → library entry first</text>
+  </g>
+
+  <!-- manual YAML edit (structural only) -->
+  <g>
+    <rect x="560" y="458" width="210" height="56" fill="#ffffff" stroke="#999" stroke-width="1" rx="6"/>
+    <text x="665" y="478" text-anchor="middle" font-size="12" font-weight="600" fill="#555">hand-edit YAML</text>
+    <text x="665" y="494" text-anchor="middle" font-size="11" fill="#555">structural reshaping only —</text>
+    <text x="665" y="508" text-anchor="middle" font-size="11" fill="#555">re-order sections · delete entries</text>
+  </g>
+
+  <!-- the skill -->
+  <g>
+    <rect x="850" y="140" width="190" height="190"
+          fill="#f4ecf9" stroke="#7a4ea6" stroke-width="2" rx="6"/>
+    <text x="945" y="170" text-anchor="middle" font-size="14" font-weight="700" fill="#4a2e6a">/log-workout</text>
+    <text x="945" y="192" text-anchor="middle" font-size="11" fill="#4a2e6a">producer — the workout writer</text>
+    <text x="945" y="216" text-anchor="middle" font-size="11" fill="#4a2e6a">1 determine source</text>
+    <text x="945" y="232" text-anchor="middle" font-size="11" fill="#4a2e6a">2 read format references</text>
+    <text x="945" y="248" text-anchor="middle" font-size="11" fill="#4a2e6a">3 write .wo.yaml via vit</text>
+    <text x="945" y="264" text-anchor="middle" font-size="11" fill="#4a2e6a">4 update other destinations</text>
+    <text x="945" y="280" text-anchor="middle" font-size="11" fill="#4a2e6a">5 usage log · 6 summary</text>
+    <text x="945" y="296" text-anchor="middle" font-size="11" fill="#4a2e6a">7 hand off to /update-timeline</text>
+  </g>
+
+  <!-- inputs (far right) -->
+  <g>
+    <rect x="1090" y="110" width="170" height="72" fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1175" y="132" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">ad-hoc / "log today"</text>
+    <text x="1175" y="150" text-anchor="middle" font-size="11" fill="#4a2e6a">typed description,</text>
+    <text x="1175" y="164" text-anchor="middle" font-size="11" fill="#4a2e6a">routed via /record-activity</text>
+  </g>
+  <g>
+    <rect x="1090" y="210" width="170" height="84" fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1175" y="232" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">/log-paper-workout</text>
+    <text x="1175" y="250" text-anchor="middle" font-size="11" fill="#4a2e6a">paper photo / typed notation</text>
+    <text x="1175" y="264" text-anchor="middle" font-size="11" fill="#4a2e6a">transcribe → interpret</text>
+    <text x="1175" y="278" text-anchor="middle" font-size="11" fill="#4a2e6a">→ confirm → hand off</text>
+  </g>
+  <g>
+    <rect x="1090" y="322" width="170" height="72" fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1175" y="344" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">/guide-workout</text>
+    <text x="1175" y="362" text-anchor="middle" font-size="11" fill="#4a2e6a">guided session —</text>
+    <text x="1175" y="376" text-anchor="middle" font-size="11" fill="#4a2e6a">.wo.yaml already populated</text>
+  </g>
+
+  <!-- validation (after writes) -->
+  <rect x="1090" y="470" width="170" height="200"
+        fill="#f5f8ff" stroke="#7d9fd4" stroke-width="1" rx="8"/>
+  <text x="1175" y="492" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">validate</text>
+  <g>
+    <rect x="1105" y="505" width="140" height="38" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="1175" y="529" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit show &lt;date&gt;</text>
+  </g>
+  <g>
+    <rect x="1105" y="553" width="140" height="38" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="1175" y="577" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit wo check &lt;date&gt;</text>
+  </g>
+  <g>
+    <rect x="1105" y="601" width="140" height="38" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="1175" y="625" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit lib check</text>
+  </g>
+  <text x="1175" y="652" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">re-reads the written files</text>
+
+  <!-- update-timeline handoff -->
+  <g>
+    <rect x="1090" y="690" width="170" height="56" fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1175" y="712" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">/update-timeline</text>
+    <text x="1175" y="730" text-anchor="middle" font-size="11" fill="#4a2e6a">handoff — step 7</text>
+  </g>
+
+  <!-- input handoffs (solid, right -> left) -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <line x1="1090" y1="146" x2="1040" y2="185" marker-end="url(#arrow)"/>
+    <line x1="1090" y1="252" x2="1040" y2="230" marker-end="url(#arrow)"/>
+    <line x1="1090" y1="358" x2="1040" y2="285" marker-end="url(#arrow)"/>
+    <!-- skill -> validation, validation -> update-timeline -->
+    <line x1="1030" y1="330" x2="1100" y2="470" marker-end="url(#arrow)"/>
+    <line x1="1175" y1="670" x2="1175" y2="690" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- skill -> write ops (dashed, right -> left) -->
+  <g stroke="#7a4ea6" stroke-width="1.5" fill="none" stroke-dasharray="5 4">
+    <line x1="850" y1="180" x2="770" y2="147" marker-end="url(#arrow-write)"/>
+    <line x1="850" y1="210" x2="770" y2="224" marker-end="url(#arrow-write)"/>
+    <line x1="850" y1="240" x2="770" y2="299" marker-end="url(#arrow-write)"/>
+    <line x1="850" y1="265" x2="770" y2="355" marker-end="url(#arrow-write)"/>
+    <line x1="850" y1="288" x2="770" y2="411" marker-end="url(#arrow-write)"/>
+    <line x1="850" y1="308" x2="770" y2="486" marker-end="url(#arrow-write)"/>
+  </g>
+
+  <!-- write ops -> repo files (dashed, right -> left) -->
+  <g stroke="#7a4ea6" stroke-width="1.5" fill="none" stroke-dasharray="5 4">
+    <line x1="560" y1="147" x2="400" y2="127" marker-end="url(#arrow-write)"/>
+    <line x1="560" y1="224" x2="400" y2="140" marker-end="url(#arrow-write)"/>
+    <line x1="560" y1="299" x2="400" y2="152" marker-end="url(#arrow-write)"/>
+    <line x1="560" y1="355" x2="400" y2="163" marker-end="url(#arrow-write)"/>
+    <line x1="560" y1="411" x2="400" y2="220" marker-end="url(#arrow-write)"/>
+    <line x1="560" y1="486" x2="400" y2="170" marker-end="url(#arrow-write)"/>
+  </g>
+
+  <!-- skill -> direct markdown edits (dashed staircase, right -> left) -->
+  <g stroke="#7a4ea6" stroke-width="1.5" fill="none" stroke-dasharray="5 4">
+    <path d="M 1010 330 L 1010 554 L 405 554" marker-end="url(#arrow-write)"/>
+    <path d="M 980 330 L 980 614 L 405 614" marker-end="url(#arrow-write)"/>
+    <path d="M 950 330 L 950 674 L 405 674" marker-end="url(#arrow-write)"/>
+    <path d="M 920 330 L 920 734 L 405 734" marker-end="url(#arrow-write)"/>
+    <path d="M 890 330 L 890 794 L 405 794" marker-end="url(#arrow-write)"/>
+    <path d="M 860 330 L 860 854 L 405 854" marker-end="url(#arrow-write)"/>
+    <!-- update-timeline -> timeline.md (routed under everything) -->
+    <path d="M 1175 746 L 1175 995 L 300 995 L 300 941" marker-end="url(#arrow-write)"/>
+  </g>
+
+  <!-- edge labels -->
+  <text x="1050" y="122" text-anchor="middle" font-size="11" fill="#555" font-style="italic">sources</text>
+  <text x="812" y="140" text-anchor="middle" font-size="11" fill="#555" font-style="italic">step 3</text>
+  <text x="1090" y="418" text-anchor="middle" font-size="11" fill="#555" font-style="italic">then validate</text>
+  <text x="480" y="128" text-anchor="middle" font-size="11" fill="#555" font-style="italic">writes</text>
+  <text x="700" y="987" text-anchor="middle" font-size="11" fill="#555" font-style="italic">trims Recent · updates monthly / yearly rollups</text>
+
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph — the flow runs right → left, on purpose.</strong> Every other graph in the series reads left → right (data → tools → outputs). This one is reversed because it is a <em>write path</em>: sources enter on the right, get parsed and turned into write commands in the middle, and land in repo files on the left. The reversal is the visual signal that arrows here <em>produce</em> data rather than consume it.</p>
+  <p><strong>Dashed purple arrows are writes.</strong> The <code>.wo.yaml</code> record is written entirely via the vit CLI — <code>wo new</code> scaffolds, <code>wo set</code> lands sets (compact notation, incl. <code>--set-note</code> and <code>--machine</code>), <code>wo observation</code> and <code>wo meta</code> carry the workout-level prose, and <code>lib add</code> creates missing library entries; hand-editing survives only for structural reshaping (re-ordering sections, deleting entries). The six lower destinations are direct markdown edits — the staircase fan from the skill's steps 4–5. Solid arrows are handoffs: the three input routes into the skill, and the post-write chain to validation (<code>vit show</code>, <code>vit wo check</code>, <code>vit lib check</code> re-read what was written) and the <code>/update-timeline</code> handoff, whose own write lands in <code>framework/timeline.md</code>.</p>
+  <p><strong>The repo is a participant box</strong> here (as in graph 10), not the dashed bounding area of the other graphs — the point of this page is what crosses the repo boundary, so the repo becomes an actor receiving writes.</p>
+  <p>
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data (destination files)</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>vit tools</strong> ·
+    <span class="swatch" style="background:#ffffff;border-color:#999;"></span> <strong>manual step</strong> ·
+    <span class="swatch" style="background:#f4ecf9;border-color:#7a4ea6;"></span> <strong>skills / inputs (outside the repo box)</strong> ·
+    <span class="swatch" style="background:#f3f1ea;"></span> <strong>repo participant box</strong>
+  </p>
+  <p><strong>Place in the series.</strong> Graph 11 — the producer-side skill flow, mirror of <code>10-plan-workout.html</code> (the consumer side, which flows the normal way).</p>
+</div>
+
+</body>
+</html>

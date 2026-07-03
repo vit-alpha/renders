@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — explain</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>vit — explain (per-tool)</h1>
+<p class="subtitle">Graph 4 of the series. How <code>vit explain</code> traces a Δ back to logged sets — two lanes for its two modes, shared curve primitives drawn once in the middle.</p>
+
+<svg viewBox="0 0 1280 910" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="vit explain per-tool graph">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Repo bounding area -->
+  <rect x="25" y="58" width="1230" height="825"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-dasharray="6 4" stroke-width="1.5" rx="10"/>
+  <text x="44" y="82" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+
+  <!-- Lane labels -->
+  <text x="290" y="110" font-size="11" font-weight="700" fill="#8a94a8" letter-spacing="1">EXERCISE MODE — _explain_exercise (per-exercise Δ trace)</text>
+  <text x="290" y="607" font-size="11" font-weight="700" fill="#8a94a8" letter-spacing="1">CLUSTER MODE — _explain_cluster (cluster-level Δ trace)</text>
+
+  <!-- ======================= LEFT COLUMN ======================= -->
+
+  <!-- Dispatch -->
+  <g>
+    <rect x="50" y="115" width="185" height="120"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="142" y="137" text-anchor="middle" font-size="13" font-weight="700" fill="#1f3d70">vit explain &lt;target&gt;</text>
+    <text x="142" y="153" text-anchor="middle" font-size="10" fill="#4a628f">cmd_explain · commands/explain.py</text>
+    <text x="142" y="170" text-anchor="middle" font-size="11" fill="#1f3d70">parse_window_weeks(--diff)</text>
+    <text x="142" y="184" text-anchor="middle" font-size="11" fill="#1f3d70">→ weeks (--weeks overrides)</text>
+    <text x="142" y="202" text-anchor="middle" font-size="11" fill="#1f3d70">cluster id → cluster lane</text>
+    <text x="142" y="217" text-anchor="middle" font-size="11" fill="#1f3d70">exercise id/alias → exercise lane</text>
+  </g>
+
+  <!-- workout records -->
+  <g>
+    <rect x="50" y="385" width="185" height="95"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="142" y="408" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">workout records</text>
+    <text x="142" y="425" text-anchor="middle" font-size="11" fill="#8a5a14">workouts_v2/*.wo.yaml</text>
+    <text x="142" y="440" text-anchor="middle" font-size="11" fill="#8a5a14">sections → entries → sets</text>
+    <text x="142" y="455" text-anchor="middle" font-size="10" fill="#8a5a14">reps · weight · markers · laterality</text>
+  </g>
+
+  <!-- exercise library -->
+  <g>
+    <rect x="50" y="510" width="185" height="80"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="142" y="532" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">exercise library</text>
+    <text x="142" y="549" text-anchor="middle" font-size="11" fill="#8a5a14">exercises_v2/*.yaml</text>
+    <text x="142" y="564" text-anchor="middle" font-size="11" fill="#8a5a14">curve_prior · form_limited</text>
+  </g>
+
+  <!-- clusters taxonomy -->
+  <g>
+    <rect x="50" y="615" width="185" height="75"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="142" y="637" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">clusters taxonomy</text>
+    <text x="142" y="654" text-anchor="middle" font-size="11" fill="#8a5a14">cluster id · label</text>
+    <text x="142" y="669" text-anchor="middle" font-size="11" fill="#8a5a14">base_exercise per cluster</text>
+  </g>
+
+  <!-- relationship graph -->
+  <g>
+    <rect x="50" y="715" width="185" height="85"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="142" y="737" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">relationship graph</text>
+    <text x="142" y="754" text-anchor="middle" font-size="11" fill="#8a5a14">edges: kind · target · sources</text>
+    <text x="142" y="769" text-anchor="middle" font-size="11" fill="#8a5a14">coefficient · confidence</text>
+    <text x="142" y="784" text-anchor="middle" font-size="10" fill="#a07020" font-style="italic">refit-able (user-observed)</text>
+  </g>
+
+  <!-- ======================= EXERCISE LANE ======================= -->
+
+  <!-- E1 _explain_exercise -->
+  <g>
+    <rect x="290" y="125" width="190" height="120"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="385" y="147" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">_explain_exercise</text>
+    <text x="385" y="164" text-anchor="middle" font-size="11" fill="#1f3d70">curve_prior_for(exercise)</text>
+    <text x="385" y="179" text-anchor="middle" font-size="11" fill="#1f3d70">form-limited → warn (Δ moot)</text>
+    <text x="385" y="196" text-anchor="middle" font-size="11" fill="#1f3d70">symmetric windows: older 2N→N,</text>
+    <text x="385" y="211" text-anchor="middle" font-size="11" fill="#1f3d70">newer N→today (wks ago)</text>
+    <text x="385" y="226" text-anchor="middle" font-size="11" fill="#1f3d70">curve() per window → rm1_point</text>
+  </g>
+
+  <!-- E2 _print_window_obs -->
+  <g>
+    <rect x="530" y="125" width="215" height="135"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="637" y="147" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">_print_window_obs ×2</text>
+    <text x="637" y="162" text-anchor="middle" font-size="10" fill="#4a628f">one per window (older · newer)</text>
+    <text x="637" y="180" text-anchor="middle" font-size="11" fill="#1f3d70">prints each obs: estimate_1rm</text>
+    <text x="637" y="195" text-anchor="middle" font-size="11" fill="#1f3d70">★ anchor = curve()'s recency-</text>
+    <text x="637" y="210" text-anchor="middle" font-size="11" fill="#1f3d70">decayed winner (rm1_point)</text>
+    <text x="637" y="225" text-anchor="middle" font-size="11" fill="#1f3d70">matches curve_diff · vit progress</text>
+    <text x="637" y="241" text-anchor="middle" font-size="10" fill="#4a628f">notes loose (unmarked ≥8-rep) obs</text>
+  </g>
+
+  <!-- E3 delta computation -->
+  <g>
+    <rect x="795" y="125" width="205" height="130"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="897" y="147" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">Δ computation</text>
+    <text x="897" y="164" text-anchor="middle" font-size="11" fill="#1f3d70">anchor 1RM × laterality_factor</text>
+    <text x="897" y="179" text-anchor="middle" font-size="11" fill="#1f3d70">→ bilateral-equivalent kg</text>
+    <text x="897" y="194" text-anchor="middle" font-size="11" fill="#1f3d70">Δ = newer − older kg (+%)</text>
+    <text x="897" y="209" text-anchor="middle" font-size="11" fill="#1f3d70">one-sided → NEW / STALE</text>
+    <text x="897" y="226" text-anchor="middle" font-size="11" fill="#1f3d70">then curve_diff → shape-</text>
+    <text x="897" y="241" text-anchor="middle" font-size="11" fill="#1f3d70">mismatch warnings</text>
+  </g>
+
+  <!-- O1 exercise trace output -->
+  <g>
+    <rect x="1045" y="120" width="185" height="215"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1137" y="142" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">exercise trace (stdout)</text>
+    <text x="1137" y="162" text-anchor="middle" font-size="11" fill="#1f5a2c">per-window obs table:</text>
+    <text x="1137" y="177" text-anchor="middle" font-size="11" fill="#1f5a2c">date · reps @ weight ·</text>
+    <text x="1137" y="192" text-anchor="middle" font-size="11" fill="#1f5a2c">markers → 1RM each</text>
+    <text x="1137" y="209" text-anchor="middle" font-size="11" fill="#1f5a2c">★ anchor + strategy line</text>
+    <text x="1137" y="226" text-anchor="middle" font-size="11" fill="#1f5a2c">formula line per anchor</text>
+    <text x="1137" y="243" text-anchor="middle" font-size="11" fill="#1f5a2c">Δ kg and % line</text>
+    <text x="1137" y="262" text-anchor="middle" font-size="11" fill="#1f5a2c">⚠ shape mismatches</text>
+    <text x="1137" y="277" text-anchor="middle" font-size="11" fill="#1f5a2c">⚠ form-limited warning</text>
+  </g>
+
+  <!-- ======================= SHARED PRIMITIVES ======================= -->
+
+  <rect x="505" y="372" width="520" height="196"
+        fill="#f7faff" stroke="#7d9fd4" stroke-width="1" stroke-dasharray="4 3" rx="8"/>
+  <text x="517" y="390" font-size="10.5" font-weight="700" fill="#5a7cb0" letter-spacing="1">SHARED PRIMITIVES — queries/curve.py</text>
+
+  <!-- P1 observed_points -->
+  <g>
+    <rect x="517" y="402" width="115" height="98"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="574" y="421" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">observed_points</text>
+    <text x="574" y="437" text-anchor="middle" font-size="10" fill="#1f3d70">qualifying sets:</text>
+    <text x="574" y="450" text-anchor="middle" font-size="10" fill="#1f3d70">F-marked / cheat reps</text>
+    <text x="574" y="463" text-anchor="middle" font-size="10" fill="#1f3d70">or unmarked ≥8 reps</text>
+    <text x="574" y="476" text-anchor="middle" font-size="10" fill="#1f3d70">v·p, untracked → out</text>
+    <text x="574" y="489" text-anchor="middle" font-size="10" fill="#1f3d70">sorted recent-first</text>
+  </g>
+
+  <!-- P2 curve -->
+  <g>
+    <rect x="644" y="402" width="115" height="98"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="701" y="421" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">curve()</text>
+    <text x="701" y="437" text-anchor="middle" font-size="10" fill="#1f3d70">anchor = recency-</text>
+    <text x="701" y="450" text-anchor="middle" font-size="10" fill="#1f3d70">decayed max 1RM</text>
+    <text x="701" y="463" text-anchor="middle" font-size="10" fill="#1f3d70">half-life 180 d</text>
+    <text x="701" y="476" text-anchor="middle" font-size="10" fill="#1f3d70">→ rm1 · rm1_point</text>
+    <text x="701" y="489" text-anchor="middle" font-size="10" fill="#1f3d70">machine segmentation</text>
+  </g>
+
+  <!-- P3 estimate_1rm -->
+  <g>
+    <rect x="771" y="402" width="115" height="98"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="828" y="421" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">estimate_1rm</text>
+    <text x="828" y="437" text-anchor="middle" font-size="10" fill="#1f3d70">prior formula:</text>
+    <text x="828" y="450" text-anchor="middle" font-size="10" fill="#1f3d70">epley · brzycki</text>
+    <text x="828" y="463" text-anchor="middle" font-size="10" fill="#1f3d70">· lombardi</text>
+    <text x="828" y="476" text-anchor="middle" font-size="10" fill="#1f3d70">(via curve_prior_for,</text>
+    <text x="828" y="489" text-anchor="middle" font-size="10" fill="#1f3d70">default epley)</text>
+  </g>
+
+  <!-- P4 laterality_factor -->
+  <g>
+    <rect x="898" y="402" width="115" height="98"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="955" y="421" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1f3d70">laterality_factor</text>
+    <text x="955" y="437" text-anchor="middle" font-size="10" fill="#1f3d70">L · R · LR · ALT →</text>
+    <text x="955" y="450" text-anchor="middle" font-size="10" fill="#1f3d70">× 1.95 (bilateral-</text>
+    <text x="955" y="463" text-anchor="middle" font-size="10" fill="#1f3d70">equivalent)</text>
+    <text x="955" y="476" text-anchor="middle" font-size="10" fill="#1f3d70">EQ / none → × 1.0</text>
+  </g>
+
+  <!-- internal composition: curve calls observed_points + estimate_1rm -->
+  <g stroke="#888" stroke-width="1.2" fill="none">
+    <path d="M 650 500 Q 635 530 620 503" marker-end="url(#arrow-light)"/>
+    <path d="M 752 500 Q 766 530 780 503" marker-end="url(#arrow-light)"/>
+  </g>
+
+  <!-- ======================= CLUSTER LANE ======================= -->
+
+  <!-- C1 _explain_cluster -->
+  <g>
+    <rect x="290" y="615" width="190" height="135"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="385" y="637" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">_explain_cluster</text>
+    <text x="385" y="654" text-anchor="middle" font-size="11" fill="#1f3d70">cluster → base_exercise</text>
+    <text x="385" y="669" text-anchor="middle" font-size="10" fill="#1f3d70">no base / not in library → stop</text>
+    <text x="385" y="686" text-anchor="middle" font-size="11" fill="#1f3d70">form-limited base →</text>
+    <text x="385" y="701" text-anchor="middle" font-size="11" fill="#1f3d70">Δ skipped by design</text>
+    <text x="385" y="718" text-anchor="middle" font-size="11" fill="#1f3d70">same symmetric windows</text>
+  </g>
+
+  <!-- C2 gather observations -->
+  <g>
+    <rect x="530" y="615" width="215" height="155"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="637" y="637" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">gather observations</text>
+    <text x="637" y="654" text-anchor="middle" font-size="11" fill="#1f3d70">DIRECT: observed_points(base)</text>
+    <text x="637" y="668" text-anchor="middle" font-size="11" fill="#1f3d70">per window (older · newer)</text>
+    <text x="637" y="686" text-anchor="middle" font-size="11" fill="#1f3d70">PROJECTED: edges_to(base),</text>
+    <text x="637" y="700" text-anchor="middle" font-size="11" fill="#1f3d70">kind ∈ PROJECTING_KINDS:</text>
+    <text x="637" y="714" text-anchor="middle" font-size="10" fill="#1f3d70">predicts · variant-of ·</text>
+    <text x="637" y="727" text-anchor="middle" font-size="10" fill="#1f3d70">regression-of · progression-of</text>
+    <text x="637" y="744" text-anchor="middle" font-size="11" fill="#1f3d70">per-source coefficient noted</text>
+    <text x="637" y="759" text-anchor="middle" font-size="10" fill="#4a628f">(src == base skipped)</text>
+  </g>
+
+  <!-- C3 _pick_with_explain -->
+  <g>
+    <rect x="795" y="615" width="205" height="155"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="897" y="637" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">_pick_with_explain</text>
+    <text x="897" y="651" text-anchor="middle" font-size="10" fill="#4a628f">mirrors _window_rm1 ·</text>
+    <text x="897" y="663" text-anchor="middle" font-size="10" fill="#4a628f">queries/cluster_progress.py</text>
+    <text x="897" y="681" text-anchor="middle" font-size="10.5" fill="#1f3d70">1· direct wins: curve() rm1_point</text>
+    <text x="897" y="695" text-anchor="middle" font-size="10.5" fill="#1f3d70">× its laterality_factor</text>
+    <text x="897" y="712" text-anchor="middle" font-size="10.5" fill="#1f3d70">2· else projected: src 1RM</text>
+    <text x="897" y="726" text-anchor="middle" font-size="10.5" fill="#1f3d70">× coeff → median (idx len//2)</text>
+    <text x="897" y="743" text-anchor="middle" font-size="10.5" fill="#1f3d70">3· else → anchor unavailable</text>
+    <text x="897" y="758" text-anchor="middle" font-size="10" fill="#4a628f">run per window (older · newer)</text>
+  </g>
+
+  <!-- C4 cluster delta -->
+  <g>
+    <rect x="795" y="795" width="205" height="60"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="897" y="816" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">cluster Δ + basis</text>
+    <text x="897" y="833" text-anchor="middle" font-size="11" fill="#1f3d70">Δ = newer − older kg (+%)</text>
+    <text x="897" y="847" text-anchor="middle" font-size="10" fill="#1f3d70">basis: direct / projected median</text>
+  </g>
+
+  <!-- O2 cluster trace output -->
+  <g>
+    <rect x="1045" y="615" width="185" height="240"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1137" y="637" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">cluster trace (stdout)</text>
+    <text x="1137" y="656" text-anchor="middle" font-size="11" fill="#1f5a2c">base resolution lines</text>
+    <text x="1137" y="673" text-anchor="middle" font-size="11" fill="#1f5a2c">direct obs counts / window</text>
+    <text x="1137" y="690" text-anchor="middle" font-size="11" fill="#1f5a2c">projection edge lines:</text>
+    <text x="1137" y="705" text-anchor="middle" font-size="11" fill="#1f5a2c">src → base [kind ×coeff]</text>
+    <text x="1137" y="720" text-anchor="middle" font-size="10" fill="#3a7044">(+ refit note if user-observed)</text>
+    <text x="1137" y="739" text-anchor="middle" font-size="11" fill="#1f5a2c">anchor selection ★ / window</text>
+    <text x="1137" y="756" text-anchor="middle" font-size="11" fill="#1f5a2c">projected table: src 1RM</text>
+    <text x="1137" y="771" text-anchor="middle" font-size="11" fill="#1f5a2c">×coeff = target 1RM</text>
+    <text x="1137" y="790" text-anchor="middle" font-size="11" fill="#1f5a2c">Cluster Δ kg + %</text>
+    <text x="1137" y="807" text-anchor="middle" font-size="11" fill="#1f5a2c">basis: older from X,</text>
+    <text x="1137" y="822" text-anchor="middle" font-size="11" fill="#1f5a2c">newer from Y</text>
+  </g>
+
+  <!-- ======================= DARK EDGES (data / lane flow) ======================= -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <!-- dispatch -> lanes -->
+    <path d="M 235 155 H 262 V 185 H 290" marker-end="url(#arrow)"/>
+    <path d="M 235 200 H 258 V 682 H 290" marker-end="url(#arrow)"/>
+    <!-- data -> primitives -->
+    <path d="M 235 430 H 517" marker-end="url(#arrow)"/>
+    <path d="M 235 552 H 828 V 503" marker-end="url(#arrow)"/>
+    <!-- data -> cluster lane -->
+    <path d="M 235 652 H 290" marker-end="url(#arrow)"/>
+    <path d="M 235 757 H 268 V 792 H 640 V 773" marker-end="url(#arrow)"/>
+    <!-- exercise lane flow -->
+    <path d="M 480 185 H 530" marker-end="url(#arrow)"/>
+    <path d="M 745 185 H 795" marker-end="url(#arrow)"/>
+    <path d="M 1000 190 H 1045" marker-end="url(#arrow)"/>
+    <!-- cluster lane flow -->
+    <path d="M 480 682 H 530" marker-end="url(#arrow)"/>
+    <path d="M 745 688 H 795" marker-end="url(#arrow)"/>
+    <path d="M 897 770 V 795" marker-end="url(#arrow)"/>
+    <path d="M 1000 825 H 1045" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- ======================= LIGHT EDGES (calls into shared primitives) ======================= -->
+  <g stroke="#999" stroke-width="1.2" fill="none">
+    <!-- exercise lane -->
+    <line x1="400" y1="245" x2="560" y2="402" marker-end="url(#arrow-light)"/>
+    <line x1="440" y1="245" x2="690" y2="402" marker-end="url(#arrow-light)"/>
+    <line x1="660" y1="260" x2="805" y2="402" marker-end="url(#arrow-light)"/>
+    <line x1="812" y1="255" x2="728" y2="402" marker-end="url(#arrow-light)"/>
+    <line x1="862" y1="255" x2="832" y2="402" marker-end="url(#arrow-light)"/>
+    <line x1="950" y1="255" x2="952" y2="402" marker-end="url(#arrow-light)"/>
+    <!-- cluster lane -->
+    <line x1="580" y1="615" x2="580" y2="502" marker-end="url(#arrow-light)"/>
+    <line x1="830" y1="615" x2="728" y2="502" marker-end="url(#arrow-light)"/>
+    <line x1="868" y1="615" x2="832" y2="502" marker-end="url(#arrow-light)"/>
+    <line x1="948" y1="615" x2="952" y2="502" marker-end="url(#arrow-light)"/>
+  </g>
+
+  <!-- Edge labels -->
+  <text x="376" y="423" text-anchor="middle" font-size="11" fill="#555" font-style="italic">set rows</text>
+  <text x="376" y="545" text-anchor="middle" font-size="11" fill="#555" font-style="italic">curve_prior</text>
+  <text x="455" y="785" text-anchor="middle" font-size="11" fill="#555" font-style="italic">projecting edges into base</text>
+  <text x="1022" y="183" text-anchor="middle" font-size="11" fill="#555" font-style="italic">trace</text>
+  <text x="1022" y="818" text-anchor="middle" font-size="11" fill="#555" font-style="italic">trace</text>
+  <text x="789" y="322" font-size="10" fill="#777" font-style="italic">via curve_diff</text>
+  <text x="562" y="316" font-size="10" fill="#777" font-style="italic">anchor pick ×2</text>
+
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> <code>vit explain</code> has two modes, drawn as two lanes: the <strong>exercise lane</strong> (top) traces the per-exercise Δ behind <code>vit progress</code> / <code>vit curve --diff</code>; the <strong>cluster lane</strong> (bottom) traces the cluster-level Δ behind <code>vit progress --by muscle</code> / <code>vit review</code>. Both lanes call into the same four <strong>shared primitives</strong> from <code>queries/curve.py</code>, drawn once in the middle band — dark arrows are data / lane flow (left → right), thin grey arrows are function calls into the primitives, and the two small arcs inside the band show that <code>curve()</code> itself composes <code>observed_points</code> + <code>estimate_1rm</code>.</p>
+  <p>
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#7d9fd4;"></span> <strong>shared compute primitives</strong> ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>outputs</strong> ·
+    <span class="swatch" style="background:#f3f1ea;border-style:dashed;"></span> <strong>repo area</strong>
+  </p>
+  <p><strong>Auditability — the command's reason to exist.</strong> Every number in either trace resolves to a set row in a workout file: each observation line prints <em>date · reps @ weight · markers</em>, which is exactly one set in <code>programming/workouts_v2/YYYY-MM-DD.wo.yaml</code>; each anchor (★), formula application, laterality factor and projection coefficient is printed on the line that used it, so the final Δ can be followed backwards, term by term, to logged sets.</p>
+  <p><strong>Fidelity notes.</strong> Both lanes route anchor selection through <code>curve()</code>'s recency-decayed winner (<code>rm1_point</code>) — the same pick <code>curve_diff</code> / <code>vit progress</code> use. The exercise lane calls <code>curve()</code> once per window in <code>_explain_exercise</code>, and <code>_print_window_obs</code> marks that winner (★) while still printing every observation's raw <code>estimate_1rm</code> for the audit trail; the cluster lane's direct branch does the same via <code>_pick_with_explain</code>, mirroring <code>_window_rm1</code>. Projected observations never enter when direct data exists; with no direct data the anchor is the <em>median</em> projected 1RM.</p>
+  <p><strong>Place in the series.</strong> Graph 4 of the per-tool graphs. Graph 3 (<code>review</code>) consumes the cluster Δ this page audits; graph 5 (<code>cluster_progress</code>) details <code>_window_rm1</code>, the function <code>_pick_with_explain</code> mirrors here.</p>
+</div>
+
+</body>
+</html>
