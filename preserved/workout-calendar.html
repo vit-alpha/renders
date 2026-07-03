@@ -19,6 +19,7 @@
     --football: #9e3b4e;       /* sport — maroon */
     --conditioning: #9c6b43;   /* brown */
     --today: #ffd33d;
+    --updated: #38bdf8;        /* sky blue — last-data-refresh marker, distinct from today's yellow */
   }
   * { box-sizing: border-box; }
   body {
@@ -60,9 +61,17 @@
   }
   .mdiv.first { border-top: none; padding-top: 2px; }
   .cell {
+    position: relative;
     background: var(--card); border: 1px solid var(--line); border-radius: 9px;
     min-height: 58px; padding: 5px 4px 6px;
     display: flex; flex-direction: column; gap: 4px;
+  }
+  /* vertical bar in the gap after the last-refreshed date — marks how far the
+     baked-in data actually reaches, independent of the yellow "today" border
+     (which follows the viewer's clock and can run ahead of a stale/cached render) */
+  .cell.updated::after {
+    content: ""; position: absolute; top: 0; bottom: 0; right: -4px;
+    width: 3px; border-radius: 2px; background: var(--updated);
   }
   /* One group per session. A session that hit several areas gets a soft border
      so its chips read as one workout, while two separate sessions in a day (a
@@ -208,7 +217,7 @@
   <label class="planned-toggle"><input type="checkbox" id="show-planned" checked> Show <span class="pt-word">planned</span></label>
 
   <div class="legend" id="legend"></div>
-  <p class="hint">Solid chip = major focus · striped chip = minor / accessory</p>
+  <p class="hint">Solid chip = major focus · striped chip = minor / accessory · blue bar = last data refresh</p>
 
   <div id="months"></div>
   <div id="agenda" style="display:none"></div>
@@ -376,6 +385,7 @@ function render(){
       const cell = document.createElement("div");
       cell.className = "cell";
       if(key===TODAY) cell.classList.add("today");
+      if(key===REF) cell.classList.add("updated");
       let html = `<span class="num">${dt.getUTCDate()}</span>`;
       const sess = shownSessions(key);
       if(sess.length){
