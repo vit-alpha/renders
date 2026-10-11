@@ -283,7 +283,7 @@
 
   <div class="fresh">
     <h2>Goal-area freshness</h2>
-    <p class="hint">Current training-goal areas, freshest at top — including targets not trained recently (the freshest of all). As of 10 Oct.</p>
+    <p class="hint">Current training-goal areas, freshest at top — including targets not trained recently (the freshest of all). As of 11 Oct.</p>
     <table id="fresh-table">
       <thead>
         <tr><th>Area</th><th class="r">Time since</th><th class="r">Last worked</th><th class="r">Recent load</th></tr>
@@ -373,7 +373,7 @@ function labelChip(s){
 // plan, or REF (a floor) — so it advances to the live week on view, no rebuild
 // needed. HISTORY past weeks are always kept behind today; future plans add rows
 // on top. TODAY is read from the client clock (below); REF is the build date.
-const REF = "2026-10-10";
+const REF = "2026-10-11";
 const HISTORY = 5;   // weeks kept behind & including today (current + last 4)
 const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const MONTHFULL = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -764,7 +764,7 @@ document.getElementById("legend").innerHTML = KEY_ROWS.map(row=>
 // --- Goal-area freshness (vit freshness, 120-day window, half-life 3d, as-of 2026-06-19) ---
 // current training-goal areas, including ones not trained recently (untrained = freshest)
 // over:true → not trained inside the window, so "days" is a floor and date is unknown
-const FRESH = [{"area": "Rotation (bar step press)", "days": 120, "last": "—", "load": 0, "over": true}, {"area": "Core (anti-rotation)", "days": 120, "last": "—", "load": 0, "over": true}, {"area": "Hamstring (iso)", "days": 95, "last": "2026-07-07", "load": 0.0, "over": false}, {"area": "Squat", "days": 74, "last": "2026-07-28", "load": 0.0, "over": false}, {"area": "Biceps (iso)", "days": 22, "last": "2026-09-18", "load": 0.0, "over": false}, {"area": "Horizontal Pull", "days": 22, "last": "2026-09-18", "load": 0.0, "over": false}, {"area": "Vertical Pull", "days": 22, "last": "2026-09-18", "load": 0.0, "over": false}, {"area": "Hinge", "days": 14, "last": "2026-09-26", "load": 0.007, "over": false}, {"area": "Quad (iso)", "days": 14, "last": "2026-09-26", "load": 0.003, "over": false}, {"area": "Plyometric", "days": 14, "last": "2026-09-26", "load": 0.002, "over": false}, {"area": "Calf (iso)", "days": 14, "last": "2026-09-26", "load": 0.006, "over": false}, {"area": "Vertical Push (OH / landmine)", "days": 12, "last": "2026-09-28", "load": 0.003, "over": false}, {"area": "Horizontal Push", "days": 12, "last": "2026-09-28", "load": 0.002, "over": false}, {"area": "Triceps (iso)", "days": 12, "last": "2026-09-28", "load": 0.004, "over": false}, {"area": "Shoulder (iso)", "days": 12, "last": "2026-09-28", "load": 0.0, "over": false}];
+const FRESH = [{"area": "Rotation (bar step press)", "days": 120, "last": "—", "load": 0, "over": true}, {"area": "Core (anti-rotation)", "days": 120, "last": "—", "load": 0, "over": true}, {"area": "Hamstring (iso)", "days": 96, "last": "2026-07-07", "load": 0.0, "over": false}, {"area": "Squat", "days": 75, "last": "2026-07-28", "load": 0.0, "over": false}, {"area": "Biceps (iso)", "days": 23, "last": "2026-09-18", "load": 0.0, "over": false}, {"area": "Horizontal Pull", "days": 23, "last": "2026-09-18", "load": 0.0, "over": false}, {"area": "Vertical Pull", "days": 23, "last": "2026-09-18", "load": 0.0, "over": false}, {"area": "Hinge", "days": 15, "last": "2026-09-26", "load": 0.005, "over": false}, {"area": "Quad (iso)", "days": 15, "last": "2026-09-26", "load": 0.002, "over": false}, {"area": "Plyometric", "days": 15, "last": "2026-09-26", "load": 0.002, "over": false}, {"area": "Calf (iso)", "days": 15, "last": "2026-09-26", "load": 0.004, "over": false}, {"area": "Vertical Push (OH / landmine)", "days": 13, "last": "2026-09-28", "load": 0.002, "over": false}, {"area": "Horizontal Push", "days": 13, "last": "2026-09-28", "load": 0.001, "over": false}, {"area": "Triceps (iso)", "days": 13, "last": "2026-09-28", "load": 0.003, "over": false}, {"area": "Shoulder (iso)", "days": 13, "last": "2026-09-28", "load": 0.0, "over": false}];
 const maxLoad = Math.max(...FRESH.map(f=>f.load));
 function sinceClass(d){ return d>=22 ? "since-due" : d>=7 ? "since-fresh" : d>=4 ? "since-mid" : "since-worked"; }
 function fmtLast(s){
@@ -784,7 +784,7 @@ FRESH.forEach(f=>{
   ftbody.appendChild(tr);
 });
 
-document.getElementById("build-ts").textContent = "built 2026-10-10 · auto";
+document.getElementById("build-ts").textContent = "built 2026-10-11 · auto";
 </script>
 </body>
 </html>
