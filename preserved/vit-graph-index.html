@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — index</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+    max-width: 860px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  h2 { font-size: 14px; margin: 22px 0 6px 0; font-weight: 600; color: #444; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { margin: 6px 0; font-size: 13px; line-height: 1.5; }
+  a { color: #1f3d70; font-weight: 600; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .desc { color: #555; }
+  .note { font-size: 12px; color: #777; margin-top: 24px; border-top: 1px solid #e2e2dc; padding-top: 12px; line-height: 1.6; }
+  code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<h1>vit — the tool graph series</h1>
+<p class="subtitle">Visual maps of how vit's data, tools, and outputs relate. Orientation is constant: data left, tools middle, insights right; time runs down; reversed flow marks a write path.</p>
+
+<h2>Key</h2>
+<ul>
+  <li><a href="vit-graph-01-overview.html">01 — overview</a> <span class="desc">— the most zoomed-out view; acts as the legend for everything below.</span></li>
+</ul>
+
+<h2>The territory</h2>
+<ul>
+  <li><a href="vit-graph-02-primary.html">02 — primary</a> <span class="desc">— every command, fanned into four families; data split by file type; write paths dashed and reversed.</span></li>
+</ul>
+
+<h2>Per-tool composition</h2>
+<ul>
+  <li><a href="vit-graph-03-review.html">03 — review</a> <span class="desc">— three mode-lanes over the shared query layer; the most-composed command.</span></li>
+  <li><a href="vit-graph-04-explain.html">04 — explain</a> <span class="desc">— the auditability command's two lanes; both route anchors through <code>curve()</code>.</span></li>
+  <li><a href="vit-graph-05-cluster-progress.html">05 — cluster_progress</a> <span class="desc">— how a muscle cluster earns a strength Δ: direct wins, projected median fills, ×1.95 normalises.</span></li>
+  <li><a href="vit-graph-06-refit.html">06 — refit</a> <span class="desc">— the graph-maintenance loop; five proposal classes, one gated write path.</span></li>
+</ul>
+
+<h2>Output construction</h2>
+<ul>
+  <li><a href="vit-graph-07-cluster-delta.html">07 — the review Δ cell</a> <span class="desc">— one number traced from set rows to the table.</span></li>
+  <li><a href="vit-graph-08-suggest-variance.html">08 — the suggest ± band</a> <span class="desc">— a distance-plus-age heuristic, drawn as the code computes it.</span></li>
+  <li><a href="vit-graph-09-summary-line.html">09 — the summary volume line</a> <span class="desc">— load points, the cardio fallback chain, pattern names.</span></li>
+</ul>
+
+<h2>Skill flows</h2>
+<ul>
+  <li><a href="vit-graph-10-plan-workout.html">10 — /plan-workout</a> <span class="desc">— the consumer: what the planning skill actually reads.</span></li>
+  <li><a href="vit-graph-11-log-workout.html">11 — /log-workout</a> <span class="desc">— the producer, deliberately drawn right→left: the write path into the repo.</span></li>
+</ul>
+
+<p class="note">
+Built 2026-07-02 from per-graph specs under <code>specs/</code>, each implemented against the code (the fidelity rule: where spec and code disagreed, the code won and the discrepancy was reported — several fed fixes back into the CLI).
+Conventions and series plan: <code>plan.md</code> and <code>specs/conventions.md</code>.
+</p>
+
+</body>
+</html>

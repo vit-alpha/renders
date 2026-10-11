@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — review (per-tool)</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>vit review — per-tool composition</h1>
+<p class="subtitle">Graph 3 of the series. The most-composed command: three mode lanes over a shared query layer.</p>
+
+<svg viewBox="0 0 1360 1140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="vit review composition graph">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Repo bounding area -->
+  <rect x="20" y="40" width="1320" height="1070"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-dasharray="6 4" stroke-width="1.5" rx="10"/>
+  <text x="44" y="66" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+
+  <!-- Top notes: dispatch + window flags -->
+  <text x="272" y="80" font-size="11" font-style="italic" fill="#666">cmd_review (commands/review.py) loads Repo + Taxonomy, then dispatches on args — each lane&#8217;s blue chip is that dispatch.</text>
+  <text x="272" y="96" font-size="11" font-style="italic" fill="#666">window flags on every mode: --weeks N (default 12) &#183; --since / --until &#183; --min-reliability &#183; --json (global flag)</text>
+
+  <!-- ================= DATA COLUMN ================= -->
+  <text x="52" y="146" font-size="11" font-weight="700" fill="#8a5a14" letter-spacing="1">DATA</text>
+
+  <g>
+    <rect x="50" y="160" width="175" height="100" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="137" y="182" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a5a14">workouts</text>
+    <text x="137" y="199" text-anchor="middle" font-size="9.5" fill="#a07020">programming/workouts_v2/*.wo.yaml</text>
+    <text x="137" y="216" text-anchor="middle" font-size="10.5" fill="#8a5a14">sections &#8594; entries &#8594; sets</text>
+    <text x="137" y="231" text-anchor="middle" font-size="10.5" fill="#8a5a14">reliability tag &#183; date</text>
+    <text x="137" y="246" text-anchor="middle" font-size="10.5" fill="#8a5a14">split days: _3pm / _6pm files</text>
+  </g>
+  <g>
+    <rect x="50" y="290" width="175" height="95" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="137" y="312" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a5a14">relationships graph</text>
+    <text x="137" y="328" text-anchor="middle" font-size="9.5" fill="#a07020">relationships.yaml</text>
+    <text x="137" y="345" text-anchor="middle" font-size="10.5" fill="#8a5a14">edges + coefficients:</text>
+    <text x="137" y="360" text-anchor="middle" font-size="10.5" fill="#8a5a14">predicts &#183; variant-of &#183;</text>
+    <text x="137" y="375" text-anchor="middle" font-size="10.5" fill="#8a5a14">progression/regression-of</text>
+  </g>
+  <g>
+    <rect x="50" y="425" width="175" height="95" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="137" y="447" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a5a14">exercise library</text>
+    <text x="137" y="463" text-anchor="middle" font-size="9.5" fill="#a07020">programming/exercises_v2/*.yaml</text>
+    <text x="137" y="480" text-anchor="middle" font-size="10.5" fill="#8a5a14">primary/assisting/stabilising</text>
+    <text x="137" y="495" text-anchor="middle" font-size="10.5" fill="#8a5a14">muscles &#183; muscle_ratios &#183;</text>
+    <text x="137" y="510" text-anchor="middle" font-size="10.5" fill="#8a5a14">backbone &#183; form-limited</text>
+  </g>
+  <g>
+    <rect x="50" y="555" width="175" height="85" fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="137" y="577" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a5a14">clusters &#183; vocab</text>
+    <text x="137" y="593" text-anchor="middle" font-size="9.5" fill="#a07020">clusters.yaml &#8594; Taxonomy</text>
+    <text x="137" y="610" text-anchor="middle" font-size="10.5" fill="#8a5a14">cluster &#8594; vit-muscles map &#183;</text>
+    <text x="137" y="625" text-anchor="middle" font-size="10.5" fill="#8a5a14">base_exercise per cluster</text>
+  </g>
+
+  <!-- data -> query layer -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <line x1="225" y1="210" x2="272" y2="210" marker-end="url(#arrow)"/>
+    <line x1="225" y1="337" x2="272" y2="337" marker-end="url(#arrow)"/>
+    <line x1="225" y1="472" x2="272" y2="472" marker-end="url(#arrow)"/>
+    <line x1="225" y1="597" x2="272" y2="597" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- ================= QUERY LAYER (shared) ================= -->
+  <rect x="272" y="115" width="246" height="745" fill="#ffffff" stroke="#7d9fd4" stroke-dasharray="4 3" stroke-width="1" rx="8"/>
+  <text x="284" y="135" font-size="11" font-weight="700" fill="#3d6dba" letter-spacing="1">QUERY LAYER</text>
+  <text x="284" y="150" font-size="9.5" fill="#7d9fd4">programming/tools/vit/queries/</text>
+
+  <g>
+    <rect x="300" y="160" width="205" height="100" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="402" y="180" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">review_overview</text>
+    <text x="402" y="195" text-anchor="middle" font-size="9.5" fill="#7d9fd4">queries/review.py</text>
+    <text x="402" y="212" text-anchor="middle" font-size="10.5" fill="#1f3d70">per-cluster wu via role credits</text>
+    <text x="402" y="226" text-anchor="middle" font-size="10.5" fill="#1f3d70">&#215; muscle_ratios &#183; eng / pushed &#183;</text>
+    <text x="402" y="240" text-anchor="middle" font-size="10.5" fill="#1f3d70">sessions &#183; top-3 contributors</text>
+    <text x="402" y="254" text-anchor="middle" font-size="9.5" font-style="italic" fill="#1f3d70">(also computes a &#916; the CLI ignores)</text>
+  </g>
+  <g>
+    <rect x="300" y="290" width="205" height="115" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="402" y="310" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">cluster_progress</text>
+    <text x="402" y="325" text-anchor="middle" font-size="9.5" fill="#7d9fd4">queries/cluster_progress.py</text>
+    <text x="402" y="342" text-anchor="middle" font-size="10.5" fill="#1f3d70">base-exercise &#916;: direct obs win,</text>
+    <text x="402" y="356" text-anchor="middle" font-size="10.5" fill="#1f3d70">projected obs (graph edges,</text>
+    <text x="402" y="370" text-anchor="middle" font-size="10.5" fill="#1f3d70">median) fill gaps &#183; obs counts</text>
+    <text x="402" y="385" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1f3d70">&#8594; the &#916; column&#8217;s single</text>
+    <text x="402" y="399" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1f3d70">source of truth</text>
+  </g>
+  <g>
+    <rect x="300" y="435" width="205" height="115" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="402" y="455" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">curve_diff &#8594; curve()</text>
+    <text x="402" y="470" text-anchor="middle" font-size="9.5" fill="#7d9fd4">queries/curve.py</text>
+    <text x="402" y="487" text-anchor="middle" font-size="10.5" fill="#1f3d70">symmetric half-window 1RMs;</text>
+    <text x="402" y="501" text-anchor="middle" font-size="10.5" fill="#1f3d70">anchor = rm1_point (recency-</text>
+    <text x="402" y="515" text-anchor="middle" font-size="10.5" fill="#1f3d70">decayed winner) &#183; laterality</text>
+    <text x="402" y="529" text-anchor="middle" font-size="10.5" fill="#1f3d70">factors &#183; shape-mismatch flags</text>
+    <text x="402" y="543" text-anchor="middle" font-size="9.5" fill="#1f3d70">min 2 obs per side, else &#916; = None</text>
+  </g>
+  <g>
+    <rect x="300" y="580" width="205" height="110" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="402" y="600" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">review_exercise</text>
+    <text x="402" y="615" text-anchor="middle" font-size="9.5" fill="#7d9fd4">queries/review.py</text>
+    <text x="402" y="632" text-anchor="middle" font-size="10.5" fill="#1f3d70">wu &#183; sets &#183; sessions &#183; best set</text>
+    <text x="402" y="646" text-anchor="middle" font-size="10.5" fill="#1f3d70">(estimate_1rm) &#183; &#916; + % via</text>
+    <text x="402" y="660" text-anchor="middle" font-size="10.5" fill="#1f3d70">curve_diff &#183; cluster peers via</text>
+    <text x="402" y="674" text-anchor="middle" font-size="10.5" fill="#1f3d70">review_overview (top 5 by wu)</text>
+  </g>
+  <g>
+    <rect x="300" y="720" width="205" height="95" fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="402" y="740" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f3d70">session_context</text>
+    <text x="402" y="755" text-anchor="middle" font-size="9.5" fill="#7d9fd4">queries/session_context.py</text>
+    <text x="402" y="772" text-anchor="middle" font-size="10.5" fill="#1f3d70">work before this exercise in</text>
+    <text x="402" y="786" text-anchor="middle" font-size="10.5" fill="#1f3d70">the session: related vs other</text>
+    <text x="402" y="800" text-anchor="middle" font-size="10.5" fill="#1f3d70">wu &#183; position i / n</text>
+  </g>
+
+  <!-- internal query->query edges -->
+  <g stroke="#888" stroke-width="1.2" fill="none">
+    <line x1="395" y1="435" x2="395" y2="405" marker-end="url(#arrow-light)"/>
+    <line x1="395" y1="550" x2="395" y2="580" marker-end="url(#arrow-light)"/>
+    <path d="M 300 235 H 286 V 655 H 300" marker-end="url(#arrow-light)"/>
+  </g>
+  <text x="404" y="424" font-size="9.5" font-style="italic" fill="#555">anchors + shape flags</text>
+  <text x="404" y="569" font-size="9.5" font-style="italic" fill="#555">&#916; 1RM + anchor data</text>
+  <text transform="translate(280,445) rotate(-90)" text-anchor="middle" font-size="9.5" font-style="italic" fill="#777">cluster peers</text>
+
+  <!-- ================= LANE BANDS ================= -->
+  <rect x="550" y="120" width="770" height="220" fill="#ffffff" stroke="#ddd9cc" stroke-width="1" rx="8"/>
+  <rect x="550" y="360" width="770" height="280" fill="#ffffff" stroke="#ddd9cc" stroke-width="1" rx="8"/>
+  <rect x="550" y="670" width="770" height="315" fill="#ffffff" stroke="#ddd9cc" stroke-width="1" rx="8"/>
+  <text x="1305" y="138" text-anchor="end" font-size="10.5" font-weight="700" fill="#999488" letter-spacing="1.2">LANE 1 &#8212; OVERVIEW</text>
+  <text x="1305" y="378" text-anchor="end" font-size="10.5" font-weight="700" fill="#999488" letter-spacing="1.2">LANE 2 &#8212; CLUSTER DRILL</text>
+  <text x="1305" y="688" text-anchor="end" font-size="10.5" font-weight="700" fill="#999488" letter-spacing="1.2">LANE 3 &#8212; EXERCISE</text>
+
+  <!-- dispatch chips -->
+  <g>
+    <rect x="570" y="150" width="185" height="48" fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="662" y="169" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit review</text>
+    <text x="662" y="186" text-anchor="middle" font-size="9.5" fill="#1f3d70">cmd_review &#9656; _overview</text>
+  </g>
+  <g>
+    <rect x="570" y="393" width="185" height="60" fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="662" y="411" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit review &lt;cluster&gt;</text>
+    <text x="662" y="427" text-anchor="middle" font-size="9" fill="#1f3d70">--cluster ID, or positional arg &#8212;</text>
+    <text x="662" y="441" text-anchor="middle" font-size="9" fill="#1f3d70">cluster id wins &#9656; _cluster_breakdown</text>
+  </g>
+  <g>
+    <rect x="570" y="690" width="185" height="60" fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="662" y="708" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">vit review &lt;exercise&gt;</text>
+    <text x="662" y="724" text-anchor="middle" font-size="9" fill="#1f3d70">positional (resolve_id) &#9656; _exercise</text>
+    <text x="662" y="738" text-anchor="middle" font-size="9" fill="#1f3d70">--session DATE &#9656; _exercise_session</text>
+  </g>
+  <g stroke="#888" stroke-width="1.2" fill="none">
+    <line x1="755" y1="174" x2="800" y2="192" marker-end="url(#arrow-light)"/>
+    <line x1="755" y1="423" x2="800" y2="423" marker-end="url(#arrow-light)"/>
+    <line x1="755" y1="715" x2="800" y2="715" marker-end="url(#arrow-light)"/>
+  </g>
+
+  <!-- ================= MODE NODES ================= -->
+  <g>
+    <rect x="800" y="170" width="210" height="120" fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="905" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="#1f3d70">_overview</text>
+    <text x="905" y="207" text-anchor="middle" font-size="9.5" fill="#7d9fd4">commands/review.py</text>
+    <text x="905" y="224" text-anchor="middle" font-size="10.5" fill="#1f3d70">joins overview rows with</text>
+    <text x="905" y="238" text-anchor="middle" font-size="10.5" fill="#1f3d70">cluster_progress rows &#183;</text>
+    <text x="905" y="252" text-anchor="middle" font-size="10.5" fill="#1f3d70">_classify_state &#8594; building /</text>
+    <text x="905" y="266" text-anchor="middle" font-size="10.5" fill="#1f3d70">maintain / decline / noisy /</text>
+    <text x="905" y="280" text-anchor="middle" font-size="10.5" fill="#1f3d70">form-ltd / new / stale / sparse</text>
+  </g>
+  <g>
+    <rect x="800" y="395" width="210" height="185" fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="905" y="417" text-anchor="middle" font-size="13" font-weight="700" fill="#1f3d70">_cluster_breakdown</text>
+    <text x="905" y="432" text-anchor="middle" font-size="9.5" fill="#7d9fd4">commands/review.py</text>
+    <text x="905" y="449" text-anchor="middle" font-size="10.5" fill="#1f3d70">own accumulation loop over</text>
+    <text x="905" y="463" text-anchor="middle" font-size="10.5" fill="#1f3d70">repo.workouts: muscle-overlap</text>
+    <text x="905" y="477" text-anchor="middle" font-size="10.5" fill="#1f3d70">filter (taxonomy) &#183; rep+cardio</text>
+    <text x="905" y="491" text-anchor="middle" font-size="10.5" fill="#1f3d70">vs hold/rhythm buckets &#183;</text>
+    <text x="905" y="505" text-anchor="middle" font-size="10.5" fill="#1f3d70">engaged / pushed per set &#183;</text>
+    <text x="905" y="519" text-anchor="middle" font-size="10.5" fill="#1f3d70">activation ratio &#183; sessions via</text>
+    <text x="905" y="533" text-anchor="middle" font-size="10.5" fill="#1f3d70">session_key &#183; reliability gate</text>
+    <text x="905" y="547" text-anchor="middle" font-size="10.5" fill="#1f3d70">on both tables</text>
+  </g>
+  <g>
+    <rect x="800" y="695" width="210" height="130" fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="905" y="717" text-anchor="middle" font-size="13" font-weight="700" fill="#1f3d70">_exercise</text>
+    <text x="905" y="732" text-anchor="middle" font-size="9.5" fill="#7d9fd4">commands/review.py</text>
+    <text x="905" y="749" text-anchor="middle" font-size="10.5" fill="#1f3d70">header 1RM old&#8594;new + &#916;:</text>
+    <text x="905" y="763" text-anchor="middle" font-size="10.5" fill="#1f3d70">re-runs curve_diff for anchor</text>
+    <text x="905" y="777" text-anchor="middle" font-size="10.5" fill="#1f3d70">brackets &#183; single-leg display</text>
+    <text x="905" y="791" text-anchor="middle" font-size="10.5" fill="#1f3d70">when both anchors unilateral &#183;</text>
+    <text x="905" y="805" text-anchor="middle" font-size="10.5" fill="#1f3d70">session-by-session set rows</text>
+    <text x="905" y="819" text-anchor="middle" font-size="9.5" fill="#1f3d70">(reliability-gated)</text>
+  </g>
+  <g>
+    <rect x="800" y="860" width="210" height="105" fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="905" y="882" text-anchor="middle" font-size="13" font-weight="700" fill="#1f3d70">_exercise_session</text>
+    <text x="905" y="897" text-anchor="middle" font-size="9.5" fill="#7d9fd4">commands/review.py</text>
+    <text x="905" y="914" text-anchor="middle" font-size="10.5" fill="#1f3d70">one session in full: prior-work</text>
+    <text x="905" y="928" text-anchor="middle" font-size="10.5" fill="#1f3d70">table + own sets &#183; _merge_sets</text>
+    <text x="905" y="942" text-anchor="middle" font-size="10.5" fill="#1f3d70">folds matching L/R pairs</text>
+    <text x="905" y="956" text-anchor="middle" font-size="9.5" fill="#1f3d70">(no reliability gate here)</text>
+  </g>
+
+  <!-- query layer -> mode edges -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <line x1="505" y1="205" x2="800" y2="210" marker-end="url(#arrow)"/>
+    <line x1="505" y1="310" x2="800" y2="255" marker-end="url(#arrow)"/>
+    <path d="M 505 375 H 860 V 395" marker-end="url(#arrow)"/>
+    <line x1="505" y1="500" x2="800" y2="540" marker-end="url(#arrow)"/>
+    <path d="M 505 740 H 530 V 565 H 800" marker-end="url(#arrow)"/>
+    <path d="M 505 655 H 870 V 695" marker-end="url(#arrow)"/>
+    <line x1="505" y1="775" x2="800" y2="790" marker-end="url(#arrow)"/>
+    <line x1="505" y1="805" x2="800" y2="890" marker-end="url(#arrow)"/>
+  </g>
+  <text x="655" y="224" text-anchor="middle" font-size="11" font-style="italic" fill="#555">ClusterReview rows</text>
+  <text x="650" y="272" text-anchor="middle" font-size="11" font-style="italic" fill="#555">base &#916; + obs counts</text>
+  <text x="630" y="368" text-anchor="middle" font-size="11" font-style="italic" fill="#555">base-exercise &#916; (header)</text>
+  <text x="640" y="505" text-anchor="middle" font-size="11" font-style="italic" fill="#555">per-exercise older / newer anchors</text>
+  <text x="655" y="558" text-anchor="middle" font-size="11" font-style="italic" fill="#555">prior column (activity table)</text>
+  <text x="876" y="686" text-anchor="start" font-size="11" font-style="italic" fill="#555">ExerciseReview</text>
+  <text x="640" y="768" text-anchor="middle" font-size="11" font-style="italic" fill="#555">prior per session row</text>
+  <text x="645" y="835" text-anchor="middle" font-size="11" font-style="italic" fill="#555">prior-work detail</text>
+
+  <!-- _exercise -> _exercise_session -->
+  <line x1="905" y1="825" x2="905" y2="860" stroke="#444" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="915" y="847" text-anchor="start" font-size="11" font-style="italic" fill="#555">--session DATE</text>
+
+  <!-- ================= OUTPUT NODES ================= -->
+  <g>
+    <rect x="1080" y="165" width="228" height="155" fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1194" y="187" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f5a2c">cluster overview table</text>
+    <text x="1194" y="207" text-anchor="middle" font-size="10.5" fill="#1f5a2c">state &#183; cluster &#183; volume wu &#183;</text>
+    <text x="1194" y="222" text-anchor="middle" font-size="10.5" fill="#1f5a2c">eng/sets &#183; sess &#183; base &#916; kg &#183; &#916;% &#183;</text>
+    <text x="1194" y="237" text-anchor="middle" font-size="10.5" fill="#1f5a2c">obs older&#8594;newer &#183; top-3</text>
+    <text x="1194" y="252" text-anchor="middle" font-size="10.5" fill="#1f5a2c">contributors</text>
+    <line x1="1105" y1="264" x2="1283" y2="264" stroke="#3a8a4a" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text x="1194" y="284" text-anchor="middle" font-size="10" font-style="italic" fill="#3a7044">header: rate/wk &#183; engaged total &#183;</text>
+    <text x="1194" y="299" text-anchor="middle" font-size="10" font-style="italic" fill="#3a7044">cluster-state summary</text>
+    <text x="1194" y="314" text-anchor="middle" font-size="9.5" font-style="italic" fill="#3a7044">--json for machine-readable</text>
+  </g>
+  <g>
+    <rect x="1080" y="385" width="228" height="140" fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1194" y="407" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f5a2c">cluster breakdown table</text>
+    <text x="1194" y="427" text-anchor="middle" font-size="10.5" fill="#1f5a2c">totals + base-exercise &#916; header &#183;</text>
+    <text x="1194" y="442" text-anchor="middle" font-size="10.5" fill="#1f5a2c">per exercise: older/newer 1RM</text>
+    <text x="1194" y="457" text-anchor="middle" font-size="10.5" fill="#1f5a2c">(anchor reps, lat, date) &#183; &#916; kg +</text>
+    <text x="1194" y="472" text-anchor="middle" font-size="10.5" fill="#1f5a2c">&#9888; flag &#183; wu &#183; eng &#183; sess &#183; sets &#183;</text>
+    <text x="1194" y="487" text-anchor="middle" font-size="10.5" fill="#1f5a2c">P/S &#183; activation ratio &#183;</text>
+    <text x="1194" y="502" text-anchor="middle" font-size="10.5" fill="#1f5a2c">&#8627; anchor notes &#183; iso footnote</text>
+  </g>
+  <g>
+    <rect x="1080" y="540" width="228" height="95" fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1194" y="562" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f5a2c">activity table (per-set)</text>
+    <text x="1194" y="582" text-anchor="middle" font-size="10.5" fill="#1f5a2c">date &#183; exercise &#183; prior (r/o wu) &#183;</text>
+    <text x="1194" y="597" text-anchor="middle" font-size="10.5" fill="#1f5a2c">reps &#183; weight &#183; form/note &#8212;</text>
+    <text x="1194" y="612" text-anchor="middle" font-size="10.5" fill="#1f5a2c">newest session first</text>
+  </g>
+  <g>
+    <rect x="1080" y="700" width="228" height="125" fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1194" y="722" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f5a2c">exercise detail</text>
+    <text x="1194" y="742" text-anchor="middle" font-size="10.5" fill="#1f5a2c">1RM older&#8594;newer + &#916; kg (&#916;%) &#183;</text>
+    <text x="1194" y="757" text-anchor="middle" font-size="10.5" fill="#1f5a2c">best set &#183; sets &#183; sessions &#183;</text>
+    <text x="1194" y="772" text-anchor="middle" font-size="10.5" fill="#1f5a2c">per-session set rows with</text>
+    <text x="1194" y="787" text-anchor="middle" font-size="10.5" fill="#1f5a2c">prior (r/o wu) column &#183;</text>
+    <text x="1194" y="802" text-anchor="middle" font-size="10.5" fill="#1f5a2c">entry + set notes</text>
+  </g>
+  <g>
+    <rect x="1080" y="860" width="228" height="110" fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1194" y="882" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1f5a2c">per-session drill</text>
+    <text x="1194" y="902" text-anchor="middle" font-size="10.5" fill="#1f5a2c">exercise &#183; date &#183; pos i/n &#183;</text>
+    <text x="1194" y="917" text-anchor="middle" font-size="10.5" fill="#1f5a2c">prior-work table (sets &#183; wu &#183;</text>
+    <text x="1194" y="932" text-anchor="middle" font-size="10.5" fill="#1f5a2c">related &#10003;) &#183; own sets with</text>
+    <text x="1194" y="947" text-anchor="middle" font-size="10.5" fill="#1f5a2c">L/R pairs merged</text>
+  </g>
+
+  <!-- mode -> output edges -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <line x1="1010" y1="230" x2="1080" y2="230" marker-end="url(#arrow)"/>
+    <line x1="1010" y1="445" x2="1080" y2="445" marker-end="url(#arrow)"/>
+    <line x1="1010" y1="540" x2="1080" y2="585" marker-end="url(#arrow)"/>
+    <line x1="1010" y1="760" x2="1080" y2="760" marker-end="url(#arrow)"/>
+    <line x1="1010" y1="912" x2="1080" y2="912" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- ================= COMPUTE PRIMITIVES STRIP ================= -->
+  <text x="272" y="1008" font-size="10.5" font-weight="700" fill="#7d9fd4" letter-spacing="1">COMPUTE PRIMITIVES &#8212; feed every lane and sub-query (edges omitted)</text>
+  <g>
+    <rect x="272" y="1020" width="248" height="70" fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="396" y="1041" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1f3d70">markers.py &#8212; engaged / pushed</text>
+    <text x="396" y="1058" text-anchor="middle" font-size="10" fill="#1f3d70">pushed = to_failure (F/f or cheat reps)</text>
+    <text x="396" y="1073" text-anchor="middle" font-size="10" fill="#1f3d70">engaged = pushed OR challenge (* / **)</text>
+  </g>
+  <g>
+    <rect x="536" y="1020" width="248" height="70" fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="660" y="1041" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1f3d70">metrics.py + load.py &#8212; wu</text>
+    <text x="660" y="1058" text-anchor="middle" font-size="10" fill="#1f3d70">credits: primary 1.0 &#183; assisting 0.4 &#183;</text>
+    <text x="660" y="1073" text-anchor="middle" font-size="10" fill="#1f3d70">stabilising 0.0 &#183; set_load_points &#247; norm</text>
+  </g>
+  <g>
+    <rect x="800" y="1020" width="248" height="70" fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="924" y="1041" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1f3d70">session_key &#8212; file identity</text>
+    <text x="924" y="1058" text-anchor="middle" font-size="10" fill="#1f3d70">split days (_3pm / _6pm) count as</text>
+    <text x="924" y="1073" text-anchor="middle" font-size="10" fill="#1f3d70">separate sessions everywhere</text>
+  </g>
+  <g>
+    <rect x="1064" y="1020" width="244" height="70" fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="1186" y="1041" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1f3d70">meets_reliability / reliability_rank</text>
+    <text x="1186" y="1058" text-anchor="middle" font-size="9.5" fill="#1f3d70">--min-reliability gate in all 3 modes;</text>
+    <text x="1186" y="1073" text-anchor="middle" font-size="9.5" fill="#1f3d70">unknown tags rank lowest</text>
+  </g>
+
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> One command, three mode lanes. <code>cmd_review</code> dispatches on the arguments — each lane&#8217;s pale-blue <em>chip</em> is that dispatch entering the lane (bare &#8594; overview; cluster id, which wins over an exercise id &#8594; cluster drill; exercise id &#8594; exercise). The <strong>query layer</strong> column is shared: <code>cluster_progress</code> feeds lanes 1 and 2, <code>curve_diff</code> feeds lane 2 and (via <code>review_exercise</code>) lane 3, <code>session_context</code> feeds lanes 2 and 3. Lane 3 has a second stage: <code>--session DATE</code> short-circuits <code>_exercise</code> into <code>_exercise_session</code> <em>without</em> calling <code>review_exercise</code> at all.</p>
+  <p>
+    <span class="swatch" style="background:#f3f1ea;border-style:dashed;"></span> <strong>repo area</strong> ·
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> (queries &amp; command modes) ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#7d9fd4;"></span> <strong>primitives / dispatch chips</strong> (lighter border) ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>outputs</strong>.
+    Nothing in this graph lives outside the repo.
+  </p>
+  <p><strong>The &#916; numbers.</strong> Every displayed 1RM anchor is <code>curve()</code>&#8217;s <code>rm1_point</code> — the recency-decayed winning observation — so the anchor brackets, laterality factors and shape-mismatch flags all describe the same set the &#916; was computed from. The overview&#8217;s <em>base &#916;</em> column comes exclusively from <code>cluster_progress</code> (direct observations win; graph-projected observations fill gaps); <code>review_overview</code> also computes a per-top-exercise &#916; internally, but the CLI never displays it.</p>
+  <p><strong>Sessions and reliability.</strong> Sessions are identified by workout <em>file</em> (<code>session_key</code>), so split days like <code>2026-06-28_3pm</code> / <code>_6pm</code> count separately in every table. <code>--min-reliability</code> gates workouts in all three modes (volume, tables, session lists) — but note it is <em>not</em> threaded into the &#916; path (<code>cluster_progress</code> / <code>curve_diff</code> / <code>observed_points</code> take no reliability argument), nor into the <code>--session</code> drill.</p>
+  <p><strong>Place in the series.</strong> This is the per-tool drill-down of the <code>review</code> command shown as a single node in graph 2 (primary); siblings 04–06 do the same for <code>explain</code>, <code>cluster_progress</code>, and <code>refit</code>.</p>
+</div>
+
+</body>
+</html>

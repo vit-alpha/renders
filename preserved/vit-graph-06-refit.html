@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — refit</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>vit refit — the graph-maintenance loop</h1>
+<p class="subtitle">Per-tool graph: how edge coefficients learn from observed data. The one per-tool graph with a write path.</p>
+
+<svg viewBox="0 0 1400 710" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="vit refit per-tool graph">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Repo bounding area -->
+  <rect x="25" y="50" width="1350" height="630"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-dasharray="6 4" stroke-width="1.5" rx="10"/>
+  <text x="45" y="74" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+
+  <!-- ===================== data (left) ===================== -->
+
+  <!-- N1: exercise_relationships.yaml -->
+  <g>
+    <rect x="55" y="100" width="200" height="150"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="155" y="122" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">exercise_relationships.yaml</text>
+    <text x="155" y="141" text-anchor="middle" font-size="11" fill="#8a5a14" font-style="italic">graph edges</text>
+    <text x="155" y="159" text-anchor="middle" font-size="11" fill="#8a5a14">kind &#183; target &#183; sources[]</text>
+    <text x="155" y="175" text-anchor="middle" font-size="11" fill="#8a5a14">coefficient &#183; confidence</text>
+    <text x="155" y="191" text-anchor="middle" font-size="11" fill="#8a5a14">prior_coefficient &#183; last_refit</text>
+    <line x1="80" y1="205" x2="230" y2="205" stroke="#d9a13a" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text x="155" y="226" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">write target of --commit</text>
+  </g>
+
+  <!-- N2: exercises_v2 library -->
+  <g>
+    <rect x="55" y="290" width="200" height="100"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="155" y="314" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">exercises_v2/ library</text>
+    <text x="155" y="334" text-anchor="middle" font-size="11" fill="#8a5a14">measurement_tier</text>
+    <text x="155" y="350" text-anchor="middle" font-size="11" fill="#8a5a14">form_limited</text>
+    <text x="155" y="368" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">per-exercise gate inputs</text>
+  </g>
+
+  <!-- N3: workouts -->
+  <g>
+    <rect x="55" y="430" width="200" height="110"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="155" y="454" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">workouts_v2/*.wo.yaml</text>
+    <text x="155" y="474" text-anchor="middle" font-size="11" fill="#8a5a14">logged sets &#183; efforts &#183;</text>
+    <text x="155" y="490" text-anchor="middle" font-size="11" fill="#8a5a14">laterality</text>
+    <text x="155" y="508" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">observation window</text>
+  </g>
+
+  <!-- ===================== read pipeline (middle) ===================== -->
+
+  <!-- N4: edge scan & gates -->
+  <g>
+    <rect x="315" y="95" width="195" height="170"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="412" y="119" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">edge scan &amp; gates</text>
+    <text x="412" y="139" text-anchor="middle" font-size="11" fill="#1f3d70">kinds: predicts &#183; variant-of &#183;</text>
+    <text x="412" y="154" text-anchor="middle" font-size="11" fill="#1f3d70">regression-of &#183; progression-of</text>
+    <text x="412" y="172" text-anchor="middle" font-size="11" fill="#1f3d70">single-source only (multi-</text>
+    <text x="412" y="187" text-anchor="middle" font-size="11" fill="#1f3d70">source contributes-to skipped)</text>
+    <text x="412" y="205" text-anchor="middle" font-size="11" fill="#1f3d70">--tier: pair tier &#8805; T</text>
+    <text x="412" y="220" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">(pair tier = weaker end)</text>
+    <text x="412" y="248" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">refit_edges(), queries/refit.py</text>
+  </g>
+
+  <!-- N5: curve() x2 — compute primitive -->
+  <g>
+    <rect x="315" y="420" width="195" height="115"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="412" y="444" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">curve(src) &#183; curve(tgt)</text>
+    <text x="412" y="464" text-anchor="middle" font-size="11" fill="#1f3d70">best near-failure 1RM</text>
+    <text x="412" y="479" text-anchor="middle" font-size="11" fill="#1f3d70">+ obs count, in --days window</text>
+    <text x="412" y="497" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">memoised per exercise</text>
+    <text x="412" y="521" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">compute primitive</text>
+  </g>
+
+  <!-- N6: laterality normalisation — compute primitive -->
+  <g>
+    <rect x="565" y="420" width="180" height="110"
+          fill="#e6f0ff" stroke="#7d9fd4" stroke-width="1" rx="6"/>
+    <text x="655" y="444" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">laterality normalisation</text>
+    <text x="655" y="464" text-anchor="middle" font-size="11" fill="#1f3d70">per-side anchor (L/R/LR/ALT)</text>
+    <text x="655" y="480" text-anchor="middle" font-size="11" fill="#1f3d70">&#215;1.95 &#8594; bilateral-equivalent</text>
+    <text x="655" y="498" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">laterality_factor()</text>
+  </g>
+
+  <!-- N7: observed coefficient -->
+  <g>
+    <rect x="565" y="285" width="180" height="90"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="655" y="309" text-anchor="middle" font-size="12" font-weight="600" fill="#1f3d70">observed coefficient</text>
+    <text x="655" y="329" text-anchor="middle" font-size="11" fill="#1f3d70">tgt 1RM &#247; src 1RM (bilat-eq)</text>
+    <text x="655" y="347" text-anchor="middle" font-size="11" fill="#1f3d70">&#916; = observed &#8722; prior</text>
+  </g>
+
+  <!-- N8: classify -->
+  <g>
+    <rect x="800" y="250" width="185" height="150"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="892" y="274" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">classify</text>
+    <text x="892" y="296" text-anchor="middle" font-size="11" fill="#1f3d70">missing 1RM &#8594; insufficient</text>
+    <text x="892" y="312" text-anchor="middle" font-size="11" fill="#1f3d70">form-limited src &#8594; info-only</text>
+    <text x="892" y="328" text-anchor="middle" font-size="11" fill="#1f3d70">|&#916;| &lt; 5% of prior &#8594; stable</text>
+    <text x="892" y="344" text-anchor="middle" font-size="11" fill="#1f3d70">&lt; 3 obs either end &#8594; low data</text>
+    <text x="892" y="360" text-anchor="middle" font-size="11" fill="#1f3d70">else &#8594; proposed update</text>
+    <text x="892" y="382" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">DRIFT_THRESHOLD = 0.05</text>
+  </g>
+
+  <!-- ===================== proposal classes ===================== -->
+
+  <!-- C1 -->
+  <g>
+    <rect x="1030" y="90" width="175" height="48"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1117" y="109" text-anchor="middle" font-size="12" font-weight="600" fill="#1f5a2c">insufficient data</text>
+    <text x="1117" y="126" text-anchor="middle" font-size="10" fill="#3a7044">either end lacks a 1RM</text>
+  </g>
+  <!-- C2 -->
+  <g>
+    <rect x="1030" y="154" width="175" height="48"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1117" y="173" text-anchor="middle" font-size="12" font-weight="600" fill="#1f5a2c">form-limited source</text>
+    <text x="1117" y="190" text-anchor="middle" font-size="10" fill="#3a7044">informational &#8212; not committable</text>
+  </g>
+  <!-- C3 -->
+  <g>
+    <rect x="1030" y="218" width="175" height="48"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1117" y="237" text-anchor="middle" font-size="12" font-weight="600" fill="#1f5a2c">stable (within 5%)</text>
+    <text x="1117" y="254" text-anchor="middle" font-size="10" fill="#3a7044">no action</text>
+  </g>
+  <!-- C4 -->
+  <g>
+    <rect x="1030" y="282" width="175" height="48"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1117" y="301" text-anchor="middle" font-size="12" font-weight="600" fill="#1f5a2c">drift (low data)</text>
+    <text x="1117" y="318" text-anchor="middle" font-size="10" fill="#3a7044">informational &#8212; not committable</text>
+  </g>
+  <!-- C5: the committable class -->
+  <g>
+    <rect x="1030" y="346" width="175" height="48"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="2.5" rx="6"/>
+    <text x="1117" y="365" text-anchor="middle" font-size="12" font-weight="600" fill="#1f5a2c">drift &#8212; proposed update</text>
+    <text x="1117" y="382" text-anchor="middle" font-size="10" fill="#3a7044">committable</text>
+  </g>
+
+  <!-- ===================== dry-run report (right) ===================== -->
+
+  <g>
+    <rect x="1230" y="150" width="140" height="230"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="1300" y="176" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">dry-run report</text>
+    <text x="1300" y="196" text-anchor="middle" font-size="11" fill="#3a7044" font-style="italic">stdout (default run)</text>
+    <text x="1300" y="222" text-anchor="middle" font-size="11" fill="#1f5a2c">per-edge detail:</text>
+    <text x="1300" y="238" text-anchor="middle" font-size="11" fill="#1f5a2c">prior vs observed,</text>
+    <text x="1300" y="254" text-anchor="middle" font-size="11" fill="#1f5a2c">&#916;, tier, bilat-eq</text>
+    <text x="1300" y="278" text-anchor="middle" font-size="11" fill="#1f5a2c">counts: confident &#183;</text>
+    <text x="1300" y="294" text-anchor="middle" font-size="11" fill="#1f5a2c">low-data</text>
+    <text x="1300" y="318" text-anchor="middle" font-size="11" fill="#1f5a2c">hint: re-run with</text>
+    <text x="1300" y="334" text-anchor="middle" font-size="11" fill="#1f5a2c">--commit</text>
+  </g>
+
+  <!-- ===================== write path (gated) ===================== -->
+
+  <!-- N9: the commit gate -->
+  <g>
+    <rect x="1030" y="490" width="175" height="110"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="1117" y="514" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">--commit gate</text>
+    <text x="1117" y="534" text-anchor="middle" font-size="11" fill="#1f3d70">only &#8220;drift &#8212; proposed</text>
+    <text x="1117" y="549" text-anchor="middle" font-size="11" fill="#1f3d70">update&#8221; is applied</text>
+    <text x="1117" y="567" text-anchor="middle" font-size="11" fill="#1f3d70">--edge ID &#8230; subset filter</text>
+    <text x="1117" y="583" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">(warns on unknown ids)</text>
+  </g>
+
+  <!-- N10: apply_refit -->
+  <g>
+    <rect x="650" y="555" width="230" height="110"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="765" y="579" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">apply_refit()</text>
+    <text x="765" y="599" text-anchor="middle" font-size="11" fill="#1f3d70">textual line rewrite:</text>
+    <text x="765" y="615" text-anchor="middle" font-size="11" fill="#1f3d70">coefficient: &#60;observed&#62; (3 dp)</text>
+    <text x="765" y="631" text-anchor="middle" font-size="11" fill="#1f3d70">confidence: user-observed</text>
+    <text x="765" y="649" text-anchor="middle" font-size="11" fill="#1f3d70" font-style="italic">exactly one trailing newline</text>
+  </g>
+
+  <!-- ===================== read edges (solid, left to right) ===================== -->
+
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <!-- E1: relationships -> edge scan -->
+    <line x1="255" y1="175" x2="315" y2="175" marker-end="url(#arrow)"/>
+    <!-- E2: library -> edge scan (tier / form_limited gate inputs) -->
+    <line x1="255" y1="335" x2="315" y2="258" marker-end="url(#arrow)"/>
+    <!-- E3: workouts -> curve -->
+    <line x1="255" y1="485" x2="315" y2="485" marker-end="url(#arrow)"/>
+    <!-- E4: edge scan -> curve (which exercises to fit) -->
+    <line x1="412" y1="265" x2="412" y2="420" marker-end="url(#arrow)"/>
+    <!-- E5: curve -> laterality normalisation -->
+    <line x1="510" y1="477" x2="565" y2="477" marker-end="url(#arrow)"/>
+    <!-- E6: laterality -> observed coefficient -->
+    <line x1="655" y1="420" x2="655" y2="375" marker-end="url(#arrow)"/>
+    <!-- E7: observed coefficient -> classify -->
+    <line x1="745" y1="330" x2="800" y2="330" marker-end="url(#arrow)"/>
+    <!-- E8: edge scan -> classify (prior coefficient, edge context) -->
+    <line x1="510" y1="180" x2="800" y2="285" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- E9: classify -> proposal classes (fan) -->
+  <g stroke="#888" stroke-width="1.2" fill="none">
+    <line x1="985" y1="275" x2="1030" y2="114" marker-end="url(#arrow-light)"/>
+    <line x1="985" y1="300" x2="1030" y2="178" marker-end="url(#arrow-light)"/>
+    <line x1="985" y1="325" x2="1030" y2="242" marker-end="url(#arrow-light)"/>
+    <line x1="985" y1="350" x2="1030" y2="306" marker-end="url(#arrow-light)"/>
+    <line x1="985" y1="375" x2="1030" y2="370" marker-end="url(#arrow-light)"/>
+  </g>
+
+  <!-- E10: proposal classes -> dry-run report -->
+  <g stroke="#444" stroke-width="1.2" fill="none">
+    <line x1="1205" y1="114" x2="1230" y2="180" marker-end="url(#arrow)"/>
+    <line x1="1205" y1="178" x2="1230" y2="215" marker-end="url(#arrow)"/>
+    <line x1="1205" y1="242" x2="1230" y2="250" marker-end="url(#arrow)"/>
+    <line x1="1205" y1="306" x2="1230" y2="285" marker-end="url(#arrow)"/>
+    <line x1="1205" y1="370" x2="1230" y2="320" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- ===================== write edges (dashed, right to left) ===================== -->
+
+  <g stroke="#444" stroke-width="1.5" fill="none" stroke-dasharray="5 4">
+    <!-- E11: drift-proposed -> the commit gate -->
+    <line x1="1117" y1="394" x2="1117" y2="490" marker-end="url(#arrow)"/>
+    <!-- E12: commit gate -> apply_refit -->
+    <line x1="1030" y1="580" x2="880" y2="580" marker-end="url(#arrow)"/>
+    <!-- E13: apply_refit -> exercise_relationships.yaml (the write-back) -->
+    <path d="M 650 610 L 40 610 L 40 175 L 52 175" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- Edge labels -->
+  <text x="285" y="167" text-anchor="middle" font-size="11" fill="#555" font-style="italic">edges</text>
+  <text x="285" y="477" text-anchor="middle" font-size="11" fill="#555" font-style="italic">sets</text>
+  <text x="418" y="345" text-anchor="start" font-size="11" fill="#555" font-style="italic">src &#183; tgt ids</text>
+  <text x="537" y="469" text-anchor="middle" font-size="11" fill="#555" font-style="italic">1RMs</text>
+  <text x="661" y="402" text-anchor="start" font-size="11" fill="#555" font-style="italic">bilat-eq</text>
+  <text x="650" y="216" text-anchor="middle" font-size="11" fill="#555" font-style="italic">prior coef &#183; edge context</text>
+  <text x="955" y="572" text-anchor="middle" font-size="11" fill="#555" font-style="italic">applies</text>
+  <text x="345" y="602" text-anchor="middle" font-size="11" fill="#555" font-style="italic">rewrites exercise_relationships.yaml in place (write path, right &#8594; left)</text>
+
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> The read loop runs left &#8594; right: <code>exercise_relationships.yaml</code> supplies the edges, the library supplies per-exercise gates (measurement tier, form-limited), and workouts supply the observation window. For each surviving edge, <code>curve()</code> fits both ends&#8217; 1RMs, laterality normalisation makes them bilateral-equivalent, and the observed coefficient is compared against the prior. Every edge lands in exactly one of the five <strong>proposal classes</strong>; all five flow into the dry-run report.</p>
+  <p><strong>The write path</strong> is the dashed right &#8594; left track along the bottom: only the <strong>drift &#8212; proposed update</strong> class (heavy outline) passes the <code>--commit</code> gate. <code>apply_refit()</code> then rewrites the yaml textually &#8212; <code>coefficient</code> to the observed value, <code>confidence</code> to <code>user-observed</code> &#8212; leaving <code>prior_coefficient</code> lines untouched and keeping exactly one trailing newline. Dry-run is the default; <code>--commit</code> opts in (the same convention as <code>vit lib merge</code>).</p>
+  <p>
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> (lighter 1px outline = compute primitive) ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>insights / outputs</strong> ·
+    <span class="swatch" style="background:#f3f1ea;border-style:dashed;"></span> <strong>repo area</strong>
+  </p>
+  <p><strong>Place in the series.</strong> This is per-tool graph 6, zooming into the <code>refit</code> node from the primary graph (02) &#8212; the maintenance loop that keeps the relationship graph honest. It shares <code>curve()</code> with graphs 03&#8211;05; it is the only per-tool graph whose output writes back into the data layer.</p>
+</div>
+
+</body>
+</html>
