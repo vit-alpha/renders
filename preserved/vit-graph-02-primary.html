@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — primary (map of the territory)</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>vit — primary graph (map of the territory)</h1>
+<p class="subtitle">Graph 1's <em>vit cli</em> node fanned out into command families; data split by file type on the left; insights grouped by family on the right. Compute primitives folded.</p>
+
+<svg viewBox="0 0 1300 790" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="vit primary graph: data files, command families, insight groups">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+    <marker id="arrow-write" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b3541e"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9a7ab8"/>
+    </marker>
+  </defs>
+
+  <!-- Repo bounding area -->
+  <rect x="30" y="60" width="1080" height="690"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-dasharray="6 4" stroke-width="1.5" rx="10"/>
+  <text x="48" y="84" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+
+  <!-- Time arrow on the workout column -->
+  <text x="46" y="122" font-size="10" fill="#888" font-style="italic">time</text>
+  <line x1="52" y1="130" x2="52" y2="272" stroke="#a0a0a0" stroke-width="1.5" fill="none" marker-end="url(#arrow-light)"/>
+
+  <!-- ====================== DATA COLUMN ====================== -->
+
+  <!-- workouts_v2 -->
+  <g>
+    <rect x="70" y="110" width="225" height="170"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="182" y="132" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a5a14">workouts_v2/*.wo.yaml</text>
+    <text x="182" y="148" text-anchor="middle" font-size="11" fill="#8a5a14">one file per session</text>
+    <line x1="95" y1="158" x2="270" y2="158" stroke="#d9a13a" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text x="182" y="176" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">inner nesting:</text>
+    <text x="182" y="192" text-anchor="middle" font-size="11" fill="#a07020">sections</text>
+    <text x="182" y="208" text-anchor="middle" font-size="11" fill="#a07020">└ entries</text>
+    <text x="182" y="224" text-anchor="middle" font-size="11" fill="#a07020">&#160;&#160;└ sets</text>
+    <text x="182" y="240" text-anchor="middle" font-size="11" fill="#a07020">&#160;&#160;&#160;&#160;└ segments</text>
+    <text x="182" y="262" text-anchor="middle" font-size="10" fill="#a07020" font-style="italic">+ source · reliability tags</text>
+  </g>
+
+  <!-- exercises_v2 library + vocab -->
+  <g>
+    <rect x="70" y="312" width="225" height="104"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="182" y="334" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a5a14">exercises_v2/*.yaml</text>
+    <text x="182" y="350" text-anchor="middle" font-size="11" fill="#8a5a14">library — one entry per exercise</text>
+    <line x1="95" y1="360" x2="270" y2="360" stroke="#d9a13a" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text x="182" y="378" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">vocab files:</text>
+    <text x="182" y="394" text-anchor="middle" font-size="11" fill="#a07020">_clusters · _functions</text>
+    <text x="182" y="410" text-anchor="middle" font-size="11" fill="#a07020">_cardio_zones</text>
+  </g>
+
+  <!-- exercise_relationships.yaml -->
+  <g>
+    <rect x="70" y="448" width="225" height="64"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="182" y="468" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">exercise_relationships.yaml</text>
+    <text x="182" y="484" text-anchor="middle" font-size="11" fill="#8a5a14">coefficient edge graph</text>
+    <text x="182" y="500" text-anchor="middle" font-size="10" fill="#a07020">variant-of · regression-of · contributes-to</text>
+  </g>
+
+  <!-- tracking markdown -->
+  <g>
+    <rect x="70" y="544" width="225" height="80"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="182" y="566" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a5a14">tracking markdown</text>
+    <text x="182" y="584" text-anchor="middle" font-size="11" fill="#8a5a14">weight_and_body_comp.md (BW)</text>
+    <text x="182" y="602" text-anchor="middle" font-size="11" fill="#8a5a14">activity_log.md (sport · yoga)</text>
+  </g>
+
+  <!-- usage_log -->
+  <g>
+    <rect x="70" y="656" width="225" height="48"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="182" y="676" text-anchor="middle" font-size="12" font-weight="600" fill="#8a5a14">tools/vit/usage_log.md</text>
+    <text x="182" y="692" text-anchor="middle" font-size="10" fill="#a07020">hand-appended CLI usage notes</text>
+  </g>
+
+  <!-- ====================== TOOLS COLUMN ====================== -->
+
+  <!-- read family -->
+  <g>
+    <rect x="440" y="110" width="250" height="72"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="565" y="130" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">read</text>
+    <text x="565" y="150" text-anchor="middle" font-size="11" fill="#1f3d70">show · last · history</text>
+    <text x="565" y="166" text-anchor="middle" font-size="11" fill="#1f3d70">search · related · cues</text>
+  </g>
+
+  <!-- analysis family -->
+  <g>
+    <rect x="440" y="214" width="250" height="122"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="565" y="234" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">analysis</text>
+    <text x="565" y="254" text-anchor="middle" font-size="11" fill="#1f3d70">freshness · recent · load</text>
+    <text x="565" y="270" text-anchor="middle" font-size="11" fill="#1f3d70">curve · suggest · progress</text>
+    <text x="565" y="286" text-anchor="middle" font-size="11" fill="#1f3d70">review · engagement · stimulus</text>
+    <text x="565" y="302" text-anchor="middle" font-size="11" fill="#1f3d70">ratio · implies · cluster</text>
+    <text x="565" y="318" text-anchor="middle" font-size="11" fill="#1f3d70">summary · explain</text>
+  </g>
+
+  <!-- write family -->
+  <g>
+    <rect x="440" y="368" width="250" height="88"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="565" y="388" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">write</text>
+    <text x="565" y="408" text-anchor="middle" font-size="11" fill="#1f3d70">wo new · set · observation · meta</text>
+    <text x="565" y="424" text-anchor="middle" font-size="11" fill="#1f3d70">lib add · merge · rm</text>
+    <text x="565" y="440" text-anchor="middle" font-size="10" fill="#436a9e" font-style="italic">(lib merge also re-homes workout refs)</text>
+  </g>
+
+  <!-- admin / health family -->
+  <g>
+    <rect x="440" y="488" width="250" height="104"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="1.5" rx="6"/>
+    <text x="565" y="508" text-anchor="middle" font-size="13" font-weight="600" fill="#1f3d70">admin · health</text>
+    <text x="565" y="528" text-anchor="middle" font-size="11" fill="#1f3d70">check · stats · usage</text>
+    <text x="565" y="544" text-anchor="middle" font-size="11" fill="#1f3d70">lib check · lib list</text>
+    <text x="565" y="560" text-anchor="middle" font-size="11" fill="#1f3d70">wo check · wo audit</text>
+    <text x="565" y="576" text-anchor="middle" font-size="11" fill="#1f3d70">refit (writes with --commit)</text>
+  </g>
+
+  <!-- ====================== INSIGHTS COLUMN ====================== -->
+
+  <g>
+    <rect x="800" y="110" width="230" height="56"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="915" y="130" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">readiness</text>
+    <text x="915" y="150" text-anchor="middle" font-size="11" fill="#1f5a2c">freshness · recent · load</text>
+  </g>
+
+  <g>
+    <rect x="800" y="196" width="230" height="56"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="915" y="216" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">strength</text>
+    <text x="915" y="236" text-anchor="middle" font-size="11" fill="#1f5a2c">curve · suggest · progress · Δ 1RM</text>
+  </g>
+
+  <g>
+    <rect x="800" y="282" width="230" height="56"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="915" y="302" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">composition</text>
+    <text x="915" y="322" text-anchor="middle" font-size="11" fill="#1f5a2c">review · engagement · stimulus · ratio</text>
+  </g>
+
+  <g>
+    <rect x="800" y="368" width="230" height="72"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="915" y="388" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">records &amp; traces</text>
+    <text x="915" y="408" text-anchor="middle" font-size="11" fill="#1f5a2c">show · summary · explain</text>
+    <text x="915" y="424" text-anchor="middle" font-size="11" fill="#1f5a2c">cues · related · cluster views</text>
+  </g>
+
+  <g>
+    <rect x="800" y="470" width="230" height="56"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="915" y="490" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">health reports</text>
+    <text x="915" y="510" text-anchor="middle" font-size="11" fill="#1f5a2c">check · audits · usage stats</text>
+  </g>
+
+  <!-- ====================== OUTSIDE THE REPO ====================== -->
+
+  <g>
+    <rect x="1150" y="180" width="120" height="76"
+          fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1210" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">muscle</text>
+    <text x="1210" y="222" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">explorer</text>
+    <text x="1210" y="242" text-anchor="middle" font-size="10" fill="#4a2e6a" font-style="italic">local web UI</text>
+  </g>
+
+  <!-- ====================== READ EDGES (data -> families) ====================== -->
+
+  <g stroke="#444" stroke-width="1.2" fill="none">
+    <!-- workouts -->
+    <line x1="295" y1="150" x2="440" y2="140" marker-end="url(#arrow)"/>
+    <line x1="295" y1="230" x2="440" y2="250" marker-end="url(#arrow)"/>
+    <line x1="295" y1="262" x2="440" y2="505" marker-end="url(#arrow)"/>
+    <!-- library + vocab -->
+    <line x1="295" y1="330" x2="440" y2="168" marker-end="url(#arrow)"/>
+    <line x1="295" y1="360" x2="440" y2="280" marker-end="url(#arrow)"/>
+    <line x1="295" y1="395" x2="440" y2="520" marker-end="url(#arrow)"/>
+    <!-- relationships -->
+    <line x1="295" y1="458" x2="440" y2="172" marker-end="url(#arrow)"/>
+    <line x1="295" y1="480" x2="440" y2="310" marker-end="url(#arrow)"/>
+    <line x1="295" y1="500" x2="440" y2="535" marker-end="url(#arrow)"/>
+    <!-- tracking markdown -->
+    <line x1="295" y1="560" x2="440" y2="325" marker-end="url(#arrow)"/>
+    <!-- usage log -->
+    <line x1="295" y1="672" x2="440" y2="565" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- gutter-1 edge labels -->
+  <text x="332" y="378" text-anchor="middle" font-size="11" fill="#555" font-style="italic">related</text>
+  <text x="340" y="421" text-anchor="middle" font-size="11" fill="#555" font-style="italic">implies · Δ</text>
+  <text x="367" y="436" text-anchor="middle" font-size="11" fill="#555" font-style="italic">BW · activities</text>
+  <text x="367" y="611" text-anchor="middle" font-size="11" fill="#555" font-style="italic">vit usage</text>
+
+  <!-- ====================== WRITE EDGES (families -> data, dashed, right-to-left) ====================== -->
+
+  <g stroke="#b3541e" stroke-width="1.5" stroke-dasharray="5 4" fill="none">
+    <line x1="440" y1="400" x2="295" y2="270" marker-end="url(#arrow-write)"/>
+    <line x1="440" y1="430" x2="295" y2="390" marker-end="url(#arrow-write)"/>
+    <line x1="440" y1="585" x2="295" y2="505" marker-end="url(#arrow-write)"/>
+  </g>
+  <text x="367" y="560" text-anchor="middle" font-size="11" fill="#b3541e" font-style="italic">refit --commit</text>
+
+  <!-- ====================== FAMILY -> INSIGHT EDGES ====================== -->
+
+  <g stroke="#444" stroke-width="1.2" fill="none">
+    <line x1="690" y1="160" x2="800" y2="392" marker-end="url(#arrow)"/>
+    <line x1="690" y1="230" x2="800" y2="138" marker-end="url(#arrow)"/>
+    <line x1="690" y1="255" x2="800" y2="224" marker-end="url(#arrow)"/>
+    <line x1="690" y1="285" x2="800" y2="310" marker-end="url(#arrow)"/>
+    <line x1="690" y1="315" x2="800" y2="410" marker-end="url(#arrow)"/>
+    <line x1="690" y1="530" x2="800" y2="500" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- ====================== MUSCLE EXPLORER (python API import) ====================== -->
+
+  <path d="M 565 214 C 565 80, 1010 55, 1146 198"
+        fill="none" stroke="#9a7ab8" stroke-width="1.5" stroke-dasharray="4 3"
+        marker-end="url(#arrow-purple)"/>
+  <text x="860" y="50" text-anchor="middle" font-size="11" fill="#555" font-style="italic">python API — imports vit.queries directly</text>
+
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> Data files sit on the left (time runs top → bottom on the workout column). The vit CLI's four command families sit in the middle; every subcommand in <code>cli.py</code> appears exactly once. Insight groups — what the commands produce — sit on the right. Solid arrows are <em>reads</em> and flow left → right. <span style="color:#b3541e;">Dashed rust arrows</span> are <em>write paths</em> and deliberately flow right → left: <code>wo new/set/observation/meta</code> mutate <code>workouts_v2</code> (and <code>lib merge</code> re-homes refs there), <code>lib add/merge/rm</code> mutate <code>exercises_v2</code>, and <code>refit --commit</code> rewrites <code>exercise_relationships.yaml</code>.</p>
+  <p>
+    <span class="swatch" style="background:#f3f1ea;border-style:dashed;"></span> <strong>repo area</strong> ·
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>insights</strong> ·
+    <span class="swatch" style="background:#f4ecf9;border-color:#7a4ea6;"></span> <strong>outside the repo</strong>
+  </p>
+  <p><strong>Notes.</strong> Every invocation loads the full <code>Repo</code> model (workouts, library, relationships, bodyweight series, activity log, cardio zones) once up front; the arrows show which sources each family <em>meaningfully consumes</em>. Bodyweight resolution (<code>weight_and_body_comp.md</code>) feeds all load maths via the parsed sets, most visibly the curve/suggest/load analysis paths. <code>usage_log.md</code> is hand-appended during sessions — no vit command writes it; <code>vit usage</code> only reads it. The <code>muscle explorer</code> (purple, outside the repo) does not shell out to the CLI — it imports the <code>vit.queries</code> Python layer directly.</p>
+  <p><strong>Place in the series.</strong> This is graph 2: the fan-out of graph 1's single <code>vit cli</code> node. Per-tool graphs (3+) open up the analysis commands with non-trivial composition (<code>review</code>, <code>explain</code>, <code>cluster_progress</code>, <code>refit</code>).</p>
+</div>
+
+</body>
+</html>

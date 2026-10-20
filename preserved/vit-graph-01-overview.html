@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>vit graph — overview (key)</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px 0; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #666; margin: 0 0 16px 0; }
+  .legend { font-size: 12px; color: #555; margin-top: 16px; line-height: 1.6; }
+  .legend strong { color: #222; }
+  .legend code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  svg { display: block; max-width: 100%; height: auto; background: white; border: 1px solid #e2e2dc; border-radius: 4px; }
+  .swatch { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #888; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<h1>vit — overview (key)</h1>
+<p class="subtitle">The most zoomed-out view. Acts as a legend for the rest of the series.</p>
+
+<svg viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="vit overview graph">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Repo bounding area -->
+  <rect x="30" y="60" width="900" height="420"
+        fill="#f3f1ea" stroke="#bbb6a6" stroke-dasharray="6 4" stroke-width="1.5" rx="10"/>
+  <text x="48" y="84" font-size="13" font-weight="600" fill="#7a7560" letter-spacing="1.5">REPO</text>
+
+  <!-- Time arrow on the workout column -->
+  <g stroke="#a0a0a0" stroke-width="1.5" fill="none">
+    <line x1="100" y1="140" x2="100" y2="430" marker-end="url(#arrow-light)"/>
+  </g>
+  <text x="80" y="138" font-size="11" fill="#888" font-style="italic">time</text>
+
+  <!-- Workouts (left) -->
+  <g>
+    <rect x="130" y="160" width="180" height="240"
+          fill="#fff7e6" stroke="#d9a13a" stroke-width="1.5" rx="6"/>
+    <text x="220" y="186" text-anchor="middle" font-size="13" font-weight="600" fill="#8a5a14">workouts</text>
+    <text x="220" y="206" text-anchor="middle" font-size="11" fill="#8a5a14">(yaml records,</text>
+    <text x="220" y="220" text-anchor="middle" font-size="11" fill="#8a5a14">library, relationships,</text>
+    <text x="220" y="234" text-anchor="middle" font-size="11" fill="#8a5a14">clusters)</text>
+    <line x1="160" y1="252" x2="280" y2="252" stroke="#d9a13a" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text x="220" y="276" text-anchor="middle" font-size="11" fill="#a07020" font-style="italic">deeper levels:</text>
+    <text x="220" y="294" text-anchor="middle" font-size="11" fill="#a07020">sections</text>
+    <text x="220" y="312" text-anchor="middle" font-size="11" fill="#a07020">entries</text>
+    <text x="220" y="330" text-anchor="middle" font-size="11" fill="#a07020">sets</text>
+    <text x="220" y="348" text-anchor="middle" font-size="11" fill="#a07020">reps</text>
+  </g>
+
+  <!-- vit cli (middle) -->
+  <g>
+    <rect x="430" y="240" width="160" height="80"
+          fill="#e6f0ff" stroke="#3d6dba" stroke-width="2" rx="6"/>
+    <text x="510" y="272" text-anchor="middle" font-size="14" font-weight="700" fill="#1f3d70">vit cli</text>
+    <text x="510" y="292" text-anchor="middle" font-size="11" fill="#1f3d70">queries · commands</text>
+    <text x="510" y="306" text-anchor="middle" font-size="11" fill="#1f3d70">parsers · compute</text>
+  </g>
+
+  <!-- Insights (right, inside repo) -->
+  <g>
+    <rect x="700" y="160" width="200" height="240"
+          fill="#eaf5ec" stroke="#3a8a4a" stroke-width="1.5" rx="6"/>
+    <text x="800" y="186" text-anchor="middle" font-size="13" font-weight="600" fill="#1f5a2c">insights</text>
+    <text x="800" y="208" text-anchor="middle" font-size="11" fill="#1f5a2c">readiness · load</text>
+    <text x="800" y="224" text-anchor="middle" font-size="11" fill="#1f5a2c">progress · curves</text>
+    <text x="800" y="240" text-anchor="middle" font-size="11" fill="#1f5a2c">cluster Δ · ratios</text>
+    <text x="800" y="256" text-anchor="middle" font-size="11" fill="#1f5a2c">freshness · reviews</text>
+    <text x="800" y="272" text-anchor="middle" font-size="11" fill="#1f5a2c">summary · explain</text>
+    <line x1="730" y1="290" x2="870" y2="290" stroke="#3a8a4a" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text x="800" y="312" text-anchor="middle" font-size="11" fill="#3a7044" font-style="italic">consumed by:</text>
+    <text x="800" y="330" text-anchor="middle" font-size="11" fill="#3a7044">plan-workout</text>
+    <text x="800" y="348" text-anchor="middle" font-size="11" fill="#3a7044">log-workout</text>
+    <text x="800" y="366" text-anchor="middle" font-size="11" fill="#3a7044">/program · /physio</text>
+  </g>
+
+  <!-- Outside the repo: muscle explorer + renderer -->
+  <g>
+    <rect x="960" y="180" width="120" height="60"
+          fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1020" y="208" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">muscle</text>
+    <text x="1020" y="224" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">explorer</text>
+  </g>
+  <g>
+    <rect x="960" y="280" width="120" height="60"
+          fill="#f4ecf9" stroke="#7a4ea6" stroke-width="1.5" rx="6"/>
+    <text x="1020" y="308" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">graph</text>
+    <text x="1020" y="324" text-anchor="middle" font-size="12" font-weight="600" fill="#4a2e6a">renderer</text>
+  </g>
+
+  <!-- Edges -->
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <!-- workouts -> vit cli -->
+    <line x1="310" y1="280" x2="430" y2="280" marker-end="url(#arrow)"/>
+    <!-- vit cli -> insights -->
+    <line x1="590" y1="280" x2="700" y2="280" marker-end="url(#arrow)"/>
+    <!-- insights -> muscle explorer -->
+    <line x1="900" y1="220" x2="960" y2="210" marker-end="url(#arrow)" stroke-dasharray="4 3" stroke="#888"/>
+    <!-- (renderer reads everything; not drawing arrows, it's a meta node) -->
+  </g>
+
+  <!-- Edge labels -->
+  <text x="370" y="272" text-anchor="middle" font-size="11" fill="#555" font-style="italic">data</text>
+  <text x="645" y="272" text-anchor="middle" font-size="11" fill="#555" font-style="italic">queries</text>
+
+</svg>
+
+<div class="legend">
+  <p><strong>Reading the graph.</strong> Workouts (and the rest of the data layer) sit on the left. The vit CLI sits in the middle. Insights — the things vit produces — sit on the right. Time runs <em>top → bottom</em> on the workout column.</p>
+  <p>
+    <span class="swatch" style="background:#f3f1ea;border-style:dashed;"></span>
+    <strong>Repo area</strong> (dashed outline). Almost everything lives inside it. The repo is not a node — it's the world the rest of the graph lives in.
+  </p>
+  <p>
+    <span class="swatch" style="background:#fff7e6;border-color:#d9a13a;"></span> <strong>data</strong> ·
+    <span class="swatch" style="background:#e6f0ff;border-color:#3d6dba;"></span> <strong>tools</strong> ·
+    <span class="swatch" style="background:#eaf5ec;border-color:#3a8a4a;"></span> <strong>insights</strong> ·
+    <span class="swatch" style="background:#f4ecf9;border-color:#7a4ea6;"></span> <strong>outside the repo</strong>
+  </p>
+  <p><strong>Outside the repo.</strong> Two nodes sit beyond the dashed boundary: <code>muscle explorer</code> (separate app under <code>programming/tools/muscle_explorer/</code>) and the <code>graph renderer</code> (the thing producing this very page).</p>
+  <p><strong>Next graphs in the series</strong> will fan out the <code>vit cli</code> node into its commands and the <code>workouts</code> area into its file types and inner structure (sections → entries → sets → reps), keeping the same left-to-right orientation.</p>
+</div>
+
+</body>
+</html>
